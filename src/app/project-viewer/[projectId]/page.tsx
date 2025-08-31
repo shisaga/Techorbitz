@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowLeft, ExternalLink, RotateCcw } from 'lucide-react';
@@ -15,23 +15,27 @@ interface Project {
   createdAt: string;
 }
 
-export default function ProjectViewer({ params }: { params: { projectId: string } }) {
+export default function ProjectViewer({ params }: { params: Promise<{ projectId: string }> }) {
   const [project, setProject] = useState<Project | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string>('');
+  const [projectId, setProjectId] = useState<string>('');
 
   useEffect(() => {
-    loadProject();
-  }, [params.projectId]);
+    // Resolve the async params
+    params.then(resolvedParams => {
+      setProjectId(resolvedParams.projectId);
+    });
+  }, [params]);
 
-  const loadProject = async () => {
+  const loadProject = useCallback(async () => {
     try {
       setIsLoading(true);
       setError('');
 
       // Get preview URL
-      const previewResponse = await fetch(`/api/ai-website-builder/preview/${params.projectId}`);
+      const previewResponse = await fetch(`/api/ai-website-builder/preview/${projectId}`);
       if (!previewResponse.ok) {
         throw new Error('Failed to get preview URL');
       }
@@ -40,7 +44,7 @@ export default function ProjectViewer({ params }: { params: { projectId: string 
       setPreviewUrl(previewData.previewUrl);
 
       // Load project metadata
-      const projectResponse = await fetch(`/api/ai-website-builder/project/${params.projectId}`);
+      const projectResponse = await fetch(`/api/ai-website-builder/project/${projectId}`);
       if (projectResponse.ok) {
         const projectData = await projectResponse.json();
         setProject(projectData);
@@ -51,7 +55,13 @@ export default function ProjectViewer({ params }: { params: { projectId: string 
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [projectId]);
+
+  useEffect(() => {
+    if (projectId) {
+      loadProject();
+    }
+  }, [projectId, loadProject]);
 
   if (isLoading) {
     return (
