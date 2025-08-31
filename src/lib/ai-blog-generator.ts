@@ -63,53 +63,71 @@ class AIBlogGenerator {
         if (newsApiKey) {
           console.log('Fetching tech news with direct NewsAPI calls...');
           
-          // Priority-based tech queries focusing on user's specific keywords
+          // Real-time tech news queries for latest developments
           const techQueries = [
-            // Priority 1: Core Programming & Frameworks
+            // Priority 1: Breaking Tech News
+            'artificial intelligence OR AI OR machine learning',
+            'OpenAI OR ChatGPT OR Google AI OR Microsoft AI',
+            'Apple OR iPhone OR iOS OR Android',
+            
+            // Priority 2: Programming & Development
             'React OR Next.js OR TypeScript OR JavaScript',
-            'Python OR Django OR Flask OR AI',
-            'machine learning OR artificial intelligence',
+            'Python OR Django OR Flask OR Node.js',
+            'GitHub OR GitLab OR coding OR programming',
             
-            // Priority 2: Modern Web Tech
-            'WebAssembly OR Tailwind OR PWAs OR Jamstack',
-            'serverless OR headless CMS OR API',
+            // Priority 3: Tech Industry & Startups
+            'startup OR tech company OR funding OR investment',
+            'Silicon Valley OR tech news OR technology',
+            'cybersecurity OR blockchain OR cryptocurrency',
             
-            // Priority 3: Mobile & Cross-platform
-            'Flutter OR React Native OR Swift OR Kotlin',
-            'Rust OR .NET Core',
-            
-            // Priority 4: Tech Infrastructure & IoT
-            'Node.js OR tech investment OR technology funding'
+            // Priority 4: Emerging Tech
+            'Web3 OR metaverse OR VR OR AR',
+            'cloud computing OR AWS OR Azure OR Google Cloud',
+            'mobile app OR software development'
           ];
 
-          // Fetch articles for each priority level
+          // Fetch articles for each priority level with better error handling
           for (let i = 0; i < techQueries.length; i++) {
             const query = techQueries[i];
-            console.log(`Fetching Priority ${Math.floor(i/3) + 1} articles: ${query.substring(0, 50)}...`);
+            console.log(`📰 Fetching Priority ${Math.floor(i/3) + 1} articles: ${query.substring(0, 50)}...`);
             
             try {
-              const url = `https://newsapi.org/v2/top-headlines?q=${encodeURIComponent(query)}&language=en&pageSize=5&from=${this.getTwoDaysAgo()}&apiKey=${newsApiKey}`;
+              // Use 'everything' endpoint for broader coverage and recent articles
+              const url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(query)}&language=en&pageSize=10&sortBy=publishedAt&from=${this.getOneDayAgo()}&apiKey=${newsApiKey}`;
+              console.log(`🔗 NewsAPI URL: ${url.substring(0, 100)}...`);
+              
               const response = await fetch(url);
+              console.log(`📊 NewsAPI Response Status: ${response.status}`);
               
               if (response.ok) {
                 const data = await response.json();
-                if (data.articles) {
+                console.log(`📈 NewsAPI Response: ${data.articles?.length || 0} articles found for "${query}"`);
+                
+                if (data.articles && data.articles.length > 0) {
                   const priorityScore = Math.floor(i/3) + 1;
                   const articleWithPriority = data.articles.map((article: any) => ({
                     ...article,
                     priorityScore,
                     weight: 4 - priorityScore,
-                    source: { name: 'Tech News' }
+                    source: { name: article.source?.name || 'Tech News' },
+                    publishedAt: article.publishedAt || new Date().toISOString()
                   }));
                   allArticles.push(...articleWithPriority);
+                  console.log(`✅ Added ${articleWithPriority.length} articles for "${query}"`);
+                } else {
+                  console.log(`⚠️ No articles found for "${query}"`);
                 }
+              } else {
+                const errorText = await response.text();
+                console.error(`❌ NewsAPI error for "${query}": ${response.status} ${response.statusText}`);
+                console.error(`Error details: ${errorText}`);
               }
             } catch (queryError) {
-              console.error(`Error with query "${query}":`, queryError);
+              console.error(`❌ Network error with query "${query}":`, queryError);
             }
             
-            // Small delay between requests
-            await new Promise(resolve => setTimeout(resolve, 100));
+            // Small delay between requests to avoid rate limiting
+            await new Promise(resolve => setTimeout(resolve, 200));
           }
         } else {
           console.log('NewsAPI key not found, skipping news fetch');
@@ -139,6 +157,12 @@ class AIBlogGenerator {
     console.log(`Found ${uniqueTopics.length} unique topics out of ${processedTopics.length} total topics`);
     
     return uniqueTopics.slice(0, 10); // Return top 10 unique topics
+  }
+
+  private getOneDayAgo(): string {
+    const oneDayAgo = new Date();
+    oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+    return oneDayAgo.toISOString().split('T')[0];
   }
 
   private getTwoDaysAgo(): string {
@@ -424,19 +448,34 @@ class AIBlogGenerator {
   private async checkTopicExists(title: string): Promise<boolean> {
     const normalizedTitle = title.toLowerCase();
     
-    // For testing, let's be more specific about duplicate checking
+    // More lenient duplicate checking to allow more content generation
+    const titleWords = title.toLowerCase().split(' ').filter(word => word.length > 3);
+    const searchTerms = titleWords.slice(0, 3); // Use first 3 meaningful words
+    
     const existingPosts = await prisma.post.findMany({
       select: { title: true, slug: true },
       where: {
         OR: [
           { title: { equals: title, mode: 'insensitive' } }, // Exact title match
-          { slug: { equals: this.generateSlug(title) } } // Exact slug match
+          { slug: { equals: this.generateSlug(title) } }, // Exact slug match
+          // Check for similar titles using key words
+          ...searchTerms.map(term => ({
+            title: { contains: term, mode: 'insensitive' as any }
+          }))
         ]
       }
     });
     
-    console.log(`Checking for duplicates of "${title}": found ${existingPosts.length} matches`);
-    return existingPosts.length > 0;
+    // Only consider it a duplicate if we find very similar titles
+    const exactMatches = existingPosts.filter(post => {
+      const postTitle = post.title.toLowerCase();
+      return postTitle === normalizedTitle || 
+             searchTerms.some(term => postTitle.includes(term)) && 
+             Math.abs(postTitle.length - title.length) < 15;
+    });
+    
+    console.log(`Checking for duplicates of "${title}": found ${exactMatches.length} exact matches out of ${existingPosts.length} total`);
+    return exactMatches.length > 0;
   }
 
   private generateSlug(title: string): string {
@@ -548,7 +587,7 @@ Write the blog using the system instructions. Focus on providing in-depth techni
 
     try {
       const completion = await this.openai.chat.completions.create({
-        model: 'gpt-4o-mini',
+        model: 'gpt-3.5-turbo',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
@@ -584,6 +623,39 @@ Write the blog using the system instructions. Focus on providing in-depth techni
 
     } catch (error) {
       console.error('Error in generateBlogPost:', error);
+      
+      // Handle rate limiting
+      if (error.code === 'rate_limit_exceeded') {
+        console.log('Rate limit exceeded, waiting 30 seconds...');
+        await new Promise(resolve => setTimeout(resolve, 30000));
+        // Retry once with a different model
+        try {
+          const retryCompletion = await this.openai.chat.completions.create({
+            model: 'gpt-3.5-turbo-16k',
+            messages: [
+              { role: 'system', content: systemPrompt },
+              { role: 'user', content: userPrompt }
+            ],
+            max_tokens: 2000,
+            temperature: 0.7,
+          });
+          
+          const retryContent = retryCompletion.choices[0]?.message?.content;
+          if (!retryContent) {
+            throw new Error('No content generated in retry attempt');
+          }
+          
+          const parsedPost = this.parseJsonResponse(retryContent);
+          if (!parsedPost) {
+            throw new Error('Failed to parse generated content as JSON');
+          }
+          return parsedPost;
+        } catch (retryError) {
+          console.error('Retry attempt failed:', retryError);
+          throw retryError;
+        }
+      }
+      
       throw error;
     }
   }
