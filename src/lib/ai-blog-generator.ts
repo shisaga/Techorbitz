@@ -473,6 +473,238 @@ class AIBlogGenerator {
       .substring(0, 60);
   }
 
+  private async generateFallbackContent(topic: any): Promise<any> {
+    console.log('Generating fallback content for:', topic.title);
+    
+    // Create a structured blog post without OpenAI
+    const title = topic.title.replace(': Latest Technology Insights and Analysis', '');
+    const slug = this.generateSlug(title);
+    
+    // Generate content based on topic source and type
+    let content = '';
+    let tags = [];
+    
+    if (topic.source === 'GitHub Trending') {
+      content = this.generateGitHubFallbackContent(topic);
+      tags = ['open-source', 'github', 'programming', 'development'];
+    } else {
+      content = this.generateNewsFallbackContent(topic);
+      tags = ['technology', 'news', 'innovation', 'trends'];
+    }
+    
+    return {
+      title: title,
+      slug: slug,
+      content: content,
+      excerpt: `Explore the latest developments in ${title.toLowerCase()}. Learn about key insights, trends, and practical applications in this comprehensive analysis.`,
+      tags: tags,
+      category: 'Technology',
+      seoTitle: `${title} - Latest Technology Insights and Analysis`,
+      seoDescription: `Discover the latest developments in ${title.toLowerCase()}. Get insights, analysis, and practical information about this trending technology topic.`,
+      heroImage: await this.generateHeroImage(title),
+      heroImageAlt: `${title} - Technology Insights`,
+      publishedAt: new Date().toISOString(),
+      canonicalUrl: `${this.wpBaseUrl}/blog/${slug}`
+    };
+  }
+
+  private generateGitHubFallbackContent(topic: any): string {
+    const title = topic.title.replace(': Latest Technology Insights and Analysis', '');
+    const description = topic.description || 'This open-source project';
+    
+    return `
+<style>
+.blog-content { 
+  max-width: 800px; 
+  margin: 0 auto; 
+  line-height: 1.6; 
+  font-family: Arial, sans-serif; 
+} 
+.tech-highlight { 
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+  color: white; 
+  padding: 20px; 
+  border-radius: 10px; 
+  margin: 20px 0; 
+} 
+.feature-box { 
+  border: 2px solid #e1e5e9; 
+  padding: 15px; 
+  border-radius: 8px; 
+  background: #f8f9fa; 
+  margin: 15px 0; 
+} 
+.tech-spec { 
+  background: #e3f2fd; 
+  padding: 10px; 
+  border-left: 4px solid #2196f3; 
+  margin: 10px 0; 
+}
+</style>
+
+<div class='blog-content'>
+<h1>${title}</h1>
+<p>TL;DR: ${description} represents an innovative approach to modern software development and technology implementation.</p>
+
+<h2>Introduction</h2>
+<p>In the rapidly evolving landscape of software development, ${title} has emerged as a significant project that showcases the power of open-source collaboration and modern programming practices. This repository demonstrates how developers can leverage cutting-edge technologies to create robust, scalable solutions.</p>
+
+<div class='tech-highlight'>
+<h3>Key Features</h3>
+<ul>
+<li>Modern architecture and design patterns</li>
+<li>Comprehensive documentation and examples</li>
+<li>Active community support and contributions</li>
+<li>Cross-platform compatibility</li>
+</ul>
+</div>
+
+<h2>Technical Overview</h2>
+<p>${description} utilizes modern development practices and frameworks to deliver a high-quality solution. The project incorporates best practices in code organization, testing, and deployment strategies.</p>
+
+<div class='feature-box'>
+<h3>Technology Stack</h3>
+<p>The project leverages a modern technology stack including:</p>
+<ul>
+<li>Latest programming languages and frameworks</li>
+<li>Cloud-native deployment options</li>
+<li>Comprehensive testing suite</li>
+<li>Automated CI/CD pipelines</li>
+</ul>
+</div>
+
+<h2>Implementation Guide</h2>
+<p>To get started with ${title}, developers can follow these steps:</p>
+<ol>
+<li>Clone the repository from GitHub</li>
+<li>Install dependencies and set up the development environment</li>
+<li>Review the documentation and examples</li>
+<li>Start contributing to the project</li>
+</ol>
+
+<div class='tech-spec'>
+<h3>Getting Started</h3>
+<p>Visit the project repository to explore the codebase, read documentation, and understand the implementation details. The project welcomes contributions from the open-source community.</p>
+</div>
+
+<h2>Use Cases</h2>
+<p>${title} can be applied in various scenarios:</p>
+<ul>
+<li>Educational purposes for learning modern development practices</li>
+<li>Building production-ready applications</li>
+<li>Contributing to open-source projects</li>
+<li>Understanding software architecture patterns</li>
+</ul>
+
+<h2>Future Development</h2>
+<p>As an active open-source project, ${title} continues to evolve with regular updates, new features, and community contributions. The project roadmap includes enhancements for better performance, additional features, and improved documentation.</p>
+
+<h2>Conclusion</h2>
+<p>${title} represents the best of open-source development, offering valuable insights into modern software engineering practices. Whether you're a beginner looking to learn or an experienced developer seeking to contribute, this project provides an excellent opportunity to engage with cutting-edge technology.</p>
+</div>`;
+  }
+
+  private generateNewsFallbackContent(topic: any): string {
+    const title = topic.title.replace(': Latest Technology Insights and Analysis', '');
+    
+    return `
+<style>
+.blog-content { 
+  max-width: 800px; 
+  margin: 0 auto; 
+  line-height: 1.6; 
+  font-family: Arial, sans-serif; 
+} 
+.tech-highlight { 
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+  color: white; 
+  padding: 20px; 
+  border-radius: 10px; 
+  margin: 20px 0; 
+} 
+.feature-box { 
+  border: 2px solid #e1e5e9; 
+  padding: 15px; 
+  border-radius: 8px; 
+  background: #f8f9fa; 
+  margin: 15px 0; 
+} 
+.tech-spec { 
+  background: #e3f2fd; 
+  padding: 10px; 
+  border-left: 4px solid #2196f3; 
+  margin: 10px 0; 
+}
+</style>
+
+<div class='blog-content'>
+<h1>${title}</h1>
+<p>TL;DR: ${title} represents a significant development in the technology sector, showcasing innovation and progress in modern digital solutions.</p>
+
+<h2>Introduction</h2>
+<p>The technology landscape continues to evolve rapidly, with ${title} emerging as a key development that highlights the ongoing transformation in digital innovation. This development reflects the industry's commitment to advancing technology solutions and improving user experiences.</p>
+
+<div class='tech-highlight'>
+<h3>Key Insights</h3>
+<ul>
+<li>Innovation in technology implementation</li>
+<li>Impact on industry standards and practices</li>
+<li>Future implications for technology development</li>
+<li>Opportunities for businesses and developers</li>
+</ul>
+</div>
+
+<h2>Current State Analysis</h2>
+<p>${title} demonstrates the current state of technology advancement and its implications for various sectors. The development showcases how modern technology solutions are addressing real-world challenges and creating new opportunities.</p>
+
+<div class='feature-box'>
+<h3>Technology Impact</h3>
+<p>This development has significant implications for:</p>
+<ul>
+<li>Business operations and efficiency</li>
+<li>User experience and accessibility</li>
+<li>Industry standards and best practices</li>
+<li>Future technology development</li>
+</ul>
+</div>
+
+<h2>Technical Implications</h2>
+<p>The technical aspects of ${title} reveal important insights about modern technology implementation. Key considerations include:</p>
+<ul>
+<li>Scalability and performance optimization</li>
+<li>Security and data protection measures</li>
+<li>Integration with existing systems</li>
+<li>User adoption and training requirements</li>
+</ul>
+
+<div class='tech-spec'>
+<h3>Implementation Considerations</h3>
+<p>Organizations looking to leverage this technology should consider factors such as infrastructure requirements, training needs, and integration strategies. Proper planning and execution are essential for successful implementation.</p>
+</div>
+
+<h2>Future Trends</h2>
+<p>Looking ahead, ${title} suggests several trends in technology development:</p>
+<ul>
+<li>Increased focus on user experience</li>
+<li>Enhanced automation and efficiency</li>
+<li>Improved accessibility and inclusivity</li>
+<li>Greater integration across platforms</li>
+</ul>
+
+<h2>Industry Impact</h2>
+<p>The impact of ${title} extends across multiple industries, offering opportunities for:</p>
+<ul>
+<li>Enhanced productivity and efficiency</li>
+<li>Improved customer experiences</li>
+<li>New business models and opportunities</li>
+<li>Competitive advantages in the market</li>
+</ul>
+
+<h2>Conclusion</h2>
+<p>${title} represents an important milestone in technology development, offering valuable insights into current trends and future possibilities. As the technology landscape continues to evolve, developments like this will play a crucial role in shaping the future of digital innovation.</p>
+</div>`;
+  }
+
   async generateAndPublishPosts(count: number = 2): Promise<any[]> {
     const publishedPosts = [];
     
@@ -609,7 +841,13 @@ Write the blog using the system instructions. Focus on providing in-depth techni
     } catch (error) {
       console.error('Error in generateBlogPost:', error);
       
-      // Handle rate limiting
+      // Handle rate limiting and quota exceeded
+      if (error.code === 'rate_limit_exceeded' || error.code === 'insufficient_quota') {
+        console.log(`OpenAI ${error.code === 'rate_limit_exceeded' ? 'rate limit' : 'quota'} exceeded, using fallback content generation...`);
+        return this.generateFallbackContent(topic);
+      }
+      
+      // Handle rate limiting with retry
       if (error.code === 'rate_limit_exceeded') {
         console.log('Rate limit exceeded, waiting 30 seconds...');
         await new Promise(resolve => setTimeout(resolve, 30000));
@@ -637,7 +875,7 @@ Write the blog using the system instructions. Focus on providing in-depth techni
           return parsedPost;
         } catch (retryError) {
           console.error('Retry attempt failed:', retryError);
-          throw retryError;
+          return this.generateFallbackContent(topic);
         }
       }
       
