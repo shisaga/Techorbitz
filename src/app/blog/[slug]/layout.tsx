@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { prisma } from '@/lib/prisma';
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = params;
+  const { slug } = await params;
 
   try {
     // Fetch the blog post

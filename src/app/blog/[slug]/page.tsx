@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 import BlogPostClient from './client-page';
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 // Generate static params for known blog posts
@@ -30,7 +30,7 @@ export async function generateStaticParams() {
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = params;
+  const { slug } = await params;
 
   try {
     const post = await prisma.post.findUnique({
@@ -106,7 +106,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 // Static generation with ISR
 export default async function BlogPostPage({ params }: Props) {
-  const { slug } = params;
+  const { slug } = await params;
 
   try {
     // Fetch post data at build time

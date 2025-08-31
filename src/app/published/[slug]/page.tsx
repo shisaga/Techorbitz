@@ -2,10 +2,11 @@ import { notFound } from 'next/navigation';
 import { readFile } from 'fs/promises';
 import { join } from 'path';
 
-export default async function PublishedSitePage({ params }: { params: { slug: string } }) {
+export default async function PublishedSitePage({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = await params;
   try {
     // Read the published HTML file
-    const publishedDir = join(process.cwd(), 'public', 'published', params.slug);
+    const publishedDir = join(process.cwd(), 'public', 'published', resolvedParams.slug);
     const htmlPath = join(publishedDir, 'index.html');
     
     let htmlContent: string;
@@ -31,10 +32,11 @@ export default async function PublishedSitePage({ params }: { params: { slug: st
 }
 
 // Generate metadata for SEO
-export async function generateMetadata({ params }: { params: { slug: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = await params;
   try {
     // In a real app, you'd fetch this from the database
-    console.log('Generating metadata for:', params.slug);
+    console.log('Generating metadata for:', resolvedParams.slug);
     return {
       title: 'Published Website',
       description: 'Website created with TechOrbitze AI Website Builder',
