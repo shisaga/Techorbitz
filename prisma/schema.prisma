@@ -1,0 +1,346 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = "mongodb+srv://15277shivsagar:Shivsagar%40123@cluster0.t7syc5f.mongodb.net/techorbitzs-app?retryWrites=true&w=majority&appName=Cluster0"
+}
+
+model User {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  email      String   @unique
+  name       String?
+  avatar     String?
+  bio        String?
+  role       Role     @default(USER)
+  isVerified Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  posts     Post[]
+  comments  Comment[]
+  likes     Like[]
+  followers Follow[]  @relation("UserFollowers")
+  following Follow[]  @relation("UserFollowing")
+
+  // Website Builder Relations
+  websiteProjects WebsiteProject[]
+  subscription    UserSubscription?
+
+  @@map("users")
+}
+
+model Post {
+  id             String     @id @default(auto()) @map("_id") @db.ObjectId
+  title          String
+  slug           String     @unique
+  excerpt        String?
+  content        String
+  coverImage     String?
+  showcaseImage  String?
+  status         PostStatus @default(DRAFT)
+  publishedAt    DateTime?
+  scheduledAt    DateTime?
+  readingTime    Int? // in minutes
+  views          Int        @default(0)
+  likesCount     Int        @default(0)
+  commentsCount  Int        @default(0)
+  seoTitle       String?
+  seoDescription String?
+  categoryIds    String[]   @db.ObjectId
+  tagIds         String[]   @db.ObjectId
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  // Relations
+  authorId String    @db.ObjectId
+  author   User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments Comment[]
+  likes    Like[]
+
+  @@map("posts")
+}
+
+model Category {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  color       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("categories")
+}
+
+model Tag {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String   @unique
+  slug      String   @unique
+  color     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("tags")
+}
+
+model Comment {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  content    String
+  isApproved Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  postId   String    @db.ObjectId
+  post     Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  authorId String    @db.ObjectId
+  author   User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  parentId String?   @db.ObjectId
+  parent   Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  replies  Comment[] @relation("CommentReplies")
+
+  @@map("comments")
+}
+
+model Like {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+
+  // Relations
+  postId String @db.ObjectId
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, userId])
+  @@map("likes")
+}
+
+model Follow {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+
+  // Relations
+  followerId  String @db.ObjectId
+  follower    User   @relation("UserFollowing", fields: [followerId], references: [id], onDelete: Cascade)
+  followingId String @db.ObjectId
+  following   User   @relation("UserFollowers", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@unique([followerId, followingId])
+  @@map("follows")
+}
+
+model Newsletter {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  email       String   @unique
+  isActive    Boolean  @default(true)
+  preferences Json? // Store subscription preferences
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("newsletters")
+}
+
+model Analytics {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  postId    String   @db.ObjectId
+  event     String // 'view', 'like', 'share', 'comment'
+  userAgent String?
+  ipAddress String?
+  referrer  String?
+  createdAt DateTime @default(now())
+
+  @@map("analytics")
+}
+
+enum Role {
+  USER
+  AUTHOR
+  ADMIN
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  SCHEDULED
+  ARCHIVED
+}
+
+// Website Builder Models
+model WebsiteProject {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Project Details
+  name              String
+  slug              String   @unique
+  description       String?
+  businessType      String
+  websiteType       String
+  industry          String
+  targetAudience    String
+  features          String[]
+  colorScheme       String
+  designStyle       String
+  additionalContent String?
+
+  // Generation Status
+  status             ProjectStatus @default(GENERATING)
+  generationProgress Int           @default(0) // 0-100
+  currentStep        String?
+
+  // Generated Content (Legacy - Static HTML/CSS/JS)
+  generatedHtml String?
+  generatedCss  String?
+  generatedJs   String?
+  
+  // Next.js Generated Content
+  nextjsPages     Json? // Store all page components
+  nextjsComponents Json? // Store all React components
+  nextjsStyles    Json? // Store CSS files
+  nextjsConfig    Json? // Store config files
+  projectType     String @default("static") // "static" or "nextjs"
+
+  // Publishing
+  isPublished  Boolean   @default(false)
+  publishedUrl String?
+  publishedAt  DateTime?
+
+  // User Limits
+  revisionsUsed Int @default(0)
+  maxRevisions  Int @default(5)
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  comments  ProjectComment[]
+  revisions ProjectRevision[]
+  games     GameSession[]
+
+  @@map("website_projects")
+}
+
+model ProjectComment {
+  id        String         @id @default(auto()) @map("_id") @db.ObjectId
+  projectId String         @db.ObjectId
+  project   WebsiteProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  // Comment Details
+  elementId       String // CSS selector or unique element identifier
+  elementType     String // 'text', 'image', 'button', etc.
+  comment         String
+  requestedChange String
+
+  // Position for popup
+  xPosition Float?
+  yPosition Float?
+
+  // Status
+  status     CommentStatus @default(PENDING)
+  aiResponse String?
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("project_comments")
+}
+
+model ProjectRevision {
+  id        String         @id @default(auto()) @map("_id") @db.ObjectId
+  projectId String         @db.ObjectId
+  project   WebsiteProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  // Revision Details
+  version   Int
+  html      String
+  css       String
+  js        String?
+  changelog String?
+
+  // Timestamps
+  createdAt DateTime @default(now())
+
+  @@map("project_revisions")
+}
+
+model GameSession {
+  id        String         @id @default(auto()) @map("_id") @db.ObjectId
+  projectId String         @db.ObjectId
+  project   WebsiteProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  // Game Details
+  gameType    String // 'snake', 'tetris', 'puzzle', etc.
+  score       Int     @default(0)
+  level       Int     @default(1)
+  timeSpent   Int     @default(0) // in seconds
+  isCompleted Boolean @default(false)
+
+  // Game State (JSON)
+  gameState Json?
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("game_sessions")
+}
+
+model UserSubscription {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @unique @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Subscription Details
+  plan         SubscriptionPlan @default(FREE)
+  maxProjects  Int              @default(1)
+  maxRevisions Int              @default(5)
+  maxPublished Int              @default(1)
+
+  // Current Usage
+  projectsUsed   Int @default(0)
+  publishedSites Int @default(0)
+
+  // Subscription Period
+  startDate DateTime  @default(now())
+  endDate   DateTime?
+  isActive  Boolean   @default(true)
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("user_subscriptions")
+}
+
+enum ProjectStatus {
+  GENERATING
+  READY_FOR_REVIEW
+  IN_REVISION
+  COMPLETED
+  PUBLISHED
+  CANCELLED
+}
+
+enum CommentStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  REJECTED
+}
+
+enum SubscriptionPlan {
+  FREE
+  BASIC
+  PRO
+  ENTERPRISE
+}
