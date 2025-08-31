@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack && next-sitemap",
+    "build:no-types": "SKIP_TYPE_CHECK=true next build && next-sitemap",
+    "build:force": "next build --no-type-check && next-sitemap",
     "start": "next start",
     "lint": "eslint",
     "test-blog": "node scripts/test-blog-generator.js",
