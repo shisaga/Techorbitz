@@ -448,34 +448,19 @@ class AIBlogGenerator {
   private async checkTopicExists(title: string): Promise<boolean> {
     const normalizedTitle = title.toLowerCase();
     
-    // More lenient duplicate checking to allow more content generation
-    const titleWords = title.toLowerCase().split(' ').filter(word => word.length > 3);
-    const searchTerms = titleWords.slice(0, 3); // Use first 3 meaningful words
-    
+    // Simple exact match duplicate checking to avoid Prisma issues
     const existingPosts = await prisma.post.findMany({
       select: { title: true, slug: true },
       where: {
         OR: [
           { title: { equals: title, mode: 'insensitive' } }, // Exact title match
-          { slug: { equals: this.generateSlug(title) } }, // Exact slug match
-          // Check for similar titles using key words
-          ...searchTerms.map(term => ({
-            title: { contains: term, mode: 'insensitive' as any }
-          }))
+          { slug: { equals: this.generateSlug(title) } } // Exact slug match
         ]
       }
     });
     
-    // Only consider it a duplicate if we find very similar titles
-    const exactMatches = existingPosts.filter(post => {
-      const postTitle = post.title.toLowerCase();
-      return postTitle === normalizedTitle || 
-             searchTerms.some(term => postTitle.includes(term)) && 
-             Math.abs(postTitle.length - title.length) < 15;
-    });
-    
-    console.log(`Checking for duplicates of "${title}": found ${exactMatches.length} exact matches out of ${existingPosts.length} total`);
-    return exactMatches.length > 0;
+    console.log(`Checking for duplicates of "${title}": found ${existingPosts.length} exact matches`);
+    return existingPosts.length > 0;
   }
 
   private generateSlug(title: string): string {
