@@ -453,7 +453,7 @@ class AIBlogGenerator {
       select: { title: true, slug: true },
       where: {
         OR: [
-          { title: { equals: title, mode: 'insensitive' } }, // Exact title match
+          { title: { equals: title } }, // Exact title match
           { slug: { equals: this.generateSlug(title) } } // Exact slug match
         ]
       }
