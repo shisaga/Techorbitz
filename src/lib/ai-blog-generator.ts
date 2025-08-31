@@ -653,20 +653,39 @@ Write the blog using the system instructions. Focus on providing in-depth techni
 
     try {
       const searchQuery = this.extractSearchQuery(topic);
-      const response = await fetch(`https://api.pexels.com/v1/search?query=${encodeURIComponent(searchQuery)}&per_page=15&orientation=landscape`, {
-        headers: {
-          'Authorization': this.pexelsApiKey
-        }
-      });
+      console.log(`Searching Pexels for: ${searchQuery}`);
+      
+      // Try multiple search variations to get better results
+      const searchVariations = [
+        searchQuery,
+        `${searchQuery} technology`,
+        `${searchQuery} programming`,
+        `${searchQuery} digital`,
+        'technology innovation',
+        'programming development'
+      ];
+      
+      for (const variation of searchVariations) {
+        const response = await fetch(`https://api.pexels.com/v1/search?query=${encodeURIComponent(variation)}&per_page=20&orientation=landscape`, {
+          headers: {
+            'Authorization': this.pexelsApiKey
+          }
+        });
 
-      if (response.ok) {
-        const data = await response.json();
-        if (data.photos && data.photos.length > 0) {
-          const randomPhoto = data.photos[Math.floor(Math.random() * Math.min(5, data.photos.length))];
-          return {
-            imageUrl: randomPhoto.src.large,
-            altText: `${searchQuery} - Professional technology illustration`
-          };
+        if (response.ok) {
+          const data = await response.json();
+          if (data.photos && data.photos.length > 0) {
+            // Use a more random selection to avoid getting the same image
+            const randomIndex = Math.floor(Math.random() * Math.min(10, data.photos.length));
+            const selectedPhoto = data.photos[randomIndex];
+            
+            console.log(`Found image for "${variation}": ${selectedPhoto.src.large}`);
+            
+            return {
+              imageUrl: selectedPhoto.src.large,
+              altText: `${searchQuery} - Professional technology illustration`
+            };
+          }
         }
       }
     } catch (error) {
@@ -681,21 +700,73 @@ Write the blog using the system instructions. Focus on providing in-depth techni
   }
 
   private extractSearchQuery(topic: string): string {
-    const techTerms = ['programming', 'coding', 'technology', 'computer', 'development', 'software', 'digital', 'tech'];
+    // Enhanced search query extraction with more specific tech terms
+    const techTerms = [
+      'programming', 'coding', 'technology', 'computer', 'development', 'software', 'digital', 'tech',
+      'react', 'javascript', 'python', 'ai', 'machine learning', 'web development', 'mobile app',
+      'database', 'cloud', 'aws', 'docker', 'kubernetes', 'api', 'frontend', 'backend',
+      'typescript', 'node.js', 'vue', 'angular', 'flutter', 'react native', 'swift', 'kotlin',
+      'blockchain', 'cryptocurrency', 'cybersecurity', 'data science', 'analytics', 'iot',
+      'startup', 'innovation', 'fintech', 'healthtech', 'edtech', 'ecommerce'
+    ];
+    
     const words = topic.toLowerCase().split(' ');
     
+    // First, try to find exact matches
     for (const word of words) {
-      if (techTerms.some(term => word.includes(term))) {
+      if (techTerms.some(term => word.includes(term) || term.includes(word))) {
         return word;
       }
+    }
+    
+    // If no exact match, try to find partial matches
+    for (const word of words) {
+      for (const term of techTerms) {
+        if (word.length > 3 && (word.includes(term.substring(0, 4)) || term.includes(word.substring(0, 4)))) {
+          return term;
+        }
+      }
+    }
+    
+    // If still no match, use the first meaningful word or default
+    const meaningfulWords = words.filter(word => word.length > 3 && !['the', 'and', 'for', 'with', 'from', 'this', 'that'].includes(word));
+    if (meaningfulWords.length > 0) {
+      return meaningfulWords[0];
     }
     
     return 'technology programming';
   }
 
   async generateHeroImage(title: string): Promise<string> {
-    // Return a placeholder for now - implement Stability AI integration later
-    return 'https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg';
+    try {
+      // Use Pexels API to get a unique image based on the title
+      const pexelsImage = await this.getPexelsImage(title);
+      return pexelsImage.imageUrl;
+    } catch (error) {
+      console.error('Error generating hero image:', error);
+      // Return a different fallback image based on title hash
+      const fallbackImages = [
+        'https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg',
+        'https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg',
+        'https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg',
+        'https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg',
+        'https://images.pexels.com/photos/3183153/pexels-photo-3183153.jpeg',
+        'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg',
+        'https://images.pexels.com/photos/3184296/pexels-photo-3184296.jpeg',
+        'https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg',
+        'https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg',
+        'https://images.pexels.com/photos/3184340/pexels-photo-3184340.jpeg'
+      ];
+      
+      // Use title hash to select a consistent but different image for each title
+      const hash = title.split('').reduce((a, b) => {
+        a = ((a << 5) - a) + b.charCodeAt(0);
+        return a & a;
+      }, 0);
+      
+      const index = Math.abs(hash) % fallbackImages.length;
+      return fallbackImages[index];
+    }
   }
 
   private determineCategory(content: string, title: string): string[] {
