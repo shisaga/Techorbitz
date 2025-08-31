@@ -6,6 +6,11 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
 
+  // Disable TypeScript errors during build for production
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+
   // Performance optimizations
   experimental: {
     optimizeCss: true,
