@@ -14,9 +14,9 @@ export async function POST(request: NextRequest) {
 
     const result = await authenticateAdmin(email, password);
 
-    if (!result.success) {
+    if (!result.success || !result.token) {
       return NextResponse.json(
-        { success: false, message: result.message },
+        { success: false, message: result.message || 'Authentication failed' },
         { status: 401 }
       );
     }

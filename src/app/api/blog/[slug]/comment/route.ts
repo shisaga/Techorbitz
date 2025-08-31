@@ -78,18 +78,20 @@ export async function POST(request: NextRequest, context: RouteParams) {
     console.error('Error creating comment:', error);
     
     // Provide more specific error messages
-    if (error.code === 'P2023') {
-      return NextResponse.json(
-        { error: 'Invalid post or user reference' },
-        { status: 400 }
-      );
-    }
-    
-    if (error.code === 'P2002') {
-      return NextResponse.json(
-        { error: 'Comment already exists' },
-        { status: 409 }
-      );
+    if (error && typeof error === 'object' && 'code' in error) {
+      if (error.code === 'P2023') {
+        return NextResponse.json(
+          { error: 'Invalid post or user reference' },
+          { status: 400 }
+        );
+      }
+      
+      if (error.code === 'P2002') {
+        return NextResponse.json(
+          { error: 'Comment already exists' },
+          { status: 409 }
+        );
+      }
     }
     
     return NextResponse.json(

@@ -51,7 +51,7 @@ const Select = React.forwardRef<HTMLDivElement, SelectProps>(
         {isOpen && (
           <SelectContent>
             {React.Children.map(children, (child) => {
-              if (React.isValidElement(child) && child.type === SelectItem) {
+              if (React.isValidElement<SelectItemProps>(child) && child.type === SelectItem) {
                 return React.cloneElement(child, {
                   onSelect: () => handleSelect(child.props.value),
                 });
@@ -118,7 +118,7 @@ const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps>(
 );
 SelectContent.displayName = 'SelectContent';
 
-interface SelectItemProps {
+interface SelectItemProps extends React.HTMLAttributes<HTMLDivElement> {
   value: string;
   children: React.ReactNode;
   onSelect?: () => void;

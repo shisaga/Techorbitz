@@ -1,9 +1,6 @@
 import OpenAI from 'openai';
 import { prisma } from './prisma';
 
-// Dynamic import for NewsAPI to avoid constructor issues
-let NewsAPI: any;
-
 interface BlogPost {
   title: string;
   slug: string;
@@ -60,66 +57,65 @@ class AIBlogGenerator {
       // Source 1: GitHub trending (programming projects)
       await this.fetchGitHubTrending(allArticles);
       
-      // Source 2: NewsAPI (tech news)
+      // Source 2: NewsAPI (tech news) - Using direct fetch
       try {
-        if (!NewsAPI) {
-          const newsApiModule = await import('newsapi');
-          NewsAPI = newsApiModule.default || newsApiModule.NewsAPI;
-        }
-        
-        const newsapi = new NewsAPI(process.env.NEWSAPI_KEY);
-        console.log('NewsAPI initialized successfully');
-        
-        // Priority-based tech queries focusing on user's specific keywords
-        const techQueries = [
-          // Priority 1: Core Programming & Frameworks
-          'React OR Next.js OR "React 19" OR "Next.js 15" OR Vue OR Angular OR TypeScript OR JavaScript',
-          'Python OR Django OR Flask OR "Python 3.12" OR "Python AI" OR "Python development"',
-          'AI OR "artificial intelligence" OR "machine learning" OR "AI Dev Tools" OR "AI integration"',
+        const newsApiKey = process.env.NEWSAPI_KEY;
+        if (newsApiKey) {
+          console.log('Fetching tech news with direct NewsAPI calls...');
           
-          // Priority 2: Modern Web Tech
-          'WebAssembly OR Wasm OR "Utility-First CSS" OR Tailwind OR PWAs OR Jamstack',
-          'serverless OR "headless CMS" OR "API-first" OR "Animated UIs" OR "predictive analytics"',
-          
-          // Priority 3: Mobile & Cross-platform
-          'Flutter OR Dart OR "Kotlin Multiplatform" OR Swift OR Kotlin OR "React Native"',
-          'Tauri OR Rust OR "Uno Platform" OR "C#" OR ".NET Core"',
-          
-          // Priority 4: Tech Infrastructure & IoT
-          'IoT OR "Internet of Things" OR Node.js OR "tech investment" OR "technology funding"'
-        ];
-
-        // Fetch articles for each priority level
-        for (let i = 0; i < techQueries.length; i++) {
-          const query = techQueries[i];
-          console.log(`Fetching Priority ${Math.floor(i/3) + 1} articles: ${query.substring(0, 50)}...`);
-          
-          try {
-            const response = await newsapi.v2.topHeadlines({
-              q: query,
-              language: 'en',
-              pageSize: 5,
-              from: this.getTwoDaysAgo()
-            });
+          // Priority-based tech queries focusing on user's specific keywords
+          const techQueries = [
+            // Priority 1: Core Programming & Frameworks
+            'React OR Next.js OR TypeScript OR JavaScript',
+            'Python OR Django OR Flask OR AI',
+            'machine learning OR artificial intelligence',
             
-            if (response.articles) {
-              const priorityScore = Math.floor(i/3) + 1;
-              const articleWithPriority = response.articles.map((article: any) => ({
-                ...article,
-                priorityScore,
-                weight: 4 - priorityScore // Higher weight for higher priority
-              }));
-              allArticles.push(...articleWithPriority);
+            // Priority 2: Modern Web Tech
+            'WebAssembly OR Tailwind OR PWAs OR Jamstack',
+            'serverless OR headless CMS OR API',
+            
+            // Priority 3: Mobile & Cross-platform
+            'Flutter OR React Native OR Swift OR Kotlin',
+            'Rust OR .NET Core',
+            
+            // Priority 4: Tech Infrastructure & IoT
+            'Node.js OR tech investment OR technology funding'
+          ];
+
+          // Fetch articles for each priority level
+          for (let i = 0; i < techQueries.length; i++) {
+            const query = techQueries[i];
+            console.log(`Fetching Priority ${Math.floor(i/3) + 1} articles: ${query.substring(0, 50)}...`);
+            
+            try {
+              const url = `https://newsapi.org/v2/top-headlines?q=${encodeURIComponent(query)}&language=en&pageSize=5&from=${this.getTwoDaysAgo()}&apiKey=${newsApiKey}`;
+              const response = await fetch(url);
+              
+              if (response.ok) {
+                const data = await response.json();
+                if (data.articles) {
+                  const priorityScore = Math.floor(i/3) + 1;
+                  const articleWithPriority = data.articles.map((article: any) => ({
+                    ...article,
+                    priorityScore,
+                    weight: 4 - priorityScore,
+                    source: { name: 'Tech News' }
+                  }));
+                  allArticles.push(...articleWithPriority);
+                }
+              }
+            } catch (queryError) {
+              console.error(`Error with query "${query}":`, queryError);
             }
-          } catch (queryError) {
-            console.error(`Error with query "${query}":`, queryError);
+            
+            // Small delay between requests
+            await new Promise(resolve => setTimeout(resolve, 100));
           }
-          
-          // Small delay between requests
-          await new Promise(resolve => setTimeout(resolve, 100));
+        } else {
+          console.log('NewsAPI key not found, skipping news fetch');
         }
       } catch (newsError) {
-        console.error('NewsAPI initialization/usage error:', newsError);
+        console.error('NewsAPI fetch error:', newsError);
       }
 
     } catch (error) {

@@ -5,6 +5,7 @@ import { LucideIcon } from 'lucide-react';
 import { forwardRef } from 'react';
 
 interface InputFieldProps {
+  label?: string;
   type?: 'text' | 'email' | 'password' | 'search' | 'tel' | 'url';
   placeholder?: string;
   value?: string;
@@ -30,6 +31,7 @@ interface InputFieldProps {
 }
 
 const InputField = forwardRef<HTMLInputElement, InputFieldProps>(({
+  label,
   type = 'text',
   placeholder = '',
   value,
@@ -81,13 +83,22 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(({
   const iconColor = value ? 'text-coral-primary' : 'text-gray-400';
 
   return (
-    <div className={`relative ${className}`}>
-      {/* Left Icon */}
-      {Icon && (
-        <div className="absolute left-4 top-1/2 transform -translate-y-1/2 pointer-events-none">
-          <Icon className={`${iconSize} transition-colors ${iconColor}`} />
-        </div>
+    <div className={`${className}`}>
+      {/* Label */}
+      {label && (
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          {label}
+          {required && <span className="text-red-500 ml-1">*</span>}
+        </label>
       )}
+      
+      <div className="relative">
+        {/* Left Icon */}
+        {Icon && (
+          <div className="absolute left-4 top-1/2 transform -translate-y-1/2 pointer-events-none">
+            <Icon className={`${iconSize} transition-colors ${iconColor}`} />
+          </div>
+        )}
 
       {/* Input Field */}
       <input
@@ -108,17 +119,18 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(({
         className={getInputClasses()}
       />
 
-      {/* Right Side Content */}
-      <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-        {loading && (
-          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-coral-primary"></div>
-        )}
-        
-        {!loading && RightIcon && (
-          <RightIcon className={`${iconSize} ${iconColor}`} />
-        )}
-        
-        {!loading && rightElement && rightElement}
+        {/* Right Side Content */}
+        <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+          {loading && (
+            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-coral-primary"></div>
+          )}
+          
+          {!loading && RightIcon && (
+            <RightIcon className={`${iconSize} ${iconColor}`} />
+          )}
+          
+          {!loading && rightElement && rightElement}
+        </div>
       </div>
 
       {/* Error Message */}

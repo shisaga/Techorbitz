@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Settings, Save, User, Shield, Bell, Palette, Database, Globe } from 'lucide-react';
 import AdminLayout from '@/components/admin/AdminLayout';
 import InputField from '@/components/ui/InputField';
+import { Textarea } from '@/components/ui/textarea';
 
 interface SettingsSection {
   id: string;
@@ -167,12 +168,17 @@ export default function SettingsManagement() {
                       value={settings.profile.email}
                       onChange={(e) => handleSettingChange('profile', 'email', e.target.value)}
                     />
-                    <InputField
-                      label="Bio"
-                      type="textarea"
-                      value={settings.profile.bio}
-                      onChange={(e) => handleSettingChange('profile', 'bio', e.target.value)}
-                    />
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Bio
+                      </label>
+                      <Textarea
+                        value={settings.profile.bio}
+                        onChange={(e) => handleSettingChange('profile', 'bio', e.target.value)}
+                        placeholder="Tell us about yourself..."
+                        className="min-h-[100px]"
+                      />
+                    </div>
                   </div>
                 </motion.div>
               )}
@@ -309,11 +315,15 @@ export default function SettingsManagement() {
                       type="text"
                       placeholder="TechOrbitze"
                     />
-                    <InputField
-                      label="Site Description"
-                      type="textarea"
-                      placeholder="Your site description for SEO"
-                    />
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Site Description
+                      </label>
+                      <Textarea
+                        placeholder="Your site description for SEO"
+                        className="min-h-[80px]"
+                      />
+                    </div>
                     <InputField
                       label="Contact Email"
                       type="email"
