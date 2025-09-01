@@ -1132,7 +1132,7 @@ Write the blog using the system instructions. Focus on providing in-depth techni
 
     try {
       const completion = await this.openai.chat.completions.create({
-        model: 'gpt-3.5-turbo',
+        model: 'GPT-4o-mini',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
@@ -1157,10 +1157,25 @@ Write the blog using the system instructions. Focus on providing in-depth techni
 
       const uniqueSlug = await this.generateUniqueSlug(parsedPost.slug);
 
+      // Generate both cover and card images
+      const [heroImage, cardImage] = await Promise.all([
+        this.generateHeroImage(parsedPost.title),
+        this.generateCardImage(parsedPost.title)
+      ]);
+
+      // Add card image to content
+      const contentWithCardImage = parsedPost.content + `
+      <div style="text-align: center; margin: 30px 0;">
+        <img src="${cardImage}" alt="${parsedPost.title} - Social Media Card" style="max-width: 400px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" />
+        <p style="font-style: italic; color: #666; margin-top: 10px;">Social Media Card for ${parsedPost.title}</p>
+      </div>
+      `;
+
       return {
         ...parsedPost,
         slug: uniqueSlug,
-        heroImage: await this.generateHeroImage(parsedPost.title),
+        content: contentWithCardImage,
+        heroImage: heroImage,
         heroImageAlt: `${parsedPost.title} - Hero Image`,
         publishedAt: new Date().toISOString(),
         canonicalUrl: `${this.wpBaseUrl}/blog/${uniqueSlug}`
@@ -1182,7 +1197,7 @@ Write the blog using the system instructions. Focus on providing in-depth techni
         // Retry once with a different model
         try {
           const retryCompletion = await this.openai.chat.completions.create({
-            model: 'gpt-3.5-turbo-16k',
+            model: 'GPT-4o-mini-16k',
             messages: [
               { role: 'system', content: systemPrompt },
               { role: 'user', content: userPrompt }
@@ -1398,7 +1413,7 @@ Requirements:
 Return only a JSON array like: ["keyword1", "keyword2", "keyword3"]`;
 
       const completion = await this.openai.chat.completions.create({
-        model: 'gpt-3.5-turbo',
+        model: 'GPT-4o-mini',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
@@ -1454,7 +1469,7 @@ Requirements:
 Return only the alt text.`;
 
       const completion = await this.openai.chat.completions.create({
-        model: 'gpt-3.5-turbo',
+        model: 'GPT-4o-mini',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
@@ -1517,7 +1532,7 @@ Requirements:
 Return only a JSON array like: ["keyword1", "keyword2", "keyword3"]`;
 
       const completion = await this.openai.chat.completions.create({
-        model: 'gpt-3.5-turbo',
+        model: 'GPT-4o-mini',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
@@ -1576,7 +1591,7 @@ Requirements:
 Return only the description text.`;
 
       const completion = await this.openai.chat.completions.create({
-        model: 'gpt-3.5-turbo',
+        model: 'GPT-4o-mini',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
@@ -1639,7 +1654,7 @@ Requirements:
 Return only the alt text.`;
 
       const completion = await this.openai.chat.completions.create({
-        model: 'gpt-3.5-turbo',
+        model: 'GPT-4o-mini',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
@@ -1727,7 +1742,7 @@ Requirements:
 Return only the description text.`;
 
       const completion = await this.openai.chat.completions.create({
-        model: 'gpt-3.5-turbo',
+        model: 'GPT-4o-mini',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
@@ -1774,33 +1789,143 @@ Return only the description text.`;
 
   async generateHeroImage(title: string): Promise<string> {
     try {
-      // Use Pexels API to get a unique image based on the title
-      const pexelsImage = await this.getPexelsImage(title);
-      return pexelsImage.imageUrl;
+      console.log('🎨 Generating AI image with Stability API...');
+      
+      // Generate image using Stability API
+      const imagePrompt = `Create a modern, professional hero banner image for a blog titled "${title}". Style: modern flat/vector design with a clear focal point and space suitable for text overlay. Keep it brand-friendly and not copyright-infringing. Use a 16:9 aspect ratio.`;
+      
+      const response = await fetch('https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.stabilityApiKey}`,
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          text_prompts: [
+            {
+              text: imagePrompt,
+              weight: 1
+            }
+          ],
+          cfg_scale: 7,
+          height: 768,
+          width: 1344,
+          samples: 1,
+          steps: 30,
+          style_preset: "photographic"
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Stability API error: ${response.status} ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      
+      if (result.artifacts && result.artifacts.length > 0) {
+        const imageData = result.artifacts[0];
+        const base64Image = imageData.base64;
+        
+        // Convert base64 to data URL
+        const imageUrl = `data:image/png;base64,${base64Image}`;
+        
+        console.log('✅ AI image generated successfully');
+        return imageUrl;
+      } else {
+        throw new Error('No image generated from Stability API');
+      }
+
     } catch (error) {
-      console.error('Error generating hero image:', error);
-      // Return a different fallback image based on title hash
-      const fallbackImages = [
-        'https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg',
-        'https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg',
-        'https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg',
-        'https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg',
-        'https://images.pexels.com/photos/3183153/pexels-photo-3183153.jpeg',
-        'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg',
-        'https://images.pexels.com/photos/3184296/pexels-photo-3184296.jpeg',
-        'https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg',
-        'https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg',
-        'https://images.pexels.com/photos/3184340/pexels-photo-3184340.jpeg'
-      ];
+      console.error('Error generating AI image:', error);
       
-      // Use title hash to select a consistent but different image for each title
-      const hash = title.split('').reduce((a, b) => {
-        a = ((a << 5) - a) + b.charCodeAt(0);
-        return a & a;
-      }, 0);
+      // Fallback to Pexels API
+      try {
+        const pexelsImage = await this.getPexelsImage(title);
+        return pexelsImage.imageUrl;
+      } catch (pexelsError) {
+        console.error('Error with Pexels fallback:', pexelsError);
+        
+        // Final fallback to static images
+        const fallbackImages = [
+          'https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg',
+          'https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg',
+          'https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg',
+          'https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg',
+          'https://images.pexels.com/photos/3183153/pexels-photo-3183153.jpeg',
+          'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg',
+          'https://images.pexels.com/photos/3184296/pexels-photo-3184296.jpeg',
+          'https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg',
+          'https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg',
+          'https://images.pexels.com/photos/3184340/pexels-photo-3184340.jpeg'
+        ];
+        
+        // Use title hash to select a consistent but different image for each title
+        const hash = title.split('').reduce((a, b) => {
+          a = ((a << 5) - a) + b.charCodeAt(0);
+          return a & a;
+        }, 0);
+        
+        const index = Math.abs(hash) % fallbackImages.length;
+        return fallbackImages[index];
+      }
+    }
+  }
+
+  async generateCardImage(title: string): Promise<string> {
+    try {
+      console.log('🎨 Generating card image with Stability API...');
       
-      const index = Math.abs(hash) % fallbackImages.length;
-      return fallbackImages[index];
+      // Generate square card image using Stability API
+      const imagePrompt = `Create a square social media card image for a blog post about "${title}". Style: modern, clean design with icons and visual elements related to AI and technology. Use a 1:1 aspect ratio.`;
+      
+      const response = await fetch('https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.stabilityApiKey}`,
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          text_prompts: [
+            {
+              text: imagePrompt,
+              weight: 1
+            }
+          ],
+          cfg_scale: 7,
+          height: 1024,
+          width: 1024,
+          samples: 1,
+          steps: 30,
+          style_preset: "photographic"
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Stability API error: ${response.status} ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      
+      if (result.artifacts && result.artifacts.length > 0) {
+        const imageData = result.artifacts[0];
+        const base64Image = imageData.base64;
+        
+        // Convert base64 to data URL
+        const imageUrl = `data:image/png;base64,${base64Image}`;
+        
+        console.log('✅ Card image generated successfully');
+        return imageUrl;
+      } else {
+        throw new Error('No card image generated from Stability API');
+      }
+
+    } catch (error) {
+      console.error('Error generating card image:', error);
+      
+      // Fallback to a default card image
+      return 'https://images.pexels.com/photos/1181271/pexels-photo-1181271.jpeg';
     }
   }
 
