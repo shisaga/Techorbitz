@@ -6,6 +6,9 @@ interface BlogPost {
   slug: string;
   content: string;
   metaDescription: string;
+  excerpt?: string;
+  seoDescription?: string;
+  seoTitle?: string;
   keywords: string[];
   heroImage: string;
   heroImageAlt: string;
@@ -492,17 +495,29 @@ class AIBlogGenerator {
       tags = ['technology', 'news', 'innovation', 'trends'];
     }
     
+    // Generate comprehensive SEO-optimized content with proper length constraints
+    const shortTitle = this.truncateTitle(title, 50); // Keep title under 60 characters
+    const seoTitle = `${shortTitle} - Complete Guide 2025`;
+    const seoDescription = this.generateOptimizedDescription(title, 155); // Keep under 160 characters
+    
+    // Generate SEO-optimized keywords based on content analysis
+    const seoKeywords = this.generateSEOKeywords(title, content, tags);
+    
+    // Generate optimized hero image alt text
+    const heroImageAlt = this.generateHeroImageAlt(shortTitle, 'technology');
+    
     return {
-      title: title,
+      title: shortTitle,
       slug: slug,
       content: content,
-      excerpt: `Explore the latest developments in ${title.toLowerCase()}. Learn about key insights, trends, and practical applications in this comprehensive analysis.`,
+      excerpt: seoDescription,
       tags: tags,
       category: 'Technology',
-      seoTitle: `${title} - Latest Technology Insights and Analysis`,
-      seoDescription: `Discover the latest developments in ${title.toLowerCase()}. Get insights, analysis, and practical information about this trending technology topic.`,
+      seoTitle: seoTitle,
+      seoDescription: seoDescription,
+      keywords: seoKeywords,
       heroImage: await this.generateHeroImage(title),
-      heroImageAlt: `${title} - Technology Insights`,
+      heroImageAlt: heroImageAlt,
       publishedAt: new Date().toISOString(),
       canonicalUrl: `${this.wpBaseUrl}/blog/${slug}`
     };
@@ -512,100 +527,10 @@ class AIBlogGenerator {
     const title = topic.title.replace(': Latest Technology Insights and Analysis', '');
     const description = topic.description || 'This open-source project';
     
-    return `
-<style>
-.blog-content { 
-  max-width: 800px; 
-  margin: 0 auto; 
-  line-height: 1.6; 
-  font-family: Arial, sans-serif; 
-} 
-.tech-highlight { 
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-  color: white; 
-  padding: 20px; 
-  border-radius: 10px; 
-  margin: 20px 0; 
-} 
-.feature-box { 
-  border: 2px solid #e1e5e9; 
-  padding: 15px; 
-  border-radius: 8px; 
-  background: #f8f9fa; 
-  margin: 15px 0; 
-} 
-.tech-spec { 
-  background: #e3f2fd; 
-  padding: 10px; 
-  border-left: 4px solid #2196f3; 
-  margin: 10px 0; 
-}
-</style>
-
-<div class='blog-content'>
-<h1>${title}</h1>
-<p>TL;DR: ${description} represents an innovative approach to modern software development and technology implementation.</p>
-
-<h2>Introduction</h2>
-<p>In the rapidly evolving landscape of software development, ${title} has emerged as a significant project that showcases the power of open-source collaboration and modern programming practices. This repository demonstrates how developers can leverage cutting-edge technologies to create robust, scalable solutions.</p>
-
-<div class='tech-highlight'>
-<h3>Key Features</h3>
-<ul>
-<li>Modern architecture and design patterns</li>
-<li>Comprehensive documentation and examples</li>
-<li>Active community support and contributions</li>
-<li>Cross-platform compatibility</li>
-</ul>
-</div>
-
-<h2>Technical Overview</h2>
-<p>${description} utilizes modern development practices and frameworks to deliver a high-quality solution. The project incorporates best practices in code organization, testing, and deployment strategies.</p>
-
-<div class='feature-box'>
-<h3>Technology Stack</h3>
-<p>The project leverages a modern technology stack including:</p>
-<ul>
-<li>Latest programming languages and frameworks</li>
-<li>Cloud-native deployment options</li>
-<li>Comprehensive testing suite</li>
-<li>Automated CI/CD pipelines</li>
-</ul>
-</div>
-
-<h2>Implementation Guide</h2>
-<p>To get started with ${title}, developers can follow these steps:</p>
-<ol>
-<li>Clone the repository from GitHub</li>
-<li>Install dependencies and set up the development environment</li>
-<li>Review the documentation and examples</li>
-<li>Start contributing to the project</li>
-</ol>
-
-<div class='tech-spec'>
-<h3>Getting Started</h3>
-<p>Visit the project repository to explore the codebase, read documentation, and understand the implementation details. The project welcomes contributions from the open-source community.</p>
-</div>
-
-<h2>Use Cases</h2>
-<p>${title} can be applied in various scenarios:</p>
-<ul>
-<li>Educational purposes for learning modern development practices</li>
-<li>Building production-ready applications</li>
-<li>Contributing to open-source projects</li>
-<li>Understanding software architecture patterns</li>
-</ul>
-
-<h2>Future Development</h2>
-<p>As an active open-source project, ${title} continues to evolve with regular updates, new features, and community contributions. The project roadmap includes enhancements for better performance, additional features, and improved documentation.</p>
-
-<h2>Conclusion</h2>
-<p>${title} represents the best of open-source development, offering valuable insights into modern software engineering practices. Whether you're a beginner looking to learn or an experienced developer seeking to contribute, this project provides an excellent opportunity to engage with cutting-edge technology.</p>
-</div>`;
-  }
-
-  private generateNewsFallbackContent(topic: any): string {
-    const title = topic.title.replace(': Latest Technology Insights and Analysis', '');
+    // Extract technology keywords for better content
+    const techKeywords = this.extractTechKeywords(title + ' ' + description);
+    const primaryTech = techKeywords[0] || 'modern technology';
+    const secondaryTech = techKeywords[1] || 'development';
     
     return `
 <style>
@@ -614,94 +539,504 @@ class AIBlogGenerator {
   margin: 0 auto; 
   line-height: 1.6; 
   font-family: Arial, sans-serif; 
+  color: #333;
 } 
 .tech-highlight { 
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
   color: white; 
-  padding: 20px; 
-  border-radius: 10px; 
-  margin: 20px 0; 
+  padding: 25px; 
+  border-radius: 12px; 
+  margin: 30px 0; 
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 } 
 .feature-box { 
   border: 2px solid #e1e5e9; 
-  padding: 15px; 
-  border-radius: 8px; 
+  padding: 20px; 
+  border-radius: 10px; 
   background: #f8f9fa; 
-  margin: 15px 0; 
+  margin: 25px 0; 
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 } 
 .tech-spec { 
   background: #e3f2fd; 
-  padding: 10px; 
+  padding: 15px; 
   border-left: 4px solid #2196f3; 
-  margin: 10px 0; 
+  margin: 20px 0; 
+  border-radius: 0 8px 8px 0;
+}
+.code-block {
+  background: #f4f4f4;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px 0;
+  font-family: 'Courier New', monospace;
+  overflow-x: auto;
+}
+.benefits-list {
+  background: #f0f8ff;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 25px 0;
+}
+.conclusion-box {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  padding: 25px;
+  border-radius: 12px;
+  margin: 30px 0;
+  text-align: center;
 }
 </style>
 
 <div class='blog-content'>
-<h1>${title}</h1>
-<p>TL;DR: ${title} represents a significant development in the technology sector, showcasing innovation and progress in modern digital solutions.</p>
+<h1>${title}: Complete Guide, Tutorial & Best Practices 2025</h1>
 
-<h2>Introduction</h2>
-<p>The technology landscape continues to evolve rapidly, with ${title} emerging as a key development that highlights the ongoing transformation in digital innovation. This development reflects the industry's commitment to advancing technology solutions and improving user experiences.</p>
+<p><strong>TL;DR:</strong> Master ${title} with our comprehensive guide covering everything from basic concepts to advanced implementation strategies. Learn step-by-step tutorials, best practices, and real-world examples to become proficient in ${primaryTech} development.</p>
+
+<!-- Schema.org structured data for better SEO -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "${title}: Complete Guide & Tutorial",
+  "description": "Master ${title} with comprehensive tutorials and best practices",
+  "image": "https://images.pexels.com/photos/1181271/pexels-photo-1181271.jpeg",
+  "author": {
+    "@type": "Organization",
+    "name": "TechOrbitze",
+    "url": "https://techorbitze.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "TechOrbitze",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://techorbitze.com/logo.png"
+    }
+  },
+  "datePublished": "${new Date().toISOString()}",
+  "dateModified": "${new Date().toISOString()}",
+  "mainEntity": {
+    "@type": "HowTo",
+    "name": "${title} Tutorial",
+    "description": "Complete guide to ${title} with step-by-step instructions",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Introduction to ${title}",
+        "text": "Learn the fundamentals and core concepts of ${title}"
+      },
+      {
+        "@type": "HowToStep", 
+        "name": "Setup and Installation",
+        "text": "Step-by-step setup guide for ${title}"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Implementation Examples",
+        "text": "Real-world examples and use cases"
+      }
+    ]
+  }
+}
+</script>
+
+<h2>Introduction: The Evolution of ${primaryTech} Development</h2>
+
+<p>In the dynamic world of software development, ${title} has emerged as a significant milestone in the evolution of ${primaryTech} practices. This project exemplifies how modern development teams can leverage the latest technologies to create robust, scalable solutions that meet the demands of today's digital economy.</p>
+
+<p>The landscape of ${primaryTech} development has undergone remarkable transformation in recent years. What once required months of development time can now be accomplished in weeks, thanks to the innovative approaches and tools that projects like ${title} bring to the table.</p>
 
 <div class='tech-highlight'>
-<h3>Key Insights</h3>
+<h3>🚀 Key Features and Capabilities</h3>
 <ul>
-<li>Innovation in technology implementation</li>
-<li>Impact on industry standards and practices</li>
-<li>Future implications for technology development</li>
-<li>Opportunities for businesses and developers</li>
+<li><strong>Modern Architecture:</strong> Built with cutting-edge design patterns and best practices</li>
+<li><strong>Scalable Infrastructure:</strong> Designed to handle growth from startup to enterprise</li>
+<li><strong>Developer Experience:</strong> Comprehensive tooling and documentation</li>
+<li><strong>Community-Driven:</strong> Active open-source community with regular contributions</li>
+<li><strong>Cross-Platform Support:</strong> Works seamlessly across different environments</li>
 </ul>
 </div>
 
-<h2>Current State Analysis</h2>
-<p>${title} demonstrates the current state of technology advancement and its implications for various sectors. The development showcases how modern technology solutions are addressing real-world challenges and creating new opportunities.</p>
+<h2>Technical Deep Dive: Understanding the ${primaryTech} Stack</h2>
+
+<p>${title} leverages a sophisticated technology stack that combines the best of modern ${primaryTech} tools and frameworks. The project's architecture is designed to provide developers with the flexibility they need while maintaining the performance and reliability that production environments demand.</p>
 
 <div class='feature-box'>
-<h3>Technology Impact</h3>
-<p>This development has significant implications for:</p>
+<h3>🏗️ Technology Stack Overview</h3>
+<p>The project utilizes a carefully curated selection of technologies:</p>
 <ul>
-<li>Business operations and efficiency</li>
-<li>User experience and accessibility</li>
-<li>Industry standards and best practices</li>
-<li>Future technology development</li>
+<li><strong>Core Framework:</strong> Latest ${primaryTech} frameworks and libraries</li>
+<li><strong>Database Layer:</strong> Modern database solutions with optimal performance</li>
+<li><strong>API Design:</strong> RESTful and GraphQL APIs for flexible integration</li>
+<li><strong>Testing Suite:</strong> Comprehensive testing frameworks for reliability</li>
+<li><strong>Deployment:</strong> Cloud-native deployment with CI/CD pipelines</li>
 </ul>
 </div>
 
-<h2>Technical Implications</h2>
-<p>The technical aspects of ${title} reveal important insights about modern technology implementation. Key considerations include:</p>
+<h2>Getting Started: A Step-by-Step Implementation Guide</h2>
+
+<p>Embarking on your journey with ${title} is straightforward, thanks to the project's well-documented setup process. Here's how you can get started:</p>
+
+<div class='code-block'>
+<strong>Step 1: Clone and Setup</strong>
+<pre>
+git clone https://github.com/example/${title.toLowerCase().replace(/\s+/g, '-')}
+cd ${title.toLowerCase().replace(/\s+/g, '-')}
+npm install
+</pre>
+
+<strong>Step 2: Configuration</strong>
+<pre>
+cp .env.example .env
+# Configure your environment variables
+npm run setup
+</pre>
+
+<strong>Step 3: Development</strong>
+<pre>
+npm run dev
+# Your application is now running on http://localhost:3000
+</pre>
+</div>
+
+<div class='tech-spec'>
+<h3>💡 Pro Tips for Development</h3>
+<p>When working with ${title}, consider these best practices:</p>
 <ul>
-<li>Scalability and performance optimization</li>
-<li>Security and data protection measures</li>
-<li>Integration with existing systems</li>
-<li>User adoption and training requirements</li>
+<li>Always review the documentation before diving into the codebase</li>
+<li>Join the community discussions for insights and support</li>
+<li>Contribute back to the project when you find improvements</li>
+<li>Stay updated with the latest releases and features</li>
+</ul>
+</div>
+
+<h2>Real-World Applications and Use Cases</h2>
+
+<p>${title} isn't just another ${primaryTech} project—it's a practical solution that addresses real-world development challenges. Here are some compelling use cases where this project shines:</p>
+
+<div class='benefits-list'>
+<h3>🎯 Primary Use Cases</h3>
+<ul>
+<li><strong>Enterprise Applications:</strong> Build scalable business solutions with enterprise-grade reliability</li>
+<li><strong>Startup MVPs:</strong> Rapidly prototype and deploy minimum viable products</li>
+<li><strong>Educational Platforms:</strong> Create learning management systems with modern UX</li>
+<li><strong>E-commerce Solutions:</strong> Develop robust online shopping experiences</li>
+<li><strong>API Services:</strong> Build and maintain high-performance backend services</li>
+</ul>
+</div>
+
+<h2>Performance and Scalability Considerations</h2>
+
+<p>One of the most impressive aspects of ${title} is its focus on performance and scalability. The project incorporates several optimization strategies that ensure your applications can handle growth and maintain responsiveness under load.</p>
+
+<p>Key performance features include:</p>
+<ul>
+<li><strong>Efficient Data Handling:</strong> Optimized algorithms for processing large datasets</li>
+<li><strong>Caching Strategies:</strong> Intelligent caching mechanisms for improved response times</li>
+<li><strong>Load Balancing:</strong> Built-in support for horizontal scaling</li>
+<li><strong>Resource Optimization:</strong> Minimal memory footprint and CPU usage</li>
+</ul>
+
+<h2>Community and Ecosystem</h2>
+
+<p>The success of ${title} is largely attributed to its vibrant community of developers, contributors, and users. The project maintains an active ecosystem that includes:</p>
+
+<ul>
+<li><strong>Regular Updates:</strong> Frequent releases with new features and improvements</li>
+<li><strong>Comprehensive Documentation:</strong> Detailed guides, tutorials, and API references</li>
+<li><strong>Community Support:</strong> Active forums, Discord channels, and GitHub discussions</li>
+<li><strong>Plugin Ecosystem:</strong> Rich collection of plugins and extensions</li>
+</ul>
+
+<h2>Future Roadmap and Development Plans</h2>
+
+<p>Looking ahead, ${title} has an exciting roadmap that promises to push the boundaries of ${primaryTech} development even further. The development team is committed to:</p>
+
+<ul>
+<li><strong>Enhanced Performance:</strong> Continued optimization for faster execution</li>
+<li><strong>New Features:</strong> Innovative capabilities based on community feedback</li>
+<li><strong>Better Integration:</strong> Seamless integration with popular development tools</li>
+<li><strong>Expanded Documentation:</strong> More tutorials, examples, and best practices</li>
+</ul>
+
+<div class='conclusion-box'>
+<h3>🎉 Conclusion: Why ${title} Matters</h3>
+<p>${title} represents more than just another ${primaryTech} project—it's a testament to the power of open-source collaboration and modern development practices. Whether you're a seasoned developer looking to enhance your skills or a newcomer to ${primaryTech} development, this project offers valuable insights and practical tools for building better software.</p>
+
+<p><strong>The future of ${primaryTech} development is here, and ${title} is leading the way.</strong></p>
+</div>
+
+<h2>Frequently Asked Questions (FAQ)</h2>
+
+<div class='faq-section'>
+<h3>What is ${title}?</h3>
+<p>${title} is a modern ${primaryTech} solution that provides developers with powerful tools and frameworks for building scalable, maintainable applications. It represents the latest advancements in ${primaryTech} development practices.</p>
+
+<h3>How do I get started with ${title}?</h3>
+<p>Getting started with ${title} is straightforward. Follow our step-by-step guide above, which covers installation, configuration, and basic usage examples. The project includes comprehensive documentation and community support.</p>
+
+<h3>What are the benefits of using ${title}?</h3>
+<p>${title} offers numerous benefits including improved performance, better developer experience, enhanced security, and seamless integration with modern development workflows. It's designed to scale from small projects to enterprise applications.</p>
+
+<h3>Is ${title} suitable for beginners?</h3>
+<p>Yes, ${title} is designed to be accessible to developers of all skill levels. While it offers advanced features for experienced developers, it also provides clear documentation and examples for beginners.</p>
+</div>
+
+<h2>Related Articles and Resources</h2>
+<p>Expand your knowledge with these related topics:</p>
+<ul>
+<li><a href="/blog/${primaryTech}-development-guide">Complete ${primaryTech} Development Guide</a></li>
+<li><a href="/blog/modern-web-development-trends">Modern Web Development Trends 2025</a></li>
+<li><a href="/blog/open-source-project-best-practices">Open Source Project Best Practices</a></li>
+<li><a href="/blog/software-architecture-patterns">Software Architecture Patterns</a></li>
+</ul>
+
+<h2>Conclusion: Master ${title} Today</h2>
+<p>${title} represents the future of ${primaryTech} development, offering powerful capabilities for building modern applications. By following this comprehensive guide, you'll be well-equipped to leverage ${title} effectively in your projects.</p>
+
+<p><strong>Ready to get started?</strong> Visit the <a href="https://github.com/example/${title.toLowerCase().replace(/\s+/g, '-')}" target="_blank" rel="noopener noreferrer">${title} repository</a> and join thousands of developers who are already building amazing applications with this powerful framework.</p>
+
+<!-- Additional SEO meta tags -->
+<meta name="keywords" content="${title.toLowerCase()}, ${primaryTech}, tutorial, guide, best practices, development, programming, 2025">
+<meta name="author" content="TechOrbitze">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="${title}: Complete Guide & Tutorial 2025">
+<meta property="og:description" content="Master ${title} with our comprehensive guide. Learn step-by-step tutorials, best practices, and real-world examples.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://techorbitze.com/blog/${title.toLowerCase().replace(/\s+/g, '-')}">
+<meta property="og:image" content="https://images.pexels.com/photos/1181271/pexels-photo-1181271.jpeg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${title}: Complete Guide & Tutorial 2025">
+<meta name="twitter:description" content="Master ${title} with our comprehensive guide. Learn step-by-step tutorials, best practices, and real-world examples.">
+</div>`;
+  }
+
+  private generateNewsFallbackContent(topic: any): string {
+    const title = topic.title.replace(': Latest Technology Insights and Analysis', '');
+    
+    // Extract technology keywords for better content
+    const techKeywords = this.extractTechKeywords(title);
+    const primaryTech = techKeywords[0] || 'technology';
+    const secondaryTech = techKeywords[1] || 'innovation';
+    
+    return `
+<style>
+.blog-content { 
+  max-width: 800px; 
+  margin: 0 auto; 
+  line-height: 1.6; 
+  font-family: Arial, sans-serif; 
+  color: #333;
+} 
+.tech-highlight { 
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+  color: white; 
+  padding: 25px; 
+  border-radius: 12px; 
+  margin: 30px 0; 
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+} 
+.feature-box { 
+  border: 2px solid #e1e5e9; 
+  padding: 20px; 
+  border-radius: 10px; 
+  background: #f8f9fa; 
+  margin: 25px 0; 
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+} 
+.tech-spec { 
+  background: #e3f2fd; 
+  padding: 15px; 
+  border-left: 4px solid #2196f3; 
+  margin: 20px 0; 
+  border-radius: 0 8px 8px 0;
+}
+.impact-analysis {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 25px 0;
+}
+.future-trends {
+  background: #d1ecf1;
+  border: 1px solid #bee5eb;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 25px 0;
+}
+.conclusion-box {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  padding: 25px;
+  border-radius: 12px;
+  margin: 30px 0;
+  text-align: center;
+}
+</style>
+
+<div class='blog-content'>
+<h1>${title}: Complete Analysis, Trends & Future Impact 2025</h1>
+
+<p><strong>TL;DR:</strong> Discover the complete analysis of ${title}, a groundbreaking development in ${primaryTech} that's reshaping industries and creating new opportunities. Learn about its impact, implementation strategies, and future implications for businesses and developers.</p>
+
+<!-- Schema.org structured data for better SEO -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "${title}: Complete Analysis & Future Impact",
+  "description": "Comprehensive analysis of ${title} and its impact on ${primaryTech} industry",
+  "image": "https://images.pexels.com/photos/1181271/pexels-photo-1181271.jpeg",
+  "author": {
+    "@type": "Organization",
+    "name": "TechOrbitze",
+    "url": "https://techorbitze.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "TechOrbitze",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://techorbitze.com/logo.png"
+    }
+  },
+  "datePublished": "${new Date().toISOString()}",
+  "dateModified": "${new Date().toISOString()}",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://techorbitze.com/blog/${title.toLowerCase().replace(/\s+/g, '-')}"
+  },
+  "keywords": "${title.toLowerCase()}, ${primaryTech}, analysis, trends, 2025, technology, innovation"
+}
+</script>
+
+<h2>Introduction: The ${primaryTech} Revolution</h2>
+
+<p>In today's rapidly evolving digital landscape, ${title} has emerged as a significant milestone that reflects the ongoing transformation in ${primaryTech} development and implementation. This development represents more than just a technological advancement—it's a paradigm shift that is reshaping how organizations approach innovation, efficiency, and competitive advantage.</p>
+
+<p>The significance of ${title} extends beyond its immediate technical implications. It represents a broader trend in the ${primaryTech} industry, where innovation is not just about creating new tools, but about fundamentally changing how we think about and implement technology solutions.</p>
+
+<div class='tech-highlight'>
+<h3>🚀 Key Developments and Implications</h3>
+<ul>
+<li><strong>Innovation Acceleration:</strong> Rapid advancement in ${primaryTech} capabilities and applications</li>
+<li><strong>Market Transformation:</strong> Significant impact on industry standards and competitive dynamics</li>
+<li><strong>Developer Empowerment:</strong> New tools and frameworks for building better solutions</li>
+<li><strong>Business Evolution:</strong> Opportunities for organizations to gain competitive advantages</li>
+<li><strong>User Experience Enhancement:</strong> Improved interfaces and interaction models</li>
+</ul>
+</div>
+
+<h2>Current State Analysis: Understanding the ${primaryTech} Landscape</h2>
+
+<p>${title} provides a clear window into the current state of ${primaryTech} development and its trajectory. The development showcases how modern technology solutions are addressing real-world challenges while creating new opportunities for innovation and growth.</p>
+
+<div class='feature-box'>
+<h3>🏗️ Technical Architecture and Implementation</h3>
+<p>This development leverages several key technological components:</p>
+<ul>
+<li><strong>Scalable Infrastructure:</strong> Built to handle growing demands and user bases</li>
+<li><strong>Modern Frameworks:</strong> Utilizes cutting-edge ${primaryTech} tools and methodologies</li>
+<li><strong>Security-First Design:</strong> Implements robust security measures and best practices</li>
+<li><strong>Performance Optimization:</strong> Designed for speed, efficiency, and reliability</li>
+<li><strong>Integration Capabilities:</strong> Seamlessly connects with existing systems and platforms</li>
+</ul>
+</div>
+
+<h2>Market Impact and Industry Transformation</h2>
+
+<p>The impact of ${title} extends far beyond the technical realm, influencing how businesses operate, compete, and deliver value to their customers. This development is reshaping industry standards and creating new opportunities for organizations across various sectors.</p>
+
+<div class='impact-analysis'>
+<h3>📊 Business and Market Implications</h3>
+<p>The development has significant implications for:</p>
+<ul>
+<li><strong>Competitive Advantage:</strong> Organizations can leverage this technology to differentiate themselves</li>
+<li><strong>Operational Efficiency:</strong> Streamlined processes and improved productivity</li>
+<li><strong>Customer Experience:</strong> Enhanced user interfaces and interaction models</li>
+<li><strong>Innovation Opportunities:</strong> New possibilities for product and service development</li>
+<li><strong>Market Positioning:</strong> Strategic advantages in rapidly evolving industries</li>
+</ul>
+</div>
+
+<h2>Technical Deep Dive: Implementation and Best Practices</h2>
+
+<p>Understanding the technical aspects of ${title} is crucial for organizations looking to leverage this development effectively. The implementation involves several key considerations that can determine the success of adoption and integration efforts.</p>
+
+<p>Key technical considerations include:</p>
+<ul>
+<li><strong>Scalability Planning:</strong> Ensuring the solution can grow with business needs</li>
+<li><strong>Security Implementation:</strong> Protecting data and maintaining compliance</li>
+<li><strong>Performance Optimization:</strong> Maximizing speed and efficiency</li>
+<li><strong>Integration Strategy:</strong> Connecting with existing systems and workflows</li>
+<li><strong>User Adoption:</strong> Ensuring smooth transition and training processes</li>
 </ul>
 
 <div class='tech-spec'>
-<h3>Implementation Considerations</h3>
-<p>Organizations looking to leverage this technology should consider factors such as infrastructure requirements, training needs, and integration strategies. Proper planning and execution are essential for successful implementation.</p>
+<h3>💡 Implementation Best Practices</h3>
+<p>Organizations considering adoption should focus on:</p>
+<ul>
+<li>Comprehensive planning and strategy development</li>
+<li>Thorough testing and validation processes</li>
+<li>Staff training and change management</li>
+<li>Ongoing monitoring and optimization</li>
+<li>Continuous improvement and iteration</li>
+</ul>
 </div>
 
-<h2>Future Trends</h2>
-<p>Looking ahead, ${title} suggests several trends in technology development:</p>
+<h2>Future Trends and Predictions</h2>
+
+<p>Looking ahead, ${title} suggests several important trends that will shape the future of ${primaryTech} development and implementation. Understanding these trends is crucial for organizations planning their technology roadmaps and strategic initiatives.</p>
+
+<div class='future-trends'>
+<h3>🔮 Emerging Trends and Predictions</h3>
+<p>The development points to several key trends:</p>
 <ul>
-<li>Increased focus on user experience</li>
-<li>Enhanced automation and efficiency</li>
-<li>Improved accessibility and inclusivity</li>
-<li>Greater integration across platforms</li>
+<li><strong>Increased Automation:</strong> More sophisticated automated processes and workflows</li>
+<li><strong>Enhanced User Experience:</strong> More intuitive and personalized interfaces</li>
+<li><strong>Greater Integration:</strong> Seamless connectivity across platforms and systems</li>
+<li><strong>Improved Accessibility:</strong> Technology that works for diverse user needs</li>
+<li><strong>Sustainable Development:</strong> Environmentally conscious technology solutions</li>
+</ul>
+</div>
+
+<h2>Industry Applications and Use Cases</h2>
+
+<p>The versatility of ${title} makes it applicable across various industries and use cases. From healthcare to finance, education to entertainment, this development offers opportunities for innovation and improvement in numerous sectors.</p>
+
+<p>Key industry applications include:</p>
+<ul>
+<li><strong>Healthcare:</strong> Improved patient care and medical technology</li>
+<li><strong>Finance:</strong> Enhanced security and transaction processing</li>
+<li><strong>Education:</strong> Better learning platforms and tools</li>
+<li><strong>Entertainment:</strong> More immersive and interactive experiences</li>
+<li><strong>Manufacturing:</strong> Optimized production processes and quality control</li>
 </ul>
 
-<h2>Industry Impact</h2>
-<p>The impact of ${title} extends across multiple industries, offering opportunities for:</p>
+<h2>Challenges and Considerations</h2>
+
+<p>While ${title} offers significant opportunities, it also presents challenges that organizations must address to ensure successful implementation and adoption. Understanding these challenges is crucial for developing effective strategies and mitigation plans.</p>
+
+<p>Key challenges include:</p>
 <ul>
-<li>Enhanced productivity and efficiency</li>
-<li>Improved customer experiences</li>
-<li>New business models and opportunities</li>
-<li>Competitive advantages in the market</li>
+<li><strong>Implementation Complexity:</strong> Managing the technical and organizational changes</li>
+<li><strong>Cost Considerations:</strong> Balancing investment with expected returns</li>
+<li><strong>Security Concerns:</strong> Protecting against new vulnerabilities and threats</li>
+<li><strong>User Adoption:</strong> Ensuring smooth transition and acceptance</li>
+<li><strong>Regulatory Compliance:</strong> Meeting legal and industry requirements</li>
 </ul>
 
-<h2>Conclusion</h2>
-<p>${title} represents an important milestone in technology development, offering valuable insights into current trends and future possibilities. As the technology landscape continues to evolve, developments like this will play a crucial role in shaping the future of digital innovation.</p>
+<div class='conclusion-box'>
+<h3>🎉 Conclusion: The Future of ${primaryTech} Innovation</h3>
+<p>${title} represents more than just a technological advancement—it's a catalyst for broader transformation in how we approach ${primaryTech} development and implementation. As organizations continue to navigate the rapidly evolving digital landscape, developments like this will play a crucial role in shaping the future of innovation and competitive advantage.</p>
+
+<p><strong>The future of ${primaryTech} is here, and ${title} is leading the way toward a more innovative, efficient, and connected world.</strong></p>
+</div>
+
+<p>As we continue to witness the rapid evolution of ${primaryTech}, developments like ${title} remind us of the incredible potential for innovation and transformation. The key to success lies not just in adopting new technologies, but in understanding how to leverage them effectively to create value and drive positive change.</p>
 </div>`;
   }
 
@@ -1032,6 +1367,180 @@ Write the blog using the system instructions. Focus on providing in-depth techni
     return 'technology programming';
   }
 
+  private extractTechKeywords(text: string): string[] {
+    const techTerms = [
+      'javascript', 'typescript', 'react', 'vue', 'angular', 'node', 'python', 'java', 'c++', 'c#', 'php', 'ruby', 'go', 'rust', 'swift', 'kotlin', 'dart', 'flutter', 'react native', 'next.js', 'nuxt.js', 'express', 'django', 'flask', 'spring', 'laravel', 'rails', 'asp.net', 'graphql', 'rest', 'api', 'database', 'mongodb', 'postgresql', 'mysql', 'redis', 'elasticsearch', 'docker', 'kubernetes', 'aws', 'azure', 'gcp', 'cloud', 'devops', 'ci/cd', 'git', 'github', 'gitlab', 'bitbucket', 'agile', 'scrum', 'kanban', 'tdd', 'bdd', 'microservices', 'serverless', 'blockchain', 'cryptocurrency', 'bitcoin', 'ethereum', 'smart contracts', 'ai', 'machine learning', 'deep learning', 'neural networks', 'tensorflow', 'pytorch', 'scikit-learn', 'opencv', 'nlp', 'computer vision', 'data science', 'big data', 'hadoop', 'spark', 'kafka', 'elastic', 'logstash', 'kibana', 'prometheus', 'grafana', 'jenkins', 'travis', 'circleci', 'github actions', 'gitlab ci', 'terraform', 'ansible', 'puppet', 'chef', 'vagrant', 'virtualbox', 'vmware', 'hyper-v', 'kubernetes', 'docker swarm', 'rancher', 'istio', 'linkerd', 'consul', 'etcd', 'zookeeper', 'nginx', 'apache', 'haproxy', 'traefik', 'envoy', 'istio', 'linkerd', 'consul', 'etcd', 'zookeeper', 'redis', 'memcached', 'varnish', 'cloudflare', 'fastly', 'akamai', 'aws cloudfront', 'azure cdn', 'google cloud cdn', 'heroku', 'vercel', 'netlify', 'firebase', 'supabase', 'appwrite', 'strapi', 'sanity', 'contentful', 'prismic', 'dato', 'ghost', 'wordpress', 'drupal', 'joomla', 'magento', 'shopify', 'woocommerce', 'prestashop', 'opencart', 'oscommerce', 'zen cart', 'x-cart', 'cubecart', 'abantecart', 'loaded commerce', 'cre loaded'
+    ];
+    
+    const foundTerms = [];
+    const lowerText = text.toLowerCase();
+    
+    for (const term of techTerms) {
+      if (lowerText.includes(term)) {
+        foundTerms.push(term);
+      }
+    }
+    
+    // Return up to 3 most relevant terms
+    return foundTerms.slice(0, 3);
+  }
+
+  private generateSEOKeywords(title: string, content: string, tags: string[]): string[] {
+    // Extract keywords from title and content
+    const titleWords = title.toLowerCase().split(' ').filter(word => word.length > 3);
+    const contentWords = content.toLowerCase().split(' ').filter(word => word.length > 3);
+    
+    // Common SEO keywords for tech content
+    const seoKeywords = [
+      'tutorial', 'guide', 'complete guide', 'step by step', 'how to',
+      'best practices', 'examples', 'implementation', 'development',
+      'programming', 'coding', 'software', 'technology', 'tech',
+      '2025', 'latest', 'modern', 'advanced', 'beginner', 'expert',
+      'comprehensive', 'detailed', 'practical', 'real-world', 'hands-on',
+      'learn', 'master', 'understand', 'explore', 'discover'
+    ];
+    
+    // Combine all keywords
+    const allKeywords = [
+      ...titleWords,
+      ...contentWords.slice(0, 20), // Take first 20 content words
+      ...tags,
+      ...seoKeywords
+    ];
+    
+    // Remove duplicates and limit to 15 keywords
+    const uniqueKeywords = [...new Set(allKeywords)].slice(0, 15);
+    
+    return uniqueKeywords;
+  }
+
+  private generateHeroImageAlt(title: string, technology: string): string {
+    // Generate SEO-optimized alt text for hero images
+    const altTexts = [
+      `${title} - Complete ${technology} Tutorial and Guide 2025`,
+      `${title} - Step-by-Step ${technology} Development Guide`,
+      `${title} - Master ${technology} with Best Practices and Examples`,
+      `${title} - Comprehensive ${technology} Implementation Tutorial`,
+      `${title} - Learn ${technology} Development from Beginner to Expert`,
+      `${title} - Modern ${technology} Development Techniques and Strategies`,
+      `${title} - Advanced ${technology} Programming Guide with Examples`,
+      `${title} - Professional ${technology} Development Best Practices`
+    ];
+    
+    // Use title hash to select a consistent alt text for each title
+    const hash = title.split('').reduce((a, b) => {
+      a = ((a << 5) - a) + b.charCodeAt(0);
+      return a & a;
+    }, 0);
+    
+    const index = Math.abs(hash) % altTexts.length;
+    return altTexts[index];
+  }
+
+  private generateNewsSEOKeywords(title: string, content: string, tags: string[]): string[] {
+    // Extract keywords from title and content for news articles
+    const titleWords = title.toLowerCase().split(' ').filter(word => word.length > 3);
+    const contentWords = content.toLowerCase().split(' ').filter(word => word.length > 3);
+    
+    // Common SEO keywords for news content
+    const newsSEOKeywords = [
+      'analysis', 'trends', 'future', 'impact', 'technology', 'innovation',
+      'latest', 'breaking', 'news', 'update', 'development', 'industry',
+      'market', 'business', 'startup', 'funding', 'investment', 'research',
+      'study', 'report', 'insights', 'predictions', 'forecast', '2025',
+      'digital', 'transformation', 'disruption', 'emerging', 'cutting-edge'
+    ];
+    
+    // Combine all keywords
+    const allKeywords = [
+      ...titleWords,
+      ...contentWords.slice(0, 20), // Take first 20 content words
+      ...tags,
+      ...newsSEOKeywords
+    ];
+    
+    // Remove duplicates and limit to 15 keywords
+    const uniqueKeywords = [...new Set(allKeywords)].slice(0, 15);
+    
+    return uniqueKeywords;
+  }
+
+  private generateNewsHeroImageAlt(title: string, technology: string): string {
+    // Generate SEO-optimized alt text for news hero images
+    const altTexts = [
+      `${title} - Latest ${technology} Analysis and Trends 2025`,
+      `${title} - Breaking ${technology} News and Industry Impact`,
+      `${title} - Comprehensive ${technology} Market Analysis`,
+      `${title} - Future of ${technology} - Trends and Predictions`,
+      `${title} - ${technology} Innovation and Development Insights`,
+      `${title} - Industry Analysis: ${technology} Market Trends`,
+      `${title} - ${technology} Technology Impact and Future Outlook`,
+      `${title} - Latest ${technology} Developments and Industry News`
+    ];
+    
+    // Use title hash to select a consistent alt text for each title
+    const hash = title.split('').reduce((a, b) => {
+      a = ((a << 5) - a) + b.charCodeAt(0);
+      return a & a;
+    }, 0);
+    
+    const index = Math.abs(hash) % altTexts.length;
+    return altTexts[index];
+  }
+
+  private truncateTitle(title: string, maxLength: number): string {
+    // Truncate title to fit SEO requirements
+    if (title.length <= maxLength) {
+      return title;
+    }
+    
+    // Try to truncate at word boundaries
+    const words = title.split(' ');
+    let truncated = '';
+    
+    for (const word of words) {
+      if ((truncated + ' ' + word).length <= maxLength) {
+        truncated += (truncated ? ' ' : '') + word;
+      } else {
+        break;
+      }
+    }
+    
+    // If still too long, truncate with ellipsis
+    if (truncated.length === 0) {
+      return title.substring(0, maxLength - 3) + '...';
+    }
+    
+    return truncated;
+  }
+
+  private generateOptimizedDescription(title: string, maxLength: number): string {
+    // Generate SEO-optimized description within character limit
+    const baseDescription = `Master ${title.toLowerCase()} with our comprehensive guide. Learn tutorials, best practices, and implementation strategies.`;
+    
+    if (baseDescription.length <= maxLength) {
+      return baseDescription;
+    }
+    
+    // Try shorter variations
+    const variations = [
+      `Learn ${title.toLowerCase()} with step-by-step tutorials and best practices.`,
+      `Master ${title.toLowerCase()} development with comprehensive guides and examples.`,
+      `Complete guide to ${title.toLowerCase()} with tutorials and implementation tips.`,
+      `${title} tutorial: Learn development best practices and strategies.`,
+      `Master ${title.toLowerCase()} with expert tutorials and practical examples.`
+    ];
+    
+    for (const variation of variations) {
+      if (variation.length <= maxLength) {
+        return variation;
+      }
+    }
+    
+    // Fallback: truncate the base description
+    return baseDescription.substring(0, maxLength - 3) + '...';
+  }
+
   async generateHeroImage(title: string): Promise<string> {
     try {
       // Use Pexels API to get a unique image based on the title
@@ -1178,13 +1687,13 @@ Write the blog using the system instructions. Focus on providing in-depth techni
           title: blogPost.title,
           slug: blogPost.slug,
           content: blogPost.content,
-          excerpt: blogPost.metaDescription,
+          excerpt: blogPost.excerpt || blogPost.metaDescription,
           status: 'PUBLISHED',
           authorId: author.id,
           publishedAt: new Date(blogPost.publishedAt),
           coverImage: blogPost.heroImage,
           showcaseImage: blogPost.heroImage,
-          seoDescription: blogPost.metaDescription, // Use seoDescription instead of metaDescription
+          seoDescription: blogPost.seoDescription || blogPost.metaDescription,
           readingTime: readingTime,
           categoryIds: validCategoryIds,
           tagIds: tagRecords.map(tag => tag.id)
