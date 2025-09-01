@@ -47,7 +47,7 @@ class AIBlogGenerator {
 
     this.stabilityApiKey = process.env.STABILITY_API_KEY!;
     this.pexelsApiKey = process.env.PEXELS_API_KEY!;
-    this.wpBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://techorbitze.com';
+    this.wpBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://techonigx.com';
     this.wpUser = 'ai-generator';
     this.wpAppPassword = 'not-used';
   }
@@ -604,15 +604,15 @@ class AIBlogGenerator {
   "image": "https://images.pexels.com/photos/1181271/pexels-photo-1181271.jpeg",
   "author": {
     "@type": "Organization",
-    "name": "TechOrbitze",
-    "url": "https://techorbitze.com"
+    "name": "TechOnigx",
+    "url": "https://techonigx.com"
   },
   "publisher": {
     "@type": "Organization",
-    "name": "TechOrbitze",
+    "name": "TechOnigx",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://techorbitze.com/logo.png"
+      "url": "https://techonigx.com/logo.png"
     }
   },
   "datePublished": "${new Date().toISOString()}",
@@ -800,12 +800,12 @@ npm run dev
 
 <!-- Additional SEO meta tags -->
 <meta name="keywords" content="${title.toLowerCase()}, ${primaryTech}, tutorial, guide, best practices, development, programming, 2025">
-<meta name="author" content="TechOrbitze">
+<meta name="author" content="TechOnigx">
 <meta name="robots" content="index, follow">
 <meta property="og:title" content="${title}: Complete Guide & Tutorial 2025">
 <meta property="og:description" content="Master ${title} with our comprehensive guide. Learn step-by-step tutorials, best practices, and real-world examples.">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://techorbitze.com/blog/${title.toLowerCase().replace(/\s+/g, '-')}">
+<meta property="og:url" content="https://techonigx.com/blog/${title.toLowerCase().replace(/\s+/g, '-')}">
 <meta property="og:image" content="https://images.pexels.com/photos/1181271/pexels-photo-1181271.jpeg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${title}: Complete Guide & Tutorial 2025">
@@ -892,22 +892,22 @@ npm run dev
   "image": "https://images.pexels.com/photos/1181271/pexels-photo-1181271.jpeg",
   "author": {
     "@type": "Organization",
-    "name": "TechOrbitze",
-    "url": "https://techorbitze.com"
+    "name": "TechOnigx",
+    "url": "https://techonigx.com"
   },
   "publisher": {
     "@type": "Organization",
-    "name": "TechOrbitze",
+    "name": "TechOnigx",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://techorbitze.com/logo.png"
+      "url": "https://techonigx.com/logo.png"
     }
   },
   "datePublished": "${new Date().toISOString()}",
   "dateModified": "${new Date().toISOString()}",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://techorbitze.com/blog/${title.toLowerCase().replace(/\s+/g, '-')}"
+    "@id": "https://techonigx.com/blog/${title.toLowerCase().replace(/\s+/g, '-')}"
   },
   "keywords": "${title.toLowerCase()}, ${primaryTech}, analysis, trends, 2025, technology, innovation"
 }
@@ -1875,13 +1875,13 @@ Return only the description text.`;
 
       // Get or create AI author
       let author = await prisma.user.findUnique({
-        where: { email: 'ai@techorbitze.com' }
+        where: { email: 'ai@techonigx.com' }
       });
 
       if (!author) {
         author = await prisma.user.create({
           data: {
-            email: 'ai@techorbitze.com',
+            email: 'ai@techonigx.com',
             name: 'AI Blog Generator',
             role: 'ADMIN'
           }

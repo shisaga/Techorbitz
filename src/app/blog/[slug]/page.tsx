@@ -46,22 +46,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     if (!post) {
       return {
-        title: 'Post Not Found | TechOrbitze',
+        title: 'Post Not Found | TechOnigx',
         description: 'The blog post you are looking for could not be found.',
       };
     }
 
-    const baseUrl = 'https://techorbitze.com';
+    const baseUrl = 'https://techonigx.com';
     const postUrl = `${baseUrl}/blog/${slug}`;
     const imageUrl = post.coverImage || `${baseUrl}/og-blog-default.jpg`;
 
     return {
-      title: `${post.seoTitle || post.title} | TechOrbitze`,
+      title: `${post.seoTitle || post.title} | TechOnigx`,
       description: post.seoDescription || post.excerpt || '',
-      keywords: `${post.title}, technology, web development, AI, cloud computing, IoT, Fortune 500, TechOrbitze`,
-      authors: [{ name: post.author.name || 'TechOrbitze' }],
-      creator: post.author.name || 'TechOrbitze',
-      publisher: 'TechOrbitze',
+      keywords: `${post.title}, technology, web development, AI, cloud computing, IoT, Fortune 500, TechOnigx`,
+      authors: [{ name: post.author.name || 'TechOnigx' }],
+      creator: post.author.name || 'TechOnigx',
+      publisher: 'TechOnigx',
       
       openGraph: {
         type: 'article',
@@ -69,10 +69,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         url: postUrl,
         title: post.seoTitle || post.title,
         description: post.seoDescription || post.excerpt || '',
-        siteName: 'TechOrbitze Tech Blog',
+        siteName: 'TechOnigx Tech Blog',
         publishedTime: post.publishedAt?.toISOString(),
         modifiedTime: post.updatedAt.toISOString(),
-        authors: [post.author.name || 'TechOrbitze'],
+        authors: [post.author.name || 'TechOnigx'],
         images: [
           {
             url: imageUrl,
@@ -87,7 +87,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         card: 'summary_large_image',
         title: post.seoTitle || post.title,
         description: post.seoDescription || post.excerpt || '',
-        creator: '@techorbitze',
+        creator: '@techonigx',
         images: [imageUrl]
       },
 
@@ -98,7 +98,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   } catch (error) {
     console.error('Error generating metadata:', error);
     return {
-      title: 'TechOrbitze Tech Blog',
+      title: 'TechOnigx Tech Blog',
       description: 'Latest insights on technology and innovation.',
     };
   }

@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     console.log('Generating metadata for:', resolvedParams.slug);
     return {
       title: 'Published Website',
-      description: 'Website created with TechOrbitze AI Website Builder',
+      description: 'Website created with TechOnigx AI Website Builder',
       robots: 'index, follow'
     };
   } catch {

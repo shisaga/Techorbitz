@@ -10,8 +10,8 @@ User-agent: GPTBot
 Disallow: /
 
 # Host
-Host: https://techorbitze.com
+Host: https://techonigx.com
 
 # Sitemaps
-Sitemap: https://techorbitze.com/sitemap.xml
-Sitemap: https://techorbitze.com/rss.xml
+Sitemap: https://techonigx.com/sitemap.xml
+Sitemap: https://techonigx.com/rss.xml

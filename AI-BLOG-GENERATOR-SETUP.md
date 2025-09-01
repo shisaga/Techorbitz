@@ -28,7 +28,7 @@ NEWSAPI_KEY=nn-XXXXXXXXXXXX
 PEXELS_API_KEY=px-XXXXXXXXXXXX
 
 # Website configuration
-NEXT_PUBLIC_SITE_URL=https://techorbitze.com
+NEXT_PUBLIC_SITE_URL=https://techonigx.com
 
 # Scheduling
 POSTS_PER_DAY=2

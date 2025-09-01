@@ -20,7 +20,7 @@ const nextConfig: NextConfig = {
 
   // Image optimization
   images: {
-    domains: ['ui-avatars.com', 'techorbitze.com'],
+    domains: ['ui-avatars.com', 'techonigx.com'],
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
     dangerouslyAllowSVG: true,

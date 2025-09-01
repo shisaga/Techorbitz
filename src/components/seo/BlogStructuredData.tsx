@@ -20,7 +20,7 @@ interface BlogStructuredDataProps {
 }
 
 export default function BlogStructuredData({ post }: BlogStructuredDataProps) {
-  const baseUrl = 'https://techorbitze.com';
+  const baseUrl = 'https://techonigx.com';
   const postUrl = `${baseUrl}/blog/${post.slug}`;
   const imageUrl = post.coverImage || `${baseUrl}/og-blog-default.jpg`;
 
@@ -41,13 +41,13 @@ export default function BlogStructuredData({ post }: BlogStructuredDataProps) {
     "dateModified": post.updatedAt || post.publishedAt,
     "author": {
       "@type": "Person",
-      "name": post.author.name || "TechOrbitze",
-      "description": post.author.bio || "Technology expert at TechOrbitze",
-      "url": `${baseUrl}/author/${(post.author.name || "TechOrbitze").toLowerCase().replace(/\s+/g, '-')}`
+      "name": post.author.name || "TechOnigx",
+      "description": post.author.bio || "Technology expert at TechOnigx",
+      "url": `${baseUrl}/author/${(post.author.name || "TechOnigx").toLowerCase().replace(/\s+/g, '-')}`
     },
     "publisher": {
       "@type": "Organization",
-      "name": "TechOrbitze",
+      "name": "TechOnigx",
       "logo": {
         "@type": "ImageObject",
         "url": `${baseUrl}/logo.png`,
@@ -134,7 +134,7 @@ export default function BlogStructuredData({ post }: BlogStructuredDataProps) {
   const websiteData = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "TechOrbitze",
+    "name": "TechOnigx",
     "url": baseUrl,
     "potentialAction": {
       "@type": "SearchAction",

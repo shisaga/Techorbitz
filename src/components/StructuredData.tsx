@@ -2,9 +2,9 @@ export default function StructuredData() {
   const organizationData = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "TechOrbitze",
-    "url": "https://techorbitze.com",
-    "logo": "https://techorbitze.com/logo.png",
+    "name": "TechOnigx",
+    "url": "https://techonigx.com",
+    "logo": "https://techonigx.com/logo.png",
     "description": "Leading technology solutions provider specializing in web development, mobile apps, AI/ML, AWS cloud services, IoT solutions, and database expertise.",
     "address": {
       "@type": "PostalAddress",
@@ -16,7 +16,7 @@ export default function StructuredData() {
       "@type": "ContactPoint",
       "telephone": "+1-555-123-4567",
       "contactType": "customer service",
-      "email": "hello@techorbitze.com"
+      "email": "hello@techonigx.com"
     },
     "sameAs": [
       "https://linkedin.com/company/techorbitze",
@@ -92,18 +92,18 @@ export default function StructuredData() {
   const websiteData = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "TechOrbitze",
-    "url": "https://techorbitze.com",
+    "name": "TechOnigx",
+    "url": "https://techonigx.com",
     "description": "Leading technology solutions provider for Fortune 500 companies",
     "publisher": {
       "@type": "Organization",
-      "name": "TechOrbitze"
+      "name": "TechOnigx"
     },
     "potentialAction": {
       "@type": "SearchAction",
       "target": {
         "@type": "EntryPoint",
-        "urlTemplate": "https://techorbitze.com/search?q={search_term_string}"
+        "urlTemplate": "https://techonigx.com/search?q={search_term_string}"
       },
       "query-input": "required name=search_term_string"
     }

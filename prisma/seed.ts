@@ -7,10 +7,10 @@ async function main() {
 
   // Create admin user
   const adminUser = await prisma.user.upsert({
-    where: { email: 'admin@techorbitze.com' },
+    where: { email: 'admin@techonigx.com' },
     update: {},
     create: {
-      email: 'admin@techorbitze.com',
+      email: 'admin@techonigx.com',
       name: 'Admin User',
       role: 'ADMIN',
       isVerified: true,
@@ -90,14 +90,14 @@ async function main() {
 
   // Create a sample blog post
   const samplePost = await prisma.post.upsert({
-    where: { slug: 'welcome-to-techorbitze' },
+    where: { slug: 'welcome-to-techonigx' },
     update: {},
     create: {
-      title: 'Welcome to TechOrbitze',
-      slug: 'welcome-to-techorbitze',
+      title: 'Welcome to TechOnigx',
+      slug: 'welcome-to-techonigx',
       excerpt: 'Your gateway to the latest in technology and web development',
       content: `
-        <h1>Welcome to TechOrbitze</h1>
+        <h1>Welcome to TechOnigx</h1>
         <p>Welcome to our platform where we share insights about technology, web development, and the latest trends in the digital world.</p>
         <h2>What We Cover</h2>
         <ul>
@@ -114,7 +114,7 @@ async function main() {
       categoryIds: [categories[0].id], // Technology category
       tagIds: [tags[0].id, tags[1].id], // JavaScript and React tags
       readingTime: 3,
-      seoTitle: 'Welcome to TechOrbitze - Technology Blog',
+      seoTitle: 'Welcome to TechOnigx - Technology Blog',
       seoDescription: 'Your gateway to the latest in technology and web development. Discover insights, tutorials, and trends.',
     },
   });

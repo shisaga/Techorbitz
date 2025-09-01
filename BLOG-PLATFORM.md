@@ -1,4 +1,4 @@
-# 🚀 TechOrbitze AI-Powered Blog Platform
+# 🚀 TechOnigx AI-Powered Blog Platform
 ## Better than Medium - Complete Implementation Guide
 
 ### 🌟 **Platform Overview**
@@ -503,4 +503,4 @@ Your AI-powered blog platform is now ready with:
 - **CMS Dashboard**: `http://localhost:3001/admin`
 - **Blog Editor**: `http://localhost:3001/admin/editor`
 
-This platform positions TechOrbitze as a technology leader with a world-class content platform that rivals and exceeds Medium's capabilities! 🎊
+This platform positions TechOnigx as a technology leader with a world-class content platform that rivals and exceeds Medium's capabilities! 🎊
