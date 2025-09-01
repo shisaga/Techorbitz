@@ -1182,6 +1182,7 @@ Write the blog using the system instructions. Focus on providing in-depth techni
           status: 'PUBLISHED',
           authorId: author.id,
           publishedAt: new Date(blogPost.publishedAt),
+          coverImage: blogPost.heroImage,
           showcaseImage: blogPost.heroImage,
           seoDescription: blogPost.metaDescription, // Use seoDescription instead of metaDescription
           readingTime: readingTime,
