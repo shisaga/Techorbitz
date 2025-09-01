@@ -72,7 +72,7 @@ const premiumBlogTopics = [
 
 async function generateImageWithStability(prompt, aspectRatio = "16:9") {
   try {
-    console.log(`🎨 Generating image: ${prompt.substring(0, 50)}...`);
+    console.log(`🎨 Generating image with Stability API: ${prompt.substring(0, 50)}...`);
     
     const stabilityApiKey = process.env.STABILITY_API_KEY;
     if (!stabilityApiKey) {
@@ -135,16 +135,84 @@ async function generateImageWithStability(prompt, aspectRatio = "16:9") {
       // Convert base64 to URL
       const imageUrl = `data:image/png;base64,${base64Image}`;
       
-      console.log(`✅ Image generated successfully`);
+      console.log(`✅ Stability API image generated successfully`);
       return imageUrl;
     } else {
       throw new Error('No image generated from Stability API');
     }
 
   } catch (error) {
-    console.error(`❌ Image generation failed: ${error.message}`);
-    // Return a fallback image URL
-    return 'https://images.pexels.com/photos/1181271/pexels-photo-1181271.jpeg';
+    console.error(`❌ Stability API failed: ${error.message}`);
+    console.log('🔄 Falling back to Pexels API...');
+    
+    // Fallback to Pexels API
+    try {
+      const pexelsApiKey = process.env.PEXELS_API_KEY;
+      if (!pexelsApiKey) {
+        throw new Error('PEXELS_API_KEY not found');
+      }
+
+      // Extract keywords from prompt for Pexels search
+      const searchTerms = prompt.toLowerCase()
+        .replace(/create a|stunning|modern|hero|banner|image|for|a|blog|titled|style|professional|high-quality|design|with|vibrant|colors|typography|visual|elements|that|represent|ai|and|technology|include|space|text|overlay|aspect|ratio|make|visually|striking|brand-friendly/g, '')
+        .replace(/create|square|social|media|card|post|about|eye-catching|bold|clean|icons|graphics|highly|shareable|engaging/g, '')
+        .trim()
+        .split(' ')
+        .filter(word => word.length > 3)
+        .slice(0, 3)
+        .join(' ');
+
+      const pexelsResponse = await fetch(`https://api.pexels.com/v1/search?query=${encodeURIComponent(searchTerms + ' technology AI')}&per_page=1`, {
+        headers: {
+          'Authorization': pexelsApiKey
+        }
+      });
+
+      if (!pexelsResponse.ok) {
+        throw new Error(`Pexels API error: ${pexelsResponse.status}`);
+      }
+
+      const pexelsData = await pexelsResponse.json();
+      
+      if (pexelsData.photos && pexelsData.photos.length > 0) {
+        const photo = pexelsData.photos[0];
+        const imageUrl = photo.src.large;
+        
+        console.log(`✅ Pexels fallback image found: ${imageUrl}`);
+        return imageUrl;
+      } else {
+        throw new Error('No images found in Pexels');
+      }
+
+    } catch (pexelsError) {
+      console.error(`❌ Pexels fallback failed: ${pexelsError.message}`);
+      
+      // Final fallback to static images
+      const fallbackImages = [
+        'https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg',
+        'https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg',
+        'https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg',
+        'https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg',
+        'https://images.pexels.com/photos/3183153/pexels-photo-3183153.jpeg',
+        'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg',
+        'https://images.pexels.com/photos/3184296/pexels-photo-3184296.jpeg',
+        'https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg',
+        'https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg',
+        'https://images.pexels.com/photos/3184340/pexels-photo-3184340.jpeg'
+      ];
+      
+      // Use prompt hash to select a consistent but different image
+      const hash = prompt.split('').reduce((a, b) => {
+        a = ((a << 5) - a) + b.charCodeAt(0);
+        return a & a;
+      }, 0);
+      
+      const index = Math.abs(hash) % fallbackImages.length;
+      const fallbackUrl = fallbackImages[index];
+      
+      console.log(`✅ Using static fallback image: ${fallbackUrl}`);
+      return fallbackUrl;
+    }
   }
 }
 
@@ -596,7 +664,7 @@ Return ONLY the JSON object, no other text`;
         readingTime: 12,
         seoTitle: parsedPost.title,
         seoDescription: parsedPost.description,
-        heroImage: coverImage,
+        coverImage: coverImage,
         heroImageAlt: `${parsedPost.title} - Premium Cover Image`,
       }
     });
