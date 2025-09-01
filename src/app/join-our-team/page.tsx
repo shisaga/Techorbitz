@@ -623,7 +623,7 @@ export default function JoinOurTeamPage() {
               variants={fadeInUp}
               className="text-xl text-white/90 mb-8 max-w-3xl mx-auto"
             >
-              We'd love to chat! Schedule a call with our team to learn more about life at TechOrbitze.
+              We'd love to chat! Schedule a call with our team to learn more about life at TechOnigx.
             </motion.p>
             
             <motion.div

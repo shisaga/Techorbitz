@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
 export async function GET() {
-  const baseUrl = 'https://techorbitze.com';
+  const baseUrl = 'https://techonigx.com';
   
   try {
     const posts = await prisma.post.findMany({
@@ -26,7 +26,7 @@ export async function GET() {
         <link>${baseUrl}/blog/${post.slug}</link>
         <guid>${baseUrl}/blog/${post.slug}</guid>
         <pubDate>${post.publishedAt?.toUTCString()}</pubDate>
-        <author>hello@techorbitze.com (${post.author.name})</author>
+        <author>hello@techonigx.com (${post.author.name})</author>
         <category><![CDATA[Technology]]></category>
       </item>
     `).join('');
@@ -34,14 +34,14 @@ export async function GET() {
     const rssXml = `<?xml version="1.0" encoding="UTF-8"?>
     <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
       <channel>
-        <title>TechOrbitze Tech Blog</title>
-        <description>Latest insights on technology, development, AI, cloud computing, and innovation from TechOrbitze experts.</description>
+            <title>TechOnigx Tech Blog</title>
+    <description>Latest insights on technology, development, AI, cloud computing, and innovation from TechOnigx experts.</description>
         <link>${baseUrl}/blog</link>
         <language>en-us</language>
         <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
         <atom:link href="${baseUrl}/rss.xml" rel="self" type="application/rss+xml"/>
-        <managingEditor>hello@techorbitze.com (TechOrbitze Team)</managingEditor>
-        <webMaster>hello@techorbitze.com (TechOrbitze Team)</webMaster>
+            <managingEditor>hello@techonigx.com (TechOnigx Team)</managingEditor>
+    <webMaster>hello@techonigx.com (TechOnigx Team)</webMaster>
         <category>Technology</category>
         <category>Web Development</category>
         <category>AI & Machine Learning</category>
@@ -69,7 +69,7 @@ export async function GET() {
     const basicRss = `<?xml version="1.0" encoding="UTF-8"?>
     <rss version="2.0">
       <channel>
-        <title>TechOrbitze Tech Blog</title>
+        <title>TechOnigx Tech Blog</title>
         <description>Latest insights on technology and innovation</description>
         <link>${baseUrl}/blog</link>
         <language>en-us</language>

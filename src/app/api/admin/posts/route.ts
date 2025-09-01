@@ -194,14 +194,14 @@ export async function POST(request: NextRequest) {
     let finalAuthorId = authorId;
     if (!authorId || authorId === '1' || authorId === '507f1f77bcf86cd799439011') {
       const adminUser = await prisma.user.upsert({
-        where: { email: 'admin@techorbitze.com' },
+        where: { email: 'admin@techonigx.com' },
         update: {},
         create: {
-          name: 'TechOrbitze Admin',
-          email: 'admin@techorbitze.com',
+          name: 'TechOnigx Admin',
+          email: 'admin@techonigx.com',
           role: 'ADMIN',
           isVerified: true,
-          bio: 'Administrator of TechOrbitze platform'
+          bio: 'Administrator of TechOnigx platform'
         }
       });
       finalAuthorId = adminUser.id;

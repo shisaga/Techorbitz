@@ -25,22 +25,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     if (!post) {
       return {
-        title: 'Post Not Found | TechOrbitze',
+        title: 'Post Not Found | TechOnigx',
         description: 'The blog post you are looking for could not be found.',
       };
     }
 
-    const baseUrl = 'https://techorbitze.com';
+    const baseUrl = 'https://techonigx.com';
     const postUrl = `${baseUrl}/blog/${slug}`;
     const imageUrl = post.coverImage || `${baseUrl}/og-blog-default.jpg`;
 
     return {
-      title: `${post.seoTitle || post.title} | TechOrbitze Tech Blog`,
-      description: post.seoDescription || post.excerpt || `Read ${post.title} by ${post.author.name} on TechOrbitze's tech blog.`,
-      keywords: `${post.title}, technology blog, web development, AI, cloud computing, IoT, Fortune 500, TechOrbitze, ${post.author.name}`,
-      authors: [{ name: post.author.name || 'TechOrbitze' }],
-      creator: post.author.name || 'TechOrbitze',
-      publisher: 'TechOrbitze',
+      title: `${post.seoTitle || post.title} | TechOnigx Tech Blog`,
+      description: post.seoDescription || post.excerpt || `Read ${post.title} by ${post.author.name} on TechOnigx's tech blog.`,
+      keywords: `${post.title}, technology blog, web development, AI, cloud computing, IoT, Fortune 500, TechOnigx, ${post.author.name}`,
+      authors: [{ name: post.author.name || 'TechOnigx' }],
+      creator: post.author.name || 'TechOnigx',
+      publisher: 'TechOnigx',
       robots: 'index, follow',
       
       // Open Graph
@@ -50,10 +50,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         url: postUrl,
         title: post.seoTitle || post.title,
         description: post.seoDescription || post.excerpt || '',
-        siteName: 'TechOrbitze Tech Blog',
+        siteName: 'TechOnigx Tech Blog',
         publishedTime: post.publishedAt?.toISOString(),
         modifiedTime: post.updatedAt.toISOString(),
-        authors: [post.author.name || 'TechOrbitze'],
+                  authors: [post.author.name || 'TechOnigx'],
         section: 'Technology',
         tags: ['Technology', 'Web Development', 'AI', 'Cloud Computing', 'IoT'],
         images: [
@@ -72,8 +72,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         card: 'summary_large_image',
         title: post.seoTitle || post.title,
         description: post.seoDescription || post.excerpt || '',
-        creator: '@techorbitze',
-        site: '@techorbitze',
+        creator: '@techonigx',
+        site: '@techonigx',
         images: [
           {
             url: imageUrl,
@@ -92,7 +92,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
       // Schema.org structured data will be added in the component
       other: {
-        'article:author': post.author.name || 'TechOrbitze',
+                  'article:author': post.author.name || 'TechOnigx',
         'article:published_time': post.publishedAt?.toISOString() || '',
         'article:modified_time': post.updatedAt.toISOString(),
         'article:section': 'Technology',
@@ -103,7 +103,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   } catch (error) {
     console.error('Error generating metadata:', error);
     return {
-      title: 'TechOrbitze Tech Blog',
+      title: 'TechOnigx Tech Blog',
       description: 'Latest insights on technology, development, and innovation.',
     };
   }

@@ -881,7 +881,7 @@ export default function BlogEditor() {
                   {title || 'Your Blog Title Here'}
                 </div>
                 <div className="text-green-600 text-sm mb-2">
-                  techorbitze.com/blog/{title ? title.toLowerCase().replace(/\s+/g, '-') : 'your-post-slug'}
+                  techonigx.com/blog/{title ? title.toLowerCase().replace(/\s+/g, '-') : 'your-post-slug'}
                 </div>
                 <div className="text-gray-600 text-sm line-clamp-2">
                   {excerpt || 'Your SEO description will appear here. Make it compelling and under 160 characters.'}

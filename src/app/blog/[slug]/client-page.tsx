@@ -250,12 +250,12 @@ export default function BlogPostClient({
             >
               <div className="flex items-center gap-3">
                 <img 
-                  src={`https://ui-avatars.com/api/?name=${encodeURIComponent(post.author.name || 'TechOrbitze')}&background=ff6b47&color=fff&size=40`}
-                  alt={post.author.name || 'TechOrbitze'}
+                          src={`https://ui-avatars.com/api/?name=${encodeURIComponent(post.author.name || 'TechOnigx')}&background=ff6b47&color=fff&size=40`}
+        alt={post.author.name || 'TechOnigx'}
                   className="w-10 h-10 rounded-full ring-2 ring-coral-primary/20"
                 />
                 <div>
-                  <div className="font-semibold text-gray-900">{post.author.name || 'TechOrbitze'}</div>
+                  <div className="font-semibold text-gray-900">{post.author.name || 'TechOnigx'}</div>
                   <div className="text-xs text-gray-500">Fortune 500 Expert</div>
                 </div>
               </div>
@@ -509,14 +509,14 @@ export default function BlogPostClient({
             >
               <div className="flex items-start gap-6">
                 <img 
-                  src={`https://ui-avatars.com/api/?name=${encodeURIComponent(post.author.name || 'TechOrbitze')}&background=ff6b47&color=fff&size=80`}
-                  alt={post.author.name || 'TechOrbitze'}
+                          src={`https://ui-avatars.com/api/?name=${encodeURIComponent(post.author.name || 'TechOnigx')}&background=ff6b47&color=fff&size=80`}
+        alt={post.author.name || 'TechOnigx'}
                   className="w-20 h-20 rounded-full flex-shrink-0 ring-4 ring-white shadow-lg"
                 />
                 <div className="flex-1">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3">{post.author.name || 'TechOrbitze'}</h3>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-3">{post.author.name || 'TechOnigx'}</h3>
                   <p className="text-gray-700 mb-4 text-lg leading-relaxed">
-                    {post.author.bio || 'Technology expert and thought leader at TechOrbitze, specializing in Fortune 500 solutions and cutting-edge innovations. Passionate about sharing insights that drive business transformation.'}
+                                          {post.author.bio || 'Technology expert and thought leader at TechOnigx, specializing in Fortune 500 solutions and cutting-edge innovations. Passionate about sharing insights that drive business transformation.'}
                   </p>
                   <div className="flex items-center gap-6 text-sm text-gray-600 mb-4">
                     <span className="font-medium">{post.author._count?.posts || 0} articles published</span>

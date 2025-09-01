@@ -238,7 +238,7 @@ export default function ProjectEstimationPage() {
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center gap-2">
                       <Mail className="w-4 h-4" />
-                      <span>hello@techorbitze.com</span>
+                      <span>hello@techonigx.com</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Phone className="w-4 h-4" />
@@ -272,7 +272,7 @@ export default function ProjectEstimationPage() {
               variants={fadeInUp}
               className="text-xl text-gray-600 max-w-3xl mx-auto"
             >
-              Join Google, Apple, and McDonald's in trusting TechOrbitze for mission-critical projects
+              Join Google, Apple, and McDonald's in trusting TechOnigx for mission-critical projects
             </motion.p>
           </motion.div>
 

@@ -4,43 +4,43 @@ import BlogPageClient from './client-page';
 
 // Enhanced metadata for blog listing page
 export const metadata: Metadata = {
-  title: 'Tech Blog - Latest Insights & Trends | TechOrbitze',
+  title: 'Tech Blog - Latest Insights & Trends | TechOnigx',
   description: 'Discover cutting-edge technology insights from Fortune 500 experts. Read about AI, cloud computing, IoT, database optimization, and breakthrough innovations that drive business success.',
-  keywords: 'tech blog, technology insights, AI articles, cloud computing, IoT solutions, Fortune 500 technology, web development, database optimization, enterprise solutions, TechOrbitze',
-  authors: [{ name: 'TechOrbitze Team' }],
-  creator: 'TechOrbitze',
-  publisher: 'TechOrbitze',
+  keywords: 'tech blog, technology insights, AI articles, cloud computing, IoT solutions, Fortune 500 technology, web development, database optimization, enterprise solutions, TechOnigx',
+  authors: [{ name: 'TechOnigx Team' }],
+  creator: 'TechOnigx',
+  publisher: 'TechOnigx',
   robots: 'index, follow',
   
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://techorbitze.com/blog',
-    title: 'Tech Blog - Latest Insights & Trends | TechOrbitze',
+    url: 'https://techonigx.com/blog',
+    title: 'Tech Blog - Latest Insights & Trends | TechOnigx',
     description: 'Expert insights on AI, cloud computing, IoT, and more from Fortune 500 technology consultants.',
-    siteName: 'TechOrbitze',
+    siteName: 'TechOnigx',
     images: [
       {
-        url: 'https://techorbitze.com/og-blog.jpg',
+        url: 'https://techonigx.com/og-blog.jpg',
         width: 1200,
         height: 630,
-        alt: 'TechOrbitze Tech Blog'
+        alt: 'TechOnigx Tech Blog'
       }
     ]
   },
   
   twitter: {
     card: 'summary_large_image',
-    title: 'Tech Blog - Latest Insights & Trends | TechOrbitze',
+    title: 'Tech Blog - Latest Insights & Trends | TechOnigx',
     description: 'Expert insights on AI, cloud computing, IoT, and more from Fortune 500 technology consultants.',
-    creator: '@techorbitze',
-    images: ['https://techorbitze.com/twitter-blog.jpg']
+    creator: '@techonigx',
+    images: ['https://techonigx.com/twitter-blog.jpg']
   },
   
   alternates: {
-    canonical: 'https://techorbitze.com/blog',
+    canonical: 'https://techonigx.com/blog',
     types: {
-      'application/rss+xml': 'https://techorbitze.com/rss.xml'
+              'application/rss+xml': 'https://techonigx.com/rss.xml'
     }
   }
 };

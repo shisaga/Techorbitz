@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import StructuredData from "@/components/StructuredData";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Analytics } from "@vercel/analytics/next";
+// import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 // Optimized fonts for performance and readability
@@ -23,32 +23,32 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TechOrbitze - Leading Technology Solutions & Development Partner",
-  description: "TechOrbitze provides cutting-edge technology solutions including web development, mobile apps, AI/ML, AWS cloud services, IoT solutions, and database expertise. We work with Google, Apple, McDonald's and other Fortune 500 companies. Expert hiring partner for affordable developer talent.",
+  title: "TechOnigx - Leading Technology Solutions & Development Partner",
+  description: "TechOnigx provides cutting-edge technology solutions including web development, mobile apps, AI/ML, AWS cloud services, IoT solutions, and database expertise. We work with Google, Apple, McDonald's and other Fortune 500 companies. Expert hiring partner for affordable developer talent.",
   keywords: "web development, mobile apps, AI development, AWS cloud services, IoT solutions, Oracle database, medical software, HIPAA compliance, hiring partner, developer recruitment, technology consulting, Fortune 500 clients",
-  authors: [{ name: "TechOrbitze Team" }],
-  creator: "TechOrbitze",
-  publisher: "TechOrbitze",
+      authors: [{ name: "TechOnigx Team" }],
+    creator: "TechOnigx",
+    publisher: "TechOnigx",
   robots: "index, follow",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://techorbitze.com",
-    title: "TechOrbitze - Leading Technology Solutions & Development Partner",
+    url: "https://techonigx.com",
+    title: "TechOnigx - Leading Technology Solutions & Development Partner",
     description: "Expert technology solutions for Fortune 500 companies. Specializing in web development, mobile apps, AI/ML, AWS cloud, IoT, and database solutions.",
-    siteName: "TechOrbitze",
+    siteName: "TechOnigx",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "TechOrbitze - Technology Solutions"
+        alt: "TechOnigx - Technology Solutions"
       }
     ]
   },
   twitter: {
     card: "summary_large_image",
-    title: "TechOrbitze - Leading Technology Solutions",
+    title: "TechOnigx - Leading Technology Solutions",
     description: "Expert technology solutions for Fortune 500 companies. Web development, mobile apps, AI/ML, AWS cloud services.",
     images: ["/twitter-image.jpg"]
   },
@@ -71,7 +71,7 @@ export default function RootLayout({
       >
         {children}
         <SpeedInsights />
-        <Analytics />
+        {/* <Analytics /> */}
       </body>
     </html>
   );

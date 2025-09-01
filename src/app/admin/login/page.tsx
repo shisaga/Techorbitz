@@ -70,7 +70,7 @@ export default function AdminLogin() {
             <span className="text-2xl font-bold text-coral-primary">T</span>
           </div>
           <h1 className="text-4xl font-bold text-white mb-3">
-            TechOrbitze
+            TechOnigx
           </h1>
           <p className="text-white/80 text-lg">Admin Dashboard</p>
         </div>
@@ -99,7 +99,7 @@ export default function AdminLogin() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-4 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-coral-primary focus:border-transparent transition-all duration-300 text-gray-900 placeholder-gray-500"
-                placeholder="admin@techorbitze.com"
+                placeholder="admin@techonigx.com"
                 required
               />
             </div>
@@ -138,7 +138,7 @@ export default function AdminLogin() {
             <div className="text-sm text-gray-600 space-y-2">
               <div className="flex items-center">
                 <span className="font-medium w-16">Email:</span>
-                <span className="text-coral-primary">admin@techorbitze.com</span>
+                <span className="text-coral-primary">admin@techonigx.com</span>
               </div>
               <div className="flex items-center">
                 <span className="font-medium w-16">Password:</span>

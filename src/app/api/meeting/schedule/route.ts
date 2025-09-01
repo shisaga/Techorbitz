@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
 async function sendMeetingEmails(meeting: any) {
   // TODO: Implement actual email sending
   console.log('Sending meeting emails:', {
-    to: [meeting.contactInfo.email, 'hello@techorbitze.com'],
+            to: [meeting.contactInfo.email, 'hello@techonigx.com'],
     subject: `Meeting Scheduled - ${meeting.contactInfo.name}`,
     meetingLink: meeting.googleMeetLink,
     date: meeting.date,
@@ -59,7 +59,7 @@ async function sendMeetingEmails(meeting: any) {
   const clientEmailTemplate = `
     <h2>Meeting Confirmed! 🎉</h2>
     <p>Hi ${meeting.contactInfo.name},</p>
-    <p>Your meeting with TechOrbitze has been scheduled successfully.</p>
+            <p>Your meeting with TechOnigx has been scheduled successfully.</p>
     
     <div style="background: #ffe5e0; padding: 20px; border-radius: 10px; margin: 20px 0;">
       <h3>Meeting Details:</h3>
@@ -70,7 +70,7 @@ async function sendMeetingEmails(meeting: any) {
     </div>
     
     <p>We look forward to discussing your project!</p>
-    <p>Best regards,<br>TechOrbitze Team</p>
+            <p>Best regards,<br>TechOnigx Team</p>
   `;
 
   // Email template for internal team

@@ -1113,7 +1113,7 @@ export default function Home() {
               variants={fadeInUp}
               className="text-xl text-white/90 mb-8 max-w-3xl mx-auto"
             >
-              Join the ranks of successful companies that have chosen TechOrbitze for their technology solutions.
+              Join the ranks of successful companies that have chosen TechOnigx for their technology solutions.
             </motion.p>
             <motion.div
               variants={fadeInUp}
@@ -1190,14 +1190,14 @@ export default function Home() {
             <div>
               <h3 className="font-semibold text-lg mb-4">Contact</h3>
               <ul className="space-y-2 text-gray-400">
-                <li>📧 hello@techorbitze.com</li>
+                <li>📧 hello@techonigx.com</li>
                 <li>📱 +1 (555) 123-4567</li>
                 <li>📍 San Francisco, CA</li>
               </ul>
             </div>
           </div>
           <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 TechOrbitze. All rights reserved.</p>
+                          <p>&copy; 2024 TechOnigx. All rights reserved.</p>
           </div>
         </div>
       </footer>

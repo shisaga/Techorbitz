@@ -19,9 +19,9 @@ export default function StructuredData() {
       "email": "hello@techonigx.com"
     },
     "sameAs": [
-      "https://linkedin.com/company/techorbitze",
-      "https://twitter.com/techorbitze",
-      "https://github.com/techorbitze"
+      "https://linkedin.com/company/techOnigx",
+      "https://twitter.com/techOnigx",
+      "https://github.com/techOnigx"
     ],
     "foundingDate": "2014",
     "numberOfEmployees": {

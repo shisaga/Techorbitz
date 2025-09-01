@@ -439,7 +439,7 @@ export default function AdminDashboard() {
                   </label>
                   <InputField
                     type="text"
-                    value="TechOrbitze Tech Blog"
+                    value="TechOnigx Tech Blog"
                     placeholder="Enter blog title"
                     variant="minimal"
                     size="md"
@@ -453,7 +453,7 @@ export default function AdminDashboard() {
                   </label>
                   <textarea
                     rows={3}
-                    defaultValue="Latest insights on technology, development, and innovation from TechOrbitze experts."
+                    defaultValue="Latest insights on technology, development, and innovation from TechOnigx experts."
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-coral-primary focus:border-transparent outline-none"
                   />
                 </div>

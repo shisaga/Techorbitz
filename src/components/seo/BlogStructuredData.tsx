@@ -56,8 +56,8 @@ export default function BlogStructuredData({ post }: BlogStructuredDataProps) {
       },
       "url": baseUrl,
       "sameAs": [
-        "https://linkedin.com/company/techorbitze",
-        "https://twitter.com/techorbitze"
+        "https://linkedin.com/company/techonigx",
+        "https://twitter.com/techonigx"
       ]
     },
     "mainEntityOfPage": {
