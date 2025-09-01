@@ -498,13 +498,13 @@ class AIBlogGenerator {
     // Generate comprehensive SEO-optimized content with proper length constraints
     const shortTitle = this.truncateTitle(title, 50); // Keep title under 60 characters
     const seoTitle = `${shortTitle} - Complete Guide 2025`;
-    const seoDescription = this.generateOptimizedDescription(title, 155); // Keep under 160 characters
+    const seoDescription = await this.generateOptimizedDescription(title, content, 155); // Keep under 160 characters
     
     // Generate SEO-optimized keywords based on content analysis
-    const seoKeywords = this.generateSEOKeywords(title, content, tags);
+    const seoKeywords = await this.generateSEOKeywords(title, content, tags);
     
     // Generate optimized hero image alt text
-    const heroImageAlt = this.generateHeroImageAlt(shortTitle, 'technology');
+    const heroImageAlt = await this.generateHeroImageAlt(shortTitle, 'technology');
     
     return {
       title: shortTitle,
@@ -1385,37 +1385,104 @@ Write the blog using the system instructions. Focus on providing in-depth techni
     return foundTerms.slice(0, 3);
   }
 
-  private generateSEOKeywords(title: string, content: string, tags: string[]): string[] {
-    // Extract keywords from title and content
-    const titleWords = title.toLowerCase().split(' ').filter(word => word.length > 3);
-    const contentWords = content.toLowerCase().split(' ').filter(word => word.length > 3);
+  private async generateSEOKeywords(title: string, content: string, tags: string[]): Promise<string[]> {
+    try {
+      const systemPrompt = `You are an expert SEO specialist. Generate 10-15 highly relevant, search-optimized keywords for a technology blog post. Focus on long-tail keywords, technical terms, and trending search phrases. Return only a JSON array of keywords, no other text.`;
+
+      const userPrompt = `Generate SEO keywords for this blog post:
+Title: ${title}
+Content preview: ${content.substring(0, 500)}...
+Tags: ${tags.join(', ')}
+
+Requirements:
+- 10-15 keywords maximum
+- Include technical terms from the title
+- Include trending search phrases
+- Focus on long-tail keywords
+- Include "tutorial", "guide", "2025" variations
+- Make them highly searchable and relevant
+
+Return only a JSON array like: ["keyword1", "keyword2", "keyword3"]`;
+
+      const completion = await this.openai.chat.completions.create({
+        model: 'gpt-3.5-turbo',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt }
+        ],
+        max_tokens: 200,
+        temperature: 0.7,
+      });
+
+      const response = completion.choices[0]?.message?.content;
+      if (response) {
+        try {
+          const keywords = JSON.parse(response);
+          return Array.isArray(keywords) ? keywords.slice(0, 15) : [];
+        } catch (error) {
+          console.error('Error parsing SEO keywords JSON:', error);
+          return this.getFallbackKeywords(title, tags);
+        }
+      }
+    } catch (error) {
+      console.error('Error generating SEO keywords with OpenAI:', error);
+      return this.getFallbackKeywords(title, tags);
+    }
     
-    // Common SEO keywords for tech content
-    const seoKeywords = [
-      'tutorial', 'guide', 'complete guide', 'step by step', 'how to',
-      'best practices', 'examples', 'implementation', 'development',
-      'programming', 'coding', 'software', 'technology', 'tech',
-      '2025', 'latest', 'modern', 'advanced', 'beginner', 'expert',
-      'comprehensive', 'detailed', 'practical', 'real-world', 'hands-on',
-      'learn', 'master', 'understand', 'explore', 'discover'
-    ];
-    
-    // Combine all keywords
-    const allKeywords = [
-      ...titleWords,
-      ...contentWords.slice(0, 20), // Take first 20 content words
-      ...tags,
-      ...seoKeywords
-    ];
-    
-    // Remove duplicates and limit to 15 keywords
-    const uniqueKeywords = [...new Set(allKeywords)].slice(0, 15);
-    
-    return uniqueKeywords;
+    return this.getFallbackKeywords(title, tags);
   }
 
-  private generateHeroImageAlt(title: string, technology: string): string {
-    // Generate SEO-optimized alt text for hero images
+  private getFallbackKeywords(title: string, tags: string[]): string[] {
+    // Fallback keywords if OpenAI fails
+    const titleWords = title.toLowerCase().split(' ').filter(word => word.length > 3);
+    const fallbackKeywords = [
+      'tutorial', 'guide', 'best practices', 'implementation', 'development',
+      'programming', 'coding', 'software', 'technology', '2025'
+    ];
+    
+    return [...new Set([...titleWords, ...tags, ...fallbackKeywords])].slice(0, 15);
+  }
+
+  private async generateHeroImageAlt(title: string, technology: string): Promise<string> {
+    try {
+      const systemPrompt = `You are an expert SEO specialist. Generate an SEO-optimized alt text for a hero image in a technology blog post. The alt text should be descriptive, include relevant keywords, and be under 125 characters. Return only the alt text, no quotes or additional formatting.`;
+
+      const userPrompt = `Generate an SEO-optimized alt text for this blog post's hero image:
+Title: ${title}
+Technology: ${technology}
+
+Requirements:
+- Maximum 125 characters
+- Include the main topic/keyword
+- Be descriptive and relevant
+- Include "tutorial", "guide", or "development" if appropriate
+- Make it SEO-friendly and accessible
+
+Return only the alt text.`;
+
+      const completion = await this.openai.chat.completions.create({
+        model: 'gpt-3.5-turbo',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt }
+        ],
+        max_tokens: 50,
+        temperature: 0.7,
+      });
+
+      const response = completion.choices[0]?.message?.content;
+      if (response && response.length <= 125) {
+        return response.trim();
+      }
+    } catch (error) {
+      console.error('Error generating hero image alt text with OpenAI:', error);
+    }
+    
+    // Fallback alt text
+    return this.getFallbackHeroImageAlt(title, technology);
+  }
+
+  private getFallbackHeroImageAlt(title: string, technology: string): string {
     const altTexts = [
       `${title} - Complete ${technology} Tutorial and Guide 2025`,
       `${title} - Step-by-Step ${technology} Development Guide`,
@@ -1437,36 +1504,170 @@ Write the blog using the system instructions. Focus on providing in-depth techni
     return altTexts[index];
   }
 
-  private generateNewsSEOKeywords(title: string, content: string, tags: string[]): string[] {
-    // Extract keywords from title and content for news articles
-    const titleWords = title.toLowerCase().split(' ').filter(word => word.length > 3);
-    const contentWords = content.toLowerCase().split(' ').filter(word => word.length > 3);
+  private async generateNewsSEOKeywords(title: string, content: string, tags: string[]): Promise<string[]> {
+    try {
+      const systemPrompt = `You are an expert SEO specialist. Generate 10-15 highly relevant, search-optimized keywords for a technology news article. Focus on trending terms, industry buzzwords, and news-related search phrases. Return only a JSON array of keywords, no other text.`;
+
+      const userPrompt = `Generate SEO keywords for this technology news article:
+Title: ${title}
+Content preview: ${content.substring(0, 500)}...
+Tags: ${tags.join(', ')}
+
+Requirements:
+- 10-15 keywords maximum
+- Include trending technology terms
+- Focus on news and analysis keywords
+- Include industry-specific terms
+- Add "2025", "trends", "analysis" variations
+- Make them highly searchable for news content
+
+Return only a JSON array like: ["keyword1", "keyword2", "keyword3"]`;
+
+      const completion = await this.openai.chat.completions.create({
+        model: 'gpt-3.5-turbo',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt }
+        ],
+        max_tokens: 200,
+        temperature: 0.7,
+      });
+
+      const response = completion.choices[0]?.message?.content;
+      if (response) {
+        try {
+          const keywords = JSON.parse(response);
+          return Array.isArray(keywords) ? keywords.slice(0, 15) : [];
+        } catch (error) {
+          console.error('Error parsing news SEO keywords JSON:', error);
+          return this.getFallbackNewsKeywords(title, tags);
+        }
+      }
+    } catch (error) {
+      console.error('Error generating news SEO keywords with OpenAI:', error);
+      return this.getFallbackNewsKeywords(title, tags);
+    }
     
-    // Common SEO keywords for news content
-    const newsSEOKeywords = [
+    return this.getFallbackNewsKeywords(title, tags);
+  }
+
+  private getFallbackNewsKeywords(title: string, tags: string[]): string[] {
+    // Fallback keywords for news content if OpenAI fails
+    const titleWords = title.toLowerCase().split(' ').filter(word => word.length > 3);
+    const fallbackKeywords = [
       'analysis', 'trends', 'future', 'impact', 'technology', 'innovation',
       'latest', 'breaking', 'news', 'update', 'development', 'industry',
       'market', 'business', 'startup', 'funding', 'investment', 'research',
-      'study', 'report', 'insights', 'predictions', 'forecast', '2025',
-      'digital', 'transformation', 'disruption', 'emerging', 'cutting-edge'
+      'study', 'report', 'insights', 'predictions', 'forecast', '2025'
     ];
     
-    // Combine all keywords
-    const allKeywords = [
-      ...titleWords,
-      ...contentWords.slice(0, 20), // Take first 20 content words
-      ...tags,
-      ...newsSEOKeywords
-    ];
-    
-    // Remove duplicates and limit to 15 keywords
-    const uniqueKeywords = [...new Set(allKeywords)].slice(0, 15);
-    
-    return uniqueKeywords;
+    return [...new Set([...titleWords, ...tags, ...fallbackKeywords])].slice(0, 15);
   }
 
-  private generateNewsHeroImageAlt(title: string, technology: string): string {
-    // Generate SEO-optimized alt text for news hero images
+  private async generateNewsOptimizedDescription(title: string, content: string, maxLength: number): Promise<string> {
+    try {
+      const systemPrompt = `You are an expert SEO copywriter. Generate a compelling, SEO-optimized meta description for a technology news article. The description should be exactly ${maxLength} characters or less, include the main keyword, and encourage clicks. Return only the description text, no quotes or additional formatting.`;
+
+      const userPrompt = `Generate an SEO-optimized meta description for this technology news article:
+Title: ${title}
+Content preview: ${content.substring(0, 300)}...
+
+Requirements:
+- Maximum ${maxLength} characters
+- Include the main topic/keyword naturally
+- Make it compelling and click-worthy
+- Focus on news value and insights
+- Include "analysis", "trends", or "impact" if relevant
+- Use active voice and engaging language
+
+Return only the description text.`;
+
+      const completion = await this.openai.chat.completions.create({
+        model: 'gpt-3.5-turbo',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt }
+        ],
+        max_tokens: 100,
+        temperature: 0.8,
+      });
+
+      const response = completion.choices[0]?.message?.content;
+      if (response && response.length <= maxLength) {
+        return response.trim();
+      }
+    } catch (error) {
+      console.error('Error generating news SEO description with OpenAI:', error);
+    }
+    
+    // Fallback description for news
+    return this.getFallbackNewsDescription(title, maxLength);
+  }
+
+  private getFallbackNewsDescription(title: string, maxLength: number): string {
+    const baseDescription = `Discover the latest analysis of ${title.toLowerCase()}. Get insights into trends, impact, and future implications for the technology industry.`;
+    
+    if (baseDescription.length <= maxLength) {
+      return baseDescription;
+    }
+    
+    const variations = [
+      `Latest analysis of ${title.toLowerCase()}: trends and industry impact.`,
+      `Discover ${title.toLowerCase()} insights and future implications.`,
+      `Analysis of ${title.toLowerCase()}: technology trends and market impact.`,
+      `${title}: Latest developments and industry analysis.`,
+      `Explore ${title.toLowerCase()} trends and future predictions.`
+    ];
+    
+    for (const variation of variations) {
+      if (variation.length <= maxLength) {
+        return variation;
+      }
+    }
+    
+    return baseDescription.substring(0, maxLength - 3) + '...';
+  }
+
+  private async generateNewsHeroImageAlt(title: string, technology: string): Promise<string> {
+    try {
+      const systemPrompt = `You are an expert SEO specialist. Generate an SEO-optimized alt text for a hero image in a technology news article. The alt text should be descriptive, include relevant keywords, and be under 125 characters. Return only the alt text, no quotes or additional formatting.`;
+
+      const userPrompt = `Generate an SEO-optimized alt text for this news article's hero image:
+Title: ${title}
+Technology: ${technology}
+
+Requirements:
+- Maximum 125 characters
+- Include the main topic/keyword
+- Be descriptive and relevant for news content
+- Include "analysis", "trends", or "news" if appropriate
+- Make it SEO-friendly and accessible
+
+Return only the alt text.`;
+
+      const completion = await this.openai.chat.completions.create({
+        model: 'gpt-3.5-turbo',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt }
+        ],
+        max_tokens: 50,
+        temperature: 0.7,
+      });
+
+      const response = completion.choices[0]?.message?.content;
+      if (response && response.length <= 125) {
+        return response.trim();
+      }
+    } catch (error) {
+      console.error('Error generating news hero image alt text with OpenAI:', error);
+    }
+    
+    // Fallback alt text for news
+    return this.getFallbackNewsHeroImageAlt(title, technology);
+  }
+
+  private getFallbackNewsHeroImageAlt(title: string, technology: string): string {
     const altTexts = [
       `${title} - Latest ${technology} Analysis and Trends 2025`,
       `${title} - Breaking ${technology} News and Industry Impact`,
@@ -1514,15 +1715,53 @@ Write the blog using the system instructions. Focus on providing in-depth techni
     return truncated;
   }
 
-  private generateOptimizedDescription(title: string, maxLength: number): string {
-    // Generate SEO-optimized description within character limit
+  private async generateOptimizedDescription(title: string, content: string, maxLength: number): Promise<string> {
+    try {
+      const systemPrompt = `You are an expert SEO copywriter. Generate a compelling, SEO-optimized meta description for a technology blog post. The description should be exactly ${maxLength} characters or less, include the main keyword, and encourage clicks. Return only the description text, no quotes or additional formatting.`;
+
+      const userPrompt = `Generate an SEO-optimized meta description for this blog post:
+Title: ${title}
+Content preview: ${content.substring(0, 300)}...
+
+Requirements:
+- Maximum ${maxLength} characters
+- Include the main topic/keyword naturally
+- Make it compelling and click-worthy
+- Include a call-to-action or benefit
+- Focus on what readers will learn
+- Use active voice and engaging language
+
+Return only the description text.`;
+
+      const completion = await this.openai.chat.completions.create({
+        model: 'gpt-3.5-turbo',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt }
+        ],
+        max_tokens: 100,
+        temperature: 0.8,
+      });
+
+      const response = completion.choices[0]?.message?.content;
+      if (response && response.length <= maxLength) {
+        return response.trim();
+      }
+    } catch (error) {
+      console.error('Error generating SEO description with OpenAI:', error);
+    }
+    
+    // Fallback description
+    return this.getFallbackDescription(title, maxLength);
+  }
+
+  private getFallbackDescription(title: string, maxLength: number): string {
     const baseDescription = `Master ${title.toLowerCase()} with our comprehensive guide. Learn tutorials, best practices, and implementation strategies.`;
     
     if (baseDescription.length <= maxLength) {
       return baseDescription;
     }
     
-    // Try shorter variations
     const variations = [
       `Learn ${title.toLowerCase()} with step-by-step tutorials and best practices.`,
       `Master ${title.toLowerCase()} development with comprehensive guides and examples.`,
@@ -1537,7 +1776,6 @@ Write the blog using the system instructions. Focus on providing in-depth techni
       }
     }
     
-    // Fallback: truncate the base description
     return baseDescription.substring(0, maxLength - 3) + '...';
   }
 
