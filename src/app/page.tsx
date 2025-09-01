@@ -70,7 +70,7 @@ export default function Home() {
                 whileHover={{ scale: 1.05 }}
                 className="text-2xl font-bold text-gray-900"
               >
-                <span className="text-coral-primary">Tech</span>Orbitze
+                <span className="text-coral-primary">Tech</span>Onigx
               </motion.div>
             </div>
             <nav className="hidden md:flex space-x-8">
@@ -1150,7 +1150,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <div className="text-2xl font-bold mb-4">
-                <span className="text-coral-primary">Tech</span>Orbitze
+                <span className="text-coral-primary">Tech</span>Onigx
               </div>
               <p className="text-gray-400 mb-4">
                 Transforming ideas into digital excellence through innovative technology solutions.

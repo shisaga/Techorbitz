@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import StructuredData from "@/components/StructuredData";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-// import { Analytics } from "@vercel/analytics/next";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 // Optimized fonts for performance and readability
@@ -71,7 +71,7 @@ export default function RootLayout({
       >
         {children}
         <SpeedInsights />
-        {/* <Analytics /> */}
+        <Analytics />
       </body>
     </html>
   );
