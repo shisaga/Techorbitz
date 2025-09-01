@@ -683,7 +683,20 @@ npm run setup</code></pre>
  <h3>Stay Updated with ${title}!</h3>
  <p>If you found this guide helpful, make sure to subscribe to our newsletter for the latest updates on ${title} and ${primaryTech} development trends in 2025!</p>
  </div>
- </div>`;
+ </div><meta name="keywords" content="${title.toLowerCase()}, ${primaryTech}, tutorial, guide, best practices, development, programming, 2025">
+<meta name="author" content="TechOnigx">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="${title}: Complete Guide & Tutorial 2025">
+<meta property="og:description" content="Master ${title} with our comprehensive guide. Learn step-by-step tutorials, best practices, and real-world examples.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://techonigx.com/blog/${title.toLowerCase().replace(/\s+/g, '-')}">
+<meta property="og:image" content="https://images.pexels.com/photos/1181271/pexels-photo-1181271.jpeg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${title}: Complete Guide & Tutorial 2025">
+<meta name="twitter:description" content="Master ${title} with our comprehensive guide. Learn step-by-step tutorials, best practices, and real-world examples.">
+ 
+ 
+ `;
   }
 
   private generateNewsFallbackContent(topic: any): string {
