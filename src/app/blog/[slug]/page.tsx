@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import BlogPostClient from './client-page';
 import { cache } from 'react';
+import { siteConfig } from '@/lib/site-config';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -104,7 +105,7 @@ export async function generateStaticParams() {
   }
 }
 
-// Enhanced metadata generation with structured data
+// Enhanced metadata generation with structured data for Google search
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
 
@@ -118,34 +119,56 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       };
     }
 
-    const baseUrl = 'https://techonigx.com';
+    const baseUrl = siteConfig.company.url;
     const postUrl = `${baseUrl}/blog/${slug}`;
     const imageUrl = post.coverImage || `${baseUrl}/og-blog-default.jpg`;
     const publishedDate = post.publishedAt?.toISOString();
-    const modifiedDate = post.updatedAt.toISOString();
+    const modifiedDate = new Date(post.updatedAt).toISOString();
 
     return {
-      title: `${post.seoTitle || post.title} | TechOnigx`,
-      description: post.seoDescription || post.excerpt || '',
-      keywords: `${post.title}, technology, web development, AI, cloud computing, IoT, Fortune 500, TechOnigx`,
-      authors: [{ name: post.author.name || 'TechOnigx' }],
-      creator: post.author.name || 'TechOnigx',
-      publisher: 'TechOnigx',
+      title: `${post.seoTitle || post.title} | ${siteConfig.company.name}`,
+      description: post.seoDescription || post.excerpt || post.content.substring(0, 160),
+      keywords: [
+        ...siteConfig.seo.keywords,
+        post.title,
+        'technology',
+        'web development',
+        'AI',
+        'cloud computing',
+        'IoT',
+        'Fortune 500',
+        'TechOnigx'
+      ].join(', '),
+      authors: [
+        { name: post.author.name || siteConfig.team.founder.name },
+        { name: siteConfig.company.name }
+      ],
+      creator: post.author.name || siteConfig.team.founder.name,
+      publisher: siteConfig.company.name,
       category: 'Technology',
       
-      // Enhanced Open Graph
+      // Enhanced Open Graph for Google search
       openGraph: {
         type: 'article',
         locale: 'en_US',
         url: postUrl,
         title: post.seoTitle || post.title,
-        description: post.seoDescription || post.excerpt || '',
-        siteName: 'TechOnigx Tech Blog',
+        description: post.seoDescription || post.excerpt || post.content.substring(0, 160),
+        siteName: siteConfig.company.name,
         publishedTime: publishedDate,
         modifiedTime: modifiedDate,
-        authors: [post.author.name || 'TechOnigx'],
+        authors: [post.author.name || siteConfig.team.founder.name],
         section: 'Technology',
-        tags: ['Technology', 'AI', 'Web Development', 'Innovation'],
+        tags: [
+          'Technology',
+          'AI',
+          'Web Development',
+          'Innovation',
+          'Fortune 500',
+          'Cloud Computing',
+          'IoT',
+          'Machine Learning'
+        ],
         images: [
           {
             url: imageUrl,
@@ -157,17 +180,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         ]
       },
 
-      // Enhanced Twitter
+      // Enhanced Twitter for Google search
       twitter: {
         card: 'summary_large_image',
         title: post.seoTitle || post.title,
-        description: post.seoDescription || post.excerpt || '',
-        creator: '@techonigx',
-        site: '@techonigx',
+        description: post.seoDescription || post.excerpt || post.content.substring(0, 160),
+        creator: siteConfig.company.social.twitter.replace('https://twitter.com/', '@'),
+        site: siteConfig.company.social.twitter.replace('https://twitter.com/', '@'),
         images: [imageUrl]
       },
 
-      // Enhanced alternates
+      // Enhanced alternates for Google search
       alternates: {
         canonical: postUrl,
         languages: {
@@ -175,7 +198,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         }
       },
 
-      // Additional metadata for SEO
+      // Additional metadata for Google search optimization
       robots: {
         index: true,
         follow: true,
@@ -188,18 +211,31 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         },
       },
 
-      // Verification
+      // Verification for Google Search Console
       verification: {
         google: 'your-google-verification-code',
         yandex: 'your-yandex-verification-code',
         yahoo: 'your-yahoo-verification-code',
+      },
+
+      // Additional SEO meta tags
+      other: {
+        'article:author': post.author.name || siteConfig.team.founder.name,
+        'article:section': 'Technology',
+        'article:tag': 'AI, Web Development, Technology, Innovation, Fortune 500',
+        'article:published_time': publishedDate,
+        'article:modified_time': modifiedDate,
+        'og:site_name': siteConfig.company.name,
+        'og:locale': 'en_US',
+        'twitter:site': siteConfig.company.social.twitter.replace('https://twitter.com/', '@'),
+        'twitter:creator': siteConfig.company.social.twitter.replace('https://twitter.com/', '@'),
       }
     };
   } catch (error) {
     console.error('Error generating metadata:', error);
     return {
-      title: 'TechOnigx Tech Blog',
-      description: 'Latest insights on technology and innovation.',
+      title: `${siteConfig.blog.title} | ${siteConfig.company.name}`,
+      description: siteConfig.blog.description,
     };
   }
 }

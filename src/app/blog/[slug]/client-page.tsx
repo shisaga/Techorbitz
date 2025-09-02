@@ -417,7 +417,7 @@ export default function BlogPostClient({
               variants={fadeInUp}
               className="flex items-center justify-between p-6 bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-100 shadow-lg"
             >
-              <div className="flex items-center gap-6 text-sm text-gray-500">
+              <div className="flex hidden md:block items-center gap-6 text-sm text-gray-500">
                 <div className="flex items-center gap-2">
                   <Eye className={`w-5 h-5 ${viewTracked ? 'text-green-500' : 'text-blue-500'}`} />
                   <span className="font-medium">
