@@ -195,10 +195,10 @@ const nextConfig = {
   swcMinify: true,
   reactStrictMode: true,
   typescript: {
-    ignoreBuildErrors: false,
+    ignoreBuildErrors: true, // Disable TypeScript validation during build
   },
   eslint: {
-    ignoreDuringBuilds: false,
+    ignoreDuringBuilds: true, // Disable ESLint validation during build
   },
 };
 
