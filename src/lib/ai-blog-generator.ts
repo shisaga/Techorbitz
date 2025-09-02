@@ -47,7 +47,7 @@ class AIBlogGenerator {
 
     this.stabilityApiKey = process.env.STABILITY_API_KEY!;
     this.pexelsApiKey = process.env.PEXELS_API_KEY!;
-    this.wpBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://techxak.com';
+    this.wpBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://techonigx.com';
     this.wpUser = 'ai-generator';
     this.wpAppPassword = 'not-used';
   }
@@ -684,12 +684,12 @@ npm run setup</code></pre>
  <p>If you found this guide helpful, make sure to subscribe to our newsletter for the latest updates on ${title} and ${primaryTech} development trends in 2025!</p>
  </div>
  </div><meta name="keywords" content="${title.toLowerCase()}, ${primaryTech}, tutorial, guide, best practices, development, programming, 2025">
-<meta name="author" content="TechXak">
+<meta name="author" content="TechOnigx">
 <meta name="robots" content="index, follow">
 <meta property="og:title" content="${title}: Complete Guide & Tutorial 2025">
 <meta property="og:description" content="Master ${title} with our comprehensive guide. Learn step-by-step tutorials, best practices, and real-world examples.">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://techxak.com/blog/${title.toLowerCase().replace(/\s+/g, '-')}">
+<meta property="og:url" content="https://techonigx.com/blog/${title.toLowerCase().replace(/\s+/g, '-')}">
 <meta property="og:image" content="https://images.pexels.com/photos/1181271/pexels-photo-1181271.jpeg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${title}: Complete Guide & Tutorial 2025">
@@ -778,22 +778,22 @@ npm run setup</code></pre>
   "image": "https://images.pexels.com/photos/1181271/pexels-photo-1181271.jpeg",
   "author": {
     "@type": "Organization",
-    "name": "TechXak",
-    "url": "https://techxak.com"
+    "name": "TechOnigx",
+    "url": "https://techonigx.com"
   },
   "publisher": {
     "@type": "Organization",
-    "name": "TechXak",
+    "name": "TechOnigx",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://techxak.com/logo.png"
+      "url": "https://techonigx.com/logo.png"
     }
   },
   "datePublished": "${new Date().toISOString()}",
   "dateModified": "${new Date().toISOString()}",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://techxak.com/blog/${title.toLowerCase().replace(/\s+/g, '-')}"
+    "@id": "https://techonigx.com/blog/${title.toLowerCase().replace(/\s+/g, '-')}"
   },
   "keywords": "${title.toLowerCase()}, ${primaryTech}, analysis, trends, 2025, technology, innovation"
 }
@@ -1132,7 +1132,7 @@ Write the blog using the system instructions. Focus on providing in-depth techni
 
     try {
       const completion = await this.openai.chat.completions.create({
-        model: 'gpt-4o-mini',
+        model: 'GPT-4o-mini',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
@@ -1196,15 +1196,15 @@ Write the blog using the system instructions. Focus on providing in-depth techni
         await new Promise(resolve => setTimeout(resolve, 30000));
         // Retry once with a different model
         try {
-                  const retryCompletion = await this.openai.chat.completions.create({
-          model: 'gpt-4o-mini',
-          messages: [
-            { role: 'system', content: systemPrompt },
-            { role: 'user', content: userPrompt }
-          ],
-          max_tokens: 2000,
-          temperature: 0.7,
-        });
+          const retryCompletion = await this.openai.chat.completions.create({
+            model: 'GPT-4o-mini-16k',
+            messages: [
+              { role: 'system', content: systemPrompt },
+              { role: 'user', content: userPrompt }
+            ],
+            max_tokens: 2000,
+            temperature: 0.7,
+          });
           
           const retryContent = retryCompletion.choices[0]?.message?.content;
           if (!retryContent) {
@@ -1413,7 +1413,7 @@ Requirements:
 Return only a JSON array like: ["keyword1", "keyword2", "keyword3"]`;
 
       const completion = await this.openai.chat.completions.create({
-        model: 'gpt-4o-mini',
+        model: 'GPT-4o-mini',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
@@ -1469,7 +1469,7 @@ Requirements:
 Return only the alt text.`;
 
       const completion = await this.openai.chat.completions.create({
-        model: 'gpt-4o-mini',
+        model: 'GPT-4o-mini',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
@@ -1532,7 +1532,7 @@ Requirements:
 Return only a JSON array like: ["keyword1", "keyword2", "keyword3"]`;
 
       const completion = await this.openai.chat.completions.create({
-        model: 'gpt-4o-mini',
+        model: 'GPT-4o-mini',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
@@ -1591,7 +1591,7 @@ Requirements:
 Return only the description text.`;
 
       const completion = await this.openai.chat.completions.create({
-        model: 'gpt-4o-mini',
+        model: 'GPT-4o-mini',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
@@ -1654,7 +1654,7 @@ Requirements:
 Return only the alt text.`;
 
       const completion = await this.openai.chat.completions.create({
-        model: 'gpt-4o-mini',
+        model: 'GPT-4o-mini',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
@@ -1742,7 +1742,7 @@ Requirements:
 Return only the description text.`;
 
       const completion = await this.openai.chat.completions.create({
-        model: 'gpt-4o-mini',
+        model: 'GPT-4o-mini',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
@@ -1993,13 +1993,13 @@ Return only the description text.`;
 
       // Get or create AI author
       let author = await prisma.user.findUnique({
-        where: { email: 'ai@techxak.com' }
+        where: { email: 'ai@techonigx.com' }
       });
 
       if (!author) {
         author = await prisma.user.create({
           data: {
-            email: 'ai@techxak.com',
+            email: 'ai@techonigx.com',
             name: 'AI Blog Generator',
             role: 'ADMIN'
           }

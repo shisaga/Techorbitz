@@ -531,7 +531,7 @@ export default function JoinOurTeamPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
                 <InputField
                   type="tel"
-                  placeholder="+1 (555) 123-4567"
+                  placeholder="+91-8494090499"
                   value={applicationData.phone}
                   onChange={(e) => setApplicationData(prev => ({ ...prev, phone: e.target.value }))}
                 />

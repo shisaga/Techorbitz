@@ -68,9 +68,16 @@ export default function Home() {
             <div className="flex items-center">
               <motion.div 
                 whileHover={{ scale: 1.05 }}
-                className="text-2xl font-bold text-gray-900"
+                className="flex items-center gap-3"
               >
-                <span className="text-coral-primary">Tech</span>Xak
+                <img 
+                  src="/chatgpt-logo.png" 
+                  alt="TechXak Logo" 
+                  className="w-8 h-8 rounded-full"
+                />
+                <span className="text-2xl font-bold text-gray-900">
+                  <span className="text-coral-primary">Tech</span>Xak
+                </span>
               </motion.div>
             </div>
             <nav className="hidden md:flex space-x-8">
@@ -165,6 +172,17 @@ export default function Home() {
             variants={stagger}
             className="text-center"
           >
+            {/* ChatGPT Logo */}
+            <motion.div
+              variants={fadeInUp}
+              className="mb-8 flex justify-center"
+            >
+              <img 
+                src="/chatgpt-logo.png" 
+                alt="TechXak AI Technology" 
+                className="w-32 h-32 md:w-40 md:h-40 rounded-full shadow-lg border-4 border-coral-primary/20"
+              />
+            </motion.div>
             <motion.h1
               variants={fadeInUp}
               className="text-4xl md:text-6xl font-bold text-gray-900 mb-6"
@@ -308,6 +326,170 @@ export default function Home() {
                 <p className="text-gray-600">{service.description}</p>
               </motion.div>
             ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Get Your Demo Project in 7 Days Section */}
+      <section className="py-20 bg-gradient-to-br from-blue-50 via-white to-coral-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={stagger}
+            className="text-center mb-16"
+          >
+            <motion.div
+              variants={fadeInUp}
+              className="inline-flex items-center gap-2 bg-coral-primary/10 text-coral-primary px-4 py-2 rounded-full text-sm font-medium mb-6"
+            >
+              🚀 Limited Time Offer
+            </motion.div>
+            <motion.h2
+              variants={fadeInUp}
+              className="text-4xl md:text-6xl font-bold text-gray-900 mb-6"
+            >
+              Get Your Demo Project in
+              <span className="text-coral-primary"> 7 Days</span>
+            </motion.h2>
+            <motion.p
+              variants={fadeInUp}
+              className="text-xl text-gray-600 max-w-3xl mx-auto mb-8"
+            >
+              Experience the TechXak difference with a fully functional prototype. 
+              We'll build your vision in just one week, so you can see results fast.
+            </motion.p>
+          </motion.div>
+
+          {/* Features Grid */}
+          <motion.div
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={stagger}
+            className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12"
+          >
+            {[
+              {
+                icon: "⚡",
+                title: "Lightning Fast",
+                description: "From concept to working prototype in just 7 days. No waiting, no delays."
+              },
+              {
+                icon: "🎯",
+                title: "Fully Functional",
+                description: "Real working features, not just mockups. Test with real users immediately."
+              },
+              {
+                icon: "💎",
+                title: "Premium Quality",
+                description: "Enterprise-grade code and design that scales with your business."
+              }
+            ].map((feature, index) => (
+              <motion.div
+                key={index}
+                variants={fadeInUp}
+                className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
+              >
+                <div className="text-4xl mb-4">{feature.icon}</div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.title}</h3>
+                <p className="text-gray-600">{feature.description}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* Process Timeline */}
+          <motion.div
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={stagger}
+            className="mb-12"
+          >
+            <h3 className="text-2xl font-bold text-gray-900 text-center mb-8">Your 7-Day Journey</h3>
+            <div className="grid grid-cols-1 md:grid-cols-7 gap-4">
+              {[
+                { day: "Day 1", title: "Discovery", desc: "Requirements gathering & planning" },
+                { day: "Day 2", title: "Design", desc: "UI/UX mockups & wireframes" },
+                { day: "Day 3", title: "Development", desc: "Core functionality building" },
+                { day: "Day 4", title: "Features", desc: "Advanced features & integration" },
+                { day: "Day 5", title: "Testing", desc: "Quality assurance & bug fixes" },
+                { day: "Day 6", title: "Polish", desc: "Final touches & optimization" },
+                { day: "Day 7", title: "Delivery", desc: "Your demo is ready!" }
+              ].map((step, index) => (
+                <motion.div
+                  key={index}
+                  variants={fadeInUp}
+                  className="text-center"
+                >
+                  <div className="bg-coral-primary text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-sm mx-auto mb-3">
+                    {index + 1}
+                  </div>
+                  <div className="text-sm font-semibold text-gray-900 mb-1">{step.day}</div>
+                  <div className="text-xs text-gray-600">{step.title}</div>
+                  <div className="text-xs text-gray-500 mt-1">{step.desc}</div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* CTA Section */}
+          <motion.div
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={stagger}
+            className="text-center"
+          >
+            <motion.div
+              variants={fadeInUp}
+              className="bg-gradient-to-r from-coral-primary to-blue-600 text-white p-8 rounded-2xl shadow-2xl mb-8"
+            >
+              <h3 className="text-2xl font-bold mb-4">Ready to See Your Vision Come to Life?</h3>
+              <p className="text-lg mb-6 opacity-90">
+                Join 500+ companies who've transformed their ideas into reality with TechXak. 
+                Your demo project is just 7 days away.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link href="/start-project">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-white text-coral-primary px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition-colors"
+                  >
+                    🚀 Start Your Project
+                  </motion.button>
+                </Link>
+                <Link href="/schedule-meeting">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="border-2 border-white text-white px-6 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-coral-primary transition-colors"
+                  >
+                    📞 Book Free Consultation
+                  </motion.button>
+                </Link>
+              </div>
+            </motion.div>
+            
+            {/* Trust Indicators */}
+            <motion.div
+              variants={fadeInUp}
+              className="flex flex-wrap justify-center items-center gap-8 text-gray-500"
+            >
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-5 h-5 text-green-500" />
+                <span className="text-sm">No upfront payment</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-sm">100% satisfaction guarantee</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-5 h-5 text-green-500" />
+                <span className="text-sm">Source code included</span>
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
@@ -1144,6 +1326,8 @@ export default function Home() {
         </div>
       </section>
 
+
+
       {/* Footer */}
       <footer id="contact" className="bg-gray-900 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1191,8 +1375,8 @@ export default function Home() {
               <h3 className="font-semibold text-lg mb-4">Contact</h3>
               <ul className="space-y-2 text-gray-400">
                 <li>📧 hello@techxak.com</li>
-                <li>📱 +1 (555) 123-4567</li>
-                <li>📍 San Francisco, CA</li>
+                <li>📱 +91-8494090499</li>
+                                  <li>📍 Ahmedabad, Gujarat, India</li>
               </ul>
             </div>
           </div>

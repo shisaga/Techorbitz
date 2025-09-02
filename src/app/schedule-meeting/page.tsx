@@ -246,7 +246,7 @@ export default function ScheduleMeetingPage() {
                   <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
                   <InputField
                     type="tel"
-                    placeholder="+1 (555) 123-4567"
+                    placeholder="+91-8494090499"
                     value={contactInfo.phone}
                     onChange={(e) => setContactInfo(prev => ({ ...prev, phone: e.target.value }))}
                     icon={Phone}

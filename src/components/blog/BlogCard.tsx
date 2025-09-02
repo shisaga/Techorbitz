@@ -139,6 +139,7 @@ export default function BlogCard({ post, index, variant = 'default' }: BlogCardP
         <p className={`text-gray-600 mb-4 ${
           variant === 'featured' ? 'line-clamp-4 text-lg' : 'line-clamp-3'
         }`}>
+          
           {post.excerpt}
         </p>
         

@@ -4,17 +4,17 @@ export default function StructuredData() {
     "@type": "Organization",
     "name": "TechXak",
     "url": "https://techxak.com",
-    "logo": "https://techxak.com/logo.png",
+    "logo": "https://techxak.com/chatgpt-logo.png",
     "description": "Leading technology solutions provider specializing in web development, mobile apps, AI/ML, AWS cloud services, IoT solutions, and database expertise.",
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": "San Francisco",
-      "addressRegion": "CA",
-      "addressCountry": "US"
+      "addressLocality": "Ahmedabad",
+      "addressRegion": "Gujarat",
+      "addressCountry": "India"
     },
     "contactPoint": {
       "@type": "ContactPoint",
-      "telephone": "+1-555-123-4567",
+      "telephone": "+91-8494090499",
       "contactType": "customer service",
       "email": "hello@techxak.com"
     },
