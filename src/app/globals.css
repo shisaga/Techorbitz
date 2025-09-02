@@ -83,32 +83,57 @@ html {
 }
 
 .rich-text-content h1 {
-  font-size: 2.25rem;
+  font-size: 1.75rem;
   font-weight: 700;
   margin-top: 1.5rem;
   margin-bottom: 1rem;
   color: var(--gray-900);
 }
 
+@media (min-width: 640px) {
+  .rich-text-content h1 {
+    font-size: 2.25rem;
+  }
+}
+
 .rich-text-content h2 {
-  font-size: 1.875rem;
+  font-size: 1.5rem;
   font-weight: 600;
   margin-top: 1.25rem;
   margin-bottom: 0.75rem;
   color: var(--gray-900);
 }
 
+@media (min-width: 640px) {
+  .rich-text-content h2 {
+    font-size: 1.875rem;
+  }
+}
+
 .rich-text-content h3 {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 600;
   margin-top: 1rem;
   margin-bottom: 0.5rem;
   color: var(--gray-900);
 }
 
+@media (min-width: 640px) {
+  .rich-text-content h3 {
+    font-size: 1.5rem;
+  }
+}
+
 .rich-text-content p {
   margin-bottom: 1rem;
   color: var(--gray-900);
+  font-size: 1rem;
+}
+
+@media (min-width: 640px) {
+  .rich-text-content p {
+    font-size: 1.125rem;
+  }
 }
 
 .rich-text-content ul {
@@ -125,6 +150,13 @@ html {
 
 .rich-text-content li {
   margin-bottom: 0.25rem;
+  font-size: 0.95rem;
+}
+
+@media (min-width: 640px) {
+  .rich-text-content li {
+    font-size: 1rem;
+  }
 }
 
 .rich-text-content blockquote {
@@ -133,6 +165,13 @@ html {
   margin: 1rem 0;
   font-style: italic;
   color: #6b7280;
+  font-size: 0.95rem;
+}
+
+@media (min-width: 640px) {
+  .rich-text-content blockquote {
+    font-size: 1rem;
+  }
 }
 
 .rich-text-content code {
@@ -140,15 +179,29 @@ html {
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
   font-family: var(--font-mono);
-  font-size: 0.875rem;
+  font-size: 0.8rem;
+}
+
+@media (min-width: 640px) {
+  .rich-text-content code {
+    font-size: 0.875rem;
+  }
 }
 
 .rich-text-content pre {
   background-color: #f3f4f6;
-  padding: 1rem;
+  padding: 0.75rem;
   border-radius: 0.5rem;
   overflow-x: auto;
   margin: 1rem 0;
+  font-size: 0.8rem;
+}
+
+@media (min-width: 640px) {
+  .rich-text-content pre {
+    padding: 1rem;
+    font-size: 0.875rem;
+  }
 }
 
 .rich-text-content pre code {

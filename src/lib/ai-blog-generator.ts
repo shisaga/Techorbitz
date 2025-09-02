@@ -1132,7 +1132,7 @@ Write the blog using the system instructions. Focus on providing in-depth techni
 
     try {
       const completion = await this.openai.chat.completions.create({
-        model: 'GPT-4o-mini',
+        model: 'gpt-4o-mini',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
@@ -1196,15 +1196,15 @@ Write the blog using the system instructions. Focus on providing in-depth techni
         await new Promise(resolve => setTimeout(resolve, 30000));
         // Retry once with a different model
         try {
-          const retryCompletion = await this.openai.chat.completions.create({
-            model: 'GPT-4o-mini-16k',
-            messages: [
-              { role: 'system', content: systemPrompt },
-              { role: 'user', content: userPrompt }
-            ],
-            max_tokens: 2000,
-            temperature: 0.7,
-          });
+                  const retryCompletion = await this.openai.chat.completions.create({
+          model: 'gpt-4o-mini',
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: userPrompt }
+          ],
+          max_tokens: 2000,
+          temperature: 0.7,
+        });
           
           const retryContent = retryCompletion.choices[0]?.message?.content;
           if (!retryContent) {
@@ -1413,7 +1413,7 @@ Requirements:
 Return only a JSON array like: ["keyword1", "keyword2", "keyword3"]`;
 
       const completion = await this.openai.chat.completions.create({
-        model: 'GPT-4o-mini',
+        model: 'gpt-4o-mini',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
@@ -1469,7 +1469,7 @@ Requirements:
 Return only the alt text.`;
 
       const completion = await this.openai.chat.completions.create({
-        model: 'GPT-4o-mini',
+        model: 'gpt-4o-mini',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
@@ -1532,7 +1532,7 @@ Requirements:
 Return only a JSON array like: ["keyword1", "keyword2", "keyword3"]`;
 
       const completion = await this.openai.chat.completions.create({
-        model: 'GPT-4o-mini',
+        model: 'gpt-4o-mini',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
@@ -1591,7 +1591,7 @@ Requirements:
 Return only the description text.`;
 
       const completion = await this.openai.chat.completions.create({
-        model: 'GPT-4o-mini',
+        model: 'gpt-4o-mini',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
@@ -1654,7 +1654,7 @@ Requirements:
 Return only the alt text.`;
 
       const completion = await this.openai.chat.completions.create({
-        model: 'GPT-4o-mini',
+        model: 'gpt-4o-mini',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
@@ -1742,7 +1742,7 @@ Requirements:
 Return only the description text.`;
 
       const completion = await this.openai.chat.completions.create({
-        model: 'GPT-4o-mini',
+        model: 'gpt-4o-mini',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }

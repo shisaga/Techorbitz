@@ -1,89 +1,78 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  // Disable ESLint during build for now
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-
-  // Disable TypeScript errors during build for production
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   // Performance optimizations
   experimental: {
     optimizeCss: true,
     optimizePackageImports: ['framer-motion', 'lucide-react'],
-    typedRoutes: false,
+    turbo: {
+      rules: {
+        '*.svg': {
+          loaders: ['@svgr/webpack'],
+          as: '*.js',
+        },
+      },
+    },
   },
-
+  
   // Image optimization
   images: {
-    domains: ['ui-avatars.com', 'techonigx.com'],
+    domains: ['ui-avatars.com', 'images.unsplash.com'],
     formats: ['image/webp', 'image/avif'],
-    minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
-    dangerouslyAllowSVG: true,
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
-
+  
   // Compression
   compress: true,
-
-  // Static generation
-  output: 'standalone',
-
-  // Headers for security and performance
+  
+  // Bundle analyzer
+  webpack: (config, { dev, isServer }) => {
+    // Optimize bundle size
+    if (!dev && !isServer) {
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            chunks: 'all',
+          },
+          common: {
+            name: 'common',
+            minChunks: 2,
+            chunks: 'all',
+            enforce: true,
+          },
+        },
+      };
+    }
+    
+    return config;
+  },
+  
+  // Headers for caching
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: '/api/blog/:path*',
         headers: [
           {
-            key: 'X-Frame-Options',
-            value: 'DENY'
+            key: 'Cache-Control',
+            value: 'public, max-age=300, s-maxage=300, stale-while-revalidate=600',
           },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff'
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin'
-          }
-        ]
+        ],
       },
       {
         source: '/blog/:path*',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=300, stale-while-revalidate=600'
-          }
-        ]
+            value: 'public, max-age=60, s-maxage=300, stale-while-revalidate=600',
+          },
+        ],
       },
-      {
-        source: '/api/blog/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=300, stale-while-revalidate=600'
-          }
-        ]
-      }
     ];
   },
-
-  // Redirects for SEO
-  async redirects() {
-    return [
-      {
-        source: '/blog/page/:page',
-        destination: '/blog?page=:page',
-        permanent: true
-      }
-    ];
-  }
 };
 
-export default nextConfig;
+module.exports = nextConfig;

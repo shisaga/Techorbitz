@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import React from 'react';
 
 interface BlogContentProps {
@@ -9,12 +9,26 @@ interface BlogContentProps {
 }
 
 export default function BlogContent({ content }: BlogContentProps) {
+  // Memoize content parsing to avoid re-renders
+  const parsedContent = useMemo(() => {
+    // Optimize content rendering
+    return content.replace(/<img/g, '<img loading="lazy"');
+  }, [content]);
+
+  // Optimize animations
+  const fadeInUp = useMemo(() => ({
+    initial: { opacity: 0, y: 30 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6 }
+  }), []);
+
   return (
     <div className="rich-text-content max-w-none">
       <style jsx>{`
         .rich-text-content {
           line-height: 1.7;
           color: #374151;
+          contain: content;
         }
         .rich-text-content h1 {
           color: #1f2937;
@@ -132,10 +146,14 @@ export default function BlogContent({ content }: BlogContentProps) {
           margin: 1.5rem 0;
           max-width: 100%;
           height: auto;
+          will-change: transform;
         }
       `}</style>
-      <div 
-        dangerouslySetInnerHTML={{ __html: content }}
+      <motion.div 
+        initial="initial"
+        animate="animate"
+        variants={fadeInUp}
+        dangerouslySetInnerHTML={{ __html: parsedContent }}
       />
       
       {/* Reading Time Indicator */}
