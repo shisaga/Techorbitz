@@ -10,8 +10,8 @@ User-agent: GPTBot
 Disallow: /
 
 # Host
-Host: https://techonigx.com
+Host: https://techxak.com
 
 # Sitemaps
-Sitemap: https://techonigx.com/sitemap.xml
-Sitemap: https://techonigx.com/rss.xml
+Sitemap: https://techxak.com/sitemap.xml
+Sitemap: https://techxak.com/rss.xml

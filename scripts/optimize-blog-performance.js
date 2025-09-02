@@ -244,7 +244,7 @@ export function useIntersectionObserver(
 // Memoized avatar component hook
 export function useMemoizedAvatar(name: string, size: number = 40) {
   return useMemo(() => 
-    \`https://ui-avatars.com/api/?name=\${encodeURIComponent(name || 'TechOnigx')}&background=ff6b47&color=fff&size=\${size}\`,
+    \`https://ui-avatars.com/api/?name=\${encodeURIComponent(name || 'TechXak')}&background=ff6b47&color=fff&size=\${size}\`,
     [name, size]
   );
 }`;

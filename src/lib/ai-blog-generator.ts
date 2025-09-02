@@ -47,7 +47,7 @@ class AIBlogGenerator {
 
     this.stabilityApiKey = process.env.STABILITY_API_KEY!;
     this.pexelsApiKey = process.env.PEXELS_API_KEY!;
-    this.wpBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://techonigx.com';
+    this.wpBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://techxak.com';
     this.wpUser = 'ai-generator';
     this.wpAppPassword = 'not-used';
   }
@@ -684,12 +684,12 @@ npm run setup</code></pre>
  <p>If you found this guide helpful, make sure to subscribe to our newsletter for the latest updates on ${title} and ${primaryTech} development trends in 2025!</p>
  </div>
  </div><meta name="keywords" content="${title.toLowerCase()}, ${primaryTech}, tutorial, guide, best practices, development, programming, 2025">
-<meta name="author" content="TechOnigx">
+<meta name="author" content="TechXak">
 <meta name="robots" content="index, follow">
 <meta property="og:title" content="${title}: Complete Guide & Tutorial 2025">
 <meta property="og:description" content="Master ${title} with our comprehensive guide. Learn step-by-step tutorials, best practices, and real-world examples.">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://techonigx.com/blog/${title.toLowerCase().replace(/\s+/g, '-')}">
+<meta property="og:url" content="https://techxak.com/blog/${title.toLowerCase().replace(/\s+/g, '-')}">
 <meta property="og:image" content="https://images.pexels.com/photos/1181271/pexels-photo-1181271.jpeg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${title}: Complete Guide & Tutorial 2025">
@@ -778,22 +778,22 @@ npm run setup</code></pre>
   "image": "https://images.pexels.com/photos/1181271/pexels-photo-1181271.jpeg",
   "author": {
     "@type": "Organization",
-    "name": "TechOnigx",
-    "url": "https://techonigx.com"
+    "name": "TechXak",
+    "url": "https://techxak.com"
   },
   "publisher": {
     "@type": "Organization",
-    "name": "TechOnigx",
+    "name": "TechXak",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://techonigx.com/logo.png"
+      "url": "https://techxak.com/logo.png"
     }
   },
   "datePublished": "${new Date().toISOString()}",
   "dateModified": "${new Date().toISOString()}",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://techonigx.com/blog/${title.toLowerCase().replace(/\s+/g, '-')}"
+    "@id": "https://techxak.com/blog/${title.toLowerCase().replace(/\s+/g, '-')}"
   },
   "keywords": "${title.toLowerCase()}, ${primaryTech}, analysis, trends, 2025, technology, innovation"
 }
@@ -1993,13 +1993,13 @@ Return only the description text.`;
 
       // Get or create AI author
       let author = await prisma.user.findUnique({
-        where: { email: 'ai@techonigx.com' }
+        where: { email: 'ai@techxak.com' }
       });
 
       if (!author) {
         author = await prisma.user.create({
           data: {
-            email: 'ai@techonigx.com',
+            email: 'ai@techxak.com',
             name: 'AI Blog Generator',
             role: 'ADMIN'
           }

@@ -55,7 +55,7 @@ export default function GoogleSearchOptimization({ post, siteInfo }: GoogleSearc
       "image": post.coverImage || `${baseUrl}/og-blog-default.jpg`,
       "author": {
         "@type": "Person",
-        "name": post.author.name || "TechOnigx Team",
+        "name": post.author.name || "TechXak Team",
         "description": post.author.bio || "Technology expert and thought leader"
       },
       "publisher": {
@@ -91,9 +91,9 @@ export default function GoogleSearchOptimization({ post, siteInfo }: GoogleSearc
           "worstRating": 1
         },
         "sameAs": [
-          "https://www.linkedin.com/company/techonigx",
-          "https://twitter.com/techonigx",
-          "https://github.com/techonigx"
+          "https://www.linkedin.com/company/techxak",
+          "https://twitter.com/techxak",
+          "https://github.com/techxak"
         ]
       },
       "datePublished": publishedDate,
@@ -175,9 +175,9 @@ export default function GoogleSearchOptimization({ post, siteInfo }: GoogleSearc
           "contactType": "customer service"
         },
         "sameAs": [
-          "https://www.linkedin.com/company/techonigx",
-          "https://twitter.com/techonigx",
-          "https://github.com/techonigx"
+          "https://www.linkedin.com/company/techxak",
+          "https://twitter.com/techxak",
+          "https://github.com/techxak"
         ]
       }
     };
@@ -325,12 +325,12 @@ export default function GoogleSearchOptimization({ post, siteInfo }: GoogleSearc
       <meta property="og:locale" content="en_US" />
       
       {/* Twitter optimization */}
-      <meta name="twitter:site" content="@techonigx" />
-      <meta name="twitter:creator" content="@techonigx" />
+      <meta name="twitter:site" content="@techxak" />
+      <meta name="twitter:creator" content="@techxak" />
       
       {/* Additional structured data for rich snippets */}
-      <meta name="author" content={post.author.name || "TechOnigx Team"} />
-      <meta name="article:author" content={post.author.name || "TechOnigx Team"} />
+      <meta name="author" content={post.author.name || "TechXak Team"} />
+      <meta name="article:author" content={post.author.name || "TechXak Team"} />
       <meta name="article:section" content="Technology" />
       <meta name="article:tag" content="AI, Web Development, Technology, Innovation, Fortune 500" />
       <meta name="article:published_time" content={post.publishedAt ? new Date(post.publishedAt).toISOString() : new Date().toISOString()} />

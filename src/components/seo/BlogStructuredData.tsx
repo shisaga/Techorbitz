@@ -20,7 +20,7 @@ interface BlogStructuredDataProps {
 }
 
 export default function BlogStructuredData({ post }: BlogStructuredDataProps) {
-  const baseUrl = 'https://techonigx.com';
+  const baseUrl = 'https://techxak.com';
   const postUrl = `${baseUrl}/blog/${post.slug}`;
   const imageUrl = post.coverImage || `${baseUrl}/og-blog-default.jpg`;
 
@@ -41,13 +41,13 @@ export default function BlogStructuredData({ post }: BlogStructuredDataProps) {
     "dateModified": post.updatedAt || post.publishedAt,
     "author": {
       "@type": "Person",
-      "name": post.author.name || "TechOnigx",
-      "description": post.author.bio || "Technology expert at TechOnigx",
-      "url": `${baseUrl}/author/${(post.author.name || "TechOnigx").toLowerCase().replace(/\s+/g, '-')}`
+      "name": post.author.name || "TechXak",
+      "description": post.author.bio || "Technology expert at TechXak",
+      "url": `${baseUrl}/author/${(post.author.name || "TechXak").toLowerCase().replace(/\s+/g, '-')}`
     },
     "publisher": {
       "@type": "Organization",
-      "name": "TechOnigx",
+      "name": "TechXak",
       "logo": {
         "@type": "ImageObject",
         "url": `${baseUrl}/logo.png`,
@@ -56,8 +56,8 @@ export default function BlogStructuredData({ post }: BlogStructuredDataProps) {
       },
       "url": baseUrl,
       "sameAs": [
-        "https://linkedin.com/company/techonigx",
-        "https://twitter.com/techonigx"
+        "https://linkedin.com/company/techxak",
+        "https://twitter.com/techxak"
       ]
     },
     "mainEntityOfPage": {
@@ -134,7 +134,7 @@ export default function BlogStructuredData({ post }: BlogStructuredDataProps) {
   const websiteData = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "TechOnigx",
+    "name": "TechXak",
     "url": baseUrl,
     "potentialAction": {
       "@type": "SearchAction",

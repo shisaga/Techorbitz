@@ -2,9 +2,9 @@ export default function StructuredData() {
   const organizationData = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "TechOnigx",
-    "url": "https://techonigx.com",
-    "logo": "https://techonigx.com/logo.png",
+    "name": "TechXak",
+    "url": "https://techxak.com",
+    "logo": "https://techxak.com/logo.png",
     "description": "Leading technology solutions provider specializing in web development, mobile apps, AI/ML, AWS cloud services, IoT solutions, and database expertise.",
     "address": {
       "@type": "PostalAddress",
@@ -16,12 +16,12 @@ export default function StructuredData() {
       "@type": "ContactPoint",
       "telephone": "+1-555-123-4567",
       "contactType": "customer service",
-      "email": "hello@techonigx.com"
+      "email": "hello@techxak.com"
     },
     "sameAs": [
-      "https://linkedin.com/company/techOnigx",
-      "https://twitter.com/techOnigx",
-      "https://github.com/techOnigx"
+      "https://linkedin.com/company/techXak",
+      "https://twitter.com/techXak",
+      "https://github.com/techXak"
     ],
     "foundingDate": "2014",
     "numberOfEmployees": {
@@ -92,18 +92,18 @@ export default function StructuredData() {
   const websiteData = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "TechOnigx",
-    "url": "https://techonigx.com",
+    "name": "TechXak",
+    "url": "https://techxak.com",
     "description": "Leading technology solutions provider for Fortune 500 companies",
     "publisher": {
       "@type": "Organization",
-      "name": "TechOnigx"
+      "name": "TechXak"
     },
     "potentialAction": {
       "@type": "SearchAction",
       "target": {
         "@type": "EntryPoint",
-        "urlTemplate": "https://techonigx.com/search?q={search_term_string}"
+        "urlTemplate": "https://techxak.com/search?q={search_term_string}"
       },
       "query-input": "required name=search_term_string"
     }

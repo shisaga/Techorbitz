@@ -42,7 +42,7 @@ const publishedPost = await prisma.post.create({
 ```
 
 #### **Automatic Setup**
-- ✅ **AI Author**: Creates `ai@techonigx.com` user account
+- ✅ **AI Author**: Creates `ai@techxak.com` user account
 - ✅ **Tags**: Automatically creates tags from AI-generated content
 - ✅ **Categories**: Creates "Technology" category if not exists
 - ✅ **Reading Time**: Calculated automatically (200 words/minute)
@@ -95,7 +95,7 @@ NEWSAPI_KEY=nn-XXXXXXXXXXXX
 ```env
 STABILITY_API_KEY=stb-XXXXXXXXXXXX
 PEXELS_API_KEY=px-XXXXXXXXXXXX
-NEXT_PUBLIC_SITE_URL=https://techonigx.com
+NEXT_PUBLIC_SITE_URL=https://techxak.com
 ```
 
 ### **Testing**

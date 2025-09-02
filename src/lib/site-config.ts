@@ -2,9 +2,9 @@
 export const siteConfig = {
   // Company Information
   company: {
-    name: "TechOnigx",
-    fullName: "TechOnigx: Fortune 500 Technology Consulting & AI Solutions",
-    description: "TechOnigx is a trusted technology consulting company that is deeply dedicated to the long-term growth and success of Fortune 500 clients. We specialize in AI/ML development, cloud architecture, and digital transformation solutions.",
+    name: "TechXak",
+    fullName: "TechXak: Fortune 500 Technology Consulting & AI Solutions",
+    description: "TechXak is a trusted technology consulting company that is deeply dedicated to the long-term growth and success of Fortune 500 clients. We specialize in AI/ML development, cloud architecture, and digital transformation solutions.",
     tagline: "Empowering Fortune 500 Companies with Cutting-Edge Technology Solutions",
     
     // Company Details
@@ -14,8 +14,8 @@ export const siteConfig = {
     type: "Private Company",
     
     // Contact Information
-    email: "contact@techonigx.com",
-    salesEmail: "sales@techonigx.com",
+    email: "contact@techxak.com",
+    salesEmail: "sales@techxak.com",
     phone: "+91-8494090499",
     phoneFormatted: "+91 8494097956",
     
@@ -42,17 +42,17 @@ export const siteConfig = {
     
     // Social Media
     social: {
-      linkedin: "https://www.linkedin.com/company/techonigx",
-      twitter: "https://twitter.com/techonigx",
-      github: "https://github.com/techonigx",
-      facebook: "https://facebook.com/techonigx",
-      instagram: "https://instagram.com/techonigx"
+      linkedin: "https://www.linkedin.com/company/techxak",
+      twitter: "https://twitter.com/techxak",
+      github: "https://github.com/techxak",
+      facebook: "https://facebook.com/techxak",
+      instagram: "https://instagram.com/techxak"
     },
     
     // Website
-    url: "https://techonigx.com",
-    logo: "https://techonigx.com/logo.png",
-    favicon: "https://techonigx.com/favicon.ico",
+    url: "https://techxak.com",
+    logo: "https://techxak.com/logo.png",
+    favicon: "https://techxak.com/favicon.ico",
     
     // Services
     services: [
@@ -148,7 +148,7 @@ export const siteConfig = {
   testimonials: [
     {
       client: "Fortune 500 Tech Company",
-      quote: "TechOnigx transformed our digital infrastructure and helped us achieve 300% ROI on our technology investments.",
+      quote: "TechXak transformed our digital infrastructure and helped us achieve 300% ROI on our technology investments.",
       author: "CTO",
       rating: 5
     },
@@ -160,7 +160,7 @@ export const siteConfig = {
     },
     {
       client: "Healthcare Innovation Company",
-      quote: "TechOnigx's expertise in AI/ML helped us develop breakthrough medical diagnostic tools.",
+      quote: "TechXak's expertise in AI/ML helped us develop breakthrough medical diagnostic tools.",
       author: "Chief Innovation Officer",
       rating: 5
     }
@@ -168,7 +168,7 @@ export const siteConfig = {
   
   // Blog & Content
   blog: {
-    title: "TechOnigx Tech Blog",
+    title: "TechXak Tech Blog",
     description: "Latest insights on technology and innovation from Fortune 500 technology experts",
     category: "Technology Blog",
     frequency: "Weekly",
@@ -184,7 +184,7 @@ export const siteConfig = {
   
   // SEO Configuration
   seo: {
-    title: "TechOnigx - Fortune 500 Technology Consulting & AI Solutions",
+    title: "TechXak - Fortune 500 Technology Consulting & AI Solutions",
     description: "Leading technology consulting company specializing in AI/ML development, cloud architecture, and digital transformation for Fortune 500 companies. Expert Fortune 500 consultants.",
     keywords: [
       "Technology Consulting",
@@ -198,7 +198,7 @@ export const siteConfig = {
       "Cloud Computing",
       "Enterprise Solutions"
     ],
-    author: "TechOnigx Team",
+    author: "TechXak Team",
     language: "en-US",
     locale: "en_US"
   }

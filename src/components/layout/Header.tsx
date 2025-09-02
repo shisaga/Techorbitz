@@ -39,7 +39,7 @@ export default function Header({
               whileHover={{ scale: 1.05 }}
               className="text-2xl font-bold text-gray-900"
             >
-              <span className="text-coral-primary">Tech</span>Onigx
+              <span className="text-coral-primary">Tech</span>Xak
             </motion.div>
           </Link>
 

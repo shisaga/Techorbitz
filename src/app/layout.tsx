@@ -23,32 +23,32 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TechOnigx - Leading Technology Solutions & Development Partner",
-  description: "TechOnigx provides cutting-edge technology solutions including web development, mobile apps, AI/ML, AWS cloud services, IoT solutions, and database expertise. We work with Google, Apple, McDonald's and other Fortune 500 companies. Expert hiring partner for affordable developer talent.",
+  title: "TechXak - Leading Technology Solutions & Development Partner",
+  description: "TechXak provides cutting-edge technology solutions including web development, mobile apps, AI/ML, AWS cloud services, IoT solutions, and database expertise. We work with Google, Apple, McDonald's and other Fortune 500 companies. Expert hiring partner for affordable developer talent.",
   keywords: "web development, mobile apps, AI development, AWS cloud services, IoT solutions, Oracle database, medical software, HIPAA compliance, hiring partner, developer recruitment, technology consulting, Fortune 500 clients",
-      authors: [{ name: "TechOnigx Team" }],
-    creator: "TechOnigx",
-    publisher: "TechOnigx",
+      authors: [{ name: "TechXak Team" }],
+    creator: "TechXak",
+    publisher: "TechXak",
   robots: "index, follow",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://techonigx.com",
-    title: "TechOnigx - Leading Technology Solutions & Development Partner",
+    url: "https://techxak.com",
+    title: "TechXak - Leading Technology Solutions & Development Partner",
     description: "Expert technology solutions for Fortune 500 companies. Specializing in web development, mobile apps, AI/ML, AWS cloud, IoT, and database solutions.",
-    siteName: "TechOnigx",
+    siteName: "TechXak",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "TechOnigx - Technology Solutions"
+        alt: "TechXak - Technology Solutions"
       }
     ]
   },
   twitter: {
     card: "summary_large_image",
-    title: "TechOnigx - Leading Technology Solutions",
+    title: "TechXak - Leading Technology Solutions",
     description: "Expert technology solutions for Fortune 500 companies. Web development, mobile apps, AI/ML, AWS cloud services.",
     images: ["/twitter-image.jpg"]
   },

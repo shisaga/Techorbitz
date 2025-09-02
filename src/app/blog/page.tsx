@@ -38,44 +38,44 @@ const getBlogData = cache(async () => {
 
 // Enhanced metadata for blog listing page
 export const metadata: Metadata = {
-  title: 'Tech Blog - Latest Insights & Trends | TechOnigx',
+  title: 'Tech Blog - Latest Insights & Trends | TechXak',
   description: 'Discover cutting-edge technology insights from Fortune 500 experts. Read about AI, cloud computing, IoT, database optimization, and breakthrough innovations that drive business success.',
-  keywords: 'tech blog, technology insights, AI articles, cloud computing, IoT solutions, Fortune 500 technology, web development, database optimization, enterprise solutions, TechOnigx',
-  authors: [{ name: 'TechOnigx Team' }],
-  creator: 'TechOnigx',
-  publisher: 'TechOnigx',
+  keywords: 'tech blog, technology insights, AI articles, cloud computing, IoT solutions, Fortune 500 technology, web development, database optimization, enterprise solutions, TechXak',
+  authors: [{ name: 'TechXak Team' }],
+  creator: 'TechXak',
+  publisher: 'TechXak',
   robots: 'index, follow',
   
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://techonigx.com/blog',
-    title: 'Tech Blog - Latest Insights & Trends | TechOnigx',
+    url: 'https://techxak.com/blog',
+    title: 'Tech Blog - Latest Insights & Trends | TechXak',
     description: 'Expert insights on AI, cloud computing, IoT, and more from Fortune 500 technology consultants.',
-    siteName: 'TechOnigx',
+    siteName: 'TechXak',
     images: [
       {
-        url: 'https://techonigx.com/og-blog.jpg',
+        url: 'https://techxak.com/og-blog.jpg',
         width: 1200,
         height: 630,
-        alt: 'TechOnigx Tech Blog'
+        alt: 'TechXak Tech Blog'
       }
     ]
   },
   
   twitter: {
     card: 'summary_large_image',
-    title: 'Tech Blog - Latest Insights & Trends | TechOnigx',
+    title: 'Tech Blog - Latest Insights & Trends | TechXak',
     description: 'Expert insights on AI, cloud computing, IoT, and more from Fortune 500 technology consultants.',
-    creator: '@techonigx',
-    site: '@techonigx',
-    images: ['https://techonigx.com/twitter-blog.jpg']
+    creator: '@techxak',
+    site: '@techxak',
+    images: ['https://techxak.com/twitter-blog.jpg']
   },
   
   alternates: {
-    canonical: 'https://techonigx.com/blog',
+    canonical: 'https://techxak.com/blog',
     types: {
-      'application/rss+xml': 'https://techonigx.com/rss.xml'
+      'application/rss+xml': 'https://techxak.com/rss.xml'
     }
   }
 };

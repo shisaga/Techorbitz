@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
 export async function GET() {
-  const baseUrl = 'https://techonigx.com';
+  const baseUrl = 'https://techxak.com';
   
   try {
     const posts = await prisma.post.findMany({
@@ -26,7 +26,7 @@ export async function GET() {
         <link>${baseUrl}/blog/${post.slug}</link>
         <guid>${baseUrl}/blog/${post.slug}</guid>
         <pubDate>${post.publishedAt?.toUTCString()}</pubDate>
-        <author>hello@techonigx.com (${post.author.name})</author>
+        <author>hello@techxak.com (${post.author.name})</author>
         <category><![CDATA[Technology]]></category>
       </item>
     `).join('');
@@ -34,14 +34,14 @@ export async function GET() {
     const rssXml = `<?xml version="1.0" encoding="UTF-8"?>
     <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
       <channel>
-            <title>TechOnigx Tech Blog</title>
-    <description>Latest insights on technology, development, AI, cloud computing, and innovation from TechOnigx experts.</description>
+            <title>TechXak Tech Blog</title>
+    <description>Latest insights on technology, development, AI, cloud computing, and innovation from TechXak experts.</description>
         <link>${baseUrl}/blog</link>
         <language>en-us</language>
         <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
         <atom:link href="${baseUrl}/rss.xml" rel="self" type="application/rss+xml"/>
-            <managingEditor>hello@techonigx.com (TechOnigx Team)</managingEditor>
-    <webMaster>hello@techonigx.com (TechOnigx Team)</webMaster>
+            <managingEditor>hello@techxak.com (TechXak Team)</managingEditor>
+    <webMaster>hello@techxak.com (TechXak Team)</webMaster>
         <category>Technology</category>
         <category>Web Development</category>
         <category>AI & Machine Learning</category>
@@ -69,7 +69,7 @@ export async function GET() {
     const basicRss = `<?xml version="1.0" encoding="UTF-8"?>
     <rss version="2.0">
       <channel>
-        <title>TechOnigx Tech Blog</title>
+        <title>TechXak Tech Blog</title>
         <description>Latest insights on technology and innovation</description>
         <link>${baseUrl}/blog</link>
         <language>en-us</language>

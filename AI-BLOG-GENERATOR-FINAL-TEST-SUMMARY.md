@@ -113,7 +113,7 @@ OPENAI_API_KEY=sk-XXXXXXXXXXXX ✅ (Working)
 NEWSAPI_KEY=nn-XXXXXXXXXXXX ✅ (Working)
 STABILITY_API_KEY=stb-XXXXXXXXXXXX (Optional)
 PEXELS_API_KEY=px-XXXXXXXXXXXX ✅ (Working)
-NEXT_PUBLIC_SITE_URL=https://techonigx.com
+NEXT_PUBLIC_SITE_URL=https://techxak.com
 ```
 
 ## 🎯 **How Many Blogs Can You Generate?**

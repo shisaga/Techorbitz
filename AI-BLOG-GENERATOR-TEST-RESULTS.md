@@ -55,7 +55,7 @@
 ### **Database Integration**
 - ✅ **MongoDB**: Posts saved to your existing database
 - ✅ **Prisma ORM**: Using your existing models
-- ✅ **AI Author**: Created `ai@techonigx.com` user account
+- ✅ **AI Author**: Created `ai@techxak.com` user account
 - ✅ **Tags**: Auto-generated CSS-related tags
 - ✅ **Categories**: Technology category assigned
 - ✅ **SEO Fields**: Full metadata populated
@@ -114,7 +114,7 @@ OPENAI_API_KEY=sk-XXXXXXXXXXXX
 NEWSAPI_KEY=nn-XXXXXXXXXXXX
 STABILITY_API_KEY=stb-XXXXXXXXXXXX (optional)
 PEXELS_API_KEY=px-XXXXXXXXXXXX (optional)
-NEXT_PUBLIC_SITE_URL=https://techonigx.com
+NEXT_PUBLIC_SITE_URL=https://techxak.com
 ```
 
 ### **Scheduling Options**

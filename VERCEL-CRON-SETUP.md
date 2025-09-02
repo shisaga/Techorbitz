@@ -46,7 +46,7 @@ NEWSAPI_KEY=nn-your-newsapi-key
 PEXELS_API_KEY=px-your-pexels-key
 
 # Website Configuration
-NEXT_PUBLIC_SITE_URL=https://techonigx.com
+NEXT_PUBLIC_SITE_URL=https://techxak.com
 
 # Blog Generation Settings
 POSTS_PER_DAY=2

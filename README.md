@@ -1,6 +1,6 @@
-# TechOnigx - Leading Technology Solutions Provider
+# TechXak - Leading Technology Solutions Provider
 
-A modern, comprehensive website for TechOnigx showcasing our expertise in cutting-edge technology solutions for Fortune 500 companies.
+A modern, comprehensive website for TechXak showcasing our expertise in cutting-edge technology solutions for Fortune 500 companies.
 
 ## 🚀 Live Website
 Visit: `http://localhost:3000` (Development)
@@ -175,5 +175,5 @@ npm start
 - Data protection protocols
 - Enterprise-grade security
 
-This website positions TechOnigx as a leading technology partner capable of handling enterprise-level projects while also providing affordable developer recruitment services. The comprehensive feature set and professional design will effectively attract Fortune 500 clients and showcase our extensive technical expertise.# TechOnigx
-# TechOnigx
+This website positions TechXak as a leading technology partner capable of handling enterprise-level projects while also providing affordable developer recruitment services. The comprehensive feature set and professional design will effectively attract Fortune 500 clients and showcase our extensive technical expertise.# TechXak
+# TechXak

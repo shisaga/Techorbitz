@@ -359,17 +359,17 @@ Make sure the content is:
     
     // Get admin user
     const adminUser = await prisma.user.findFirst({
-      where: { email: 'admin@techonigx.com' }
+      where: { email: 'admin@techxak.com' }
     });
 
     if (!adminUser) {
       console.log('❌ Admin user not found. Creating default admin user...');
       const newAdmin = await prisma.user.create({
         data: {
-          email: 'admin@techonigx.com',
-          name: 'TechOnigx Admin',
+          email: 'admin@techxak.com',
+          name: 'TechXak Admin',
           role: 'ADMIN',
-          bio: 'TechOnigx AI Blog Generator'
+          bio: 'TechXak AI Blog Generator'
         }
       });
       return newAdmin;

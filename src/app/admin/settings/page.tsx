@@ -58,8 +58,8 @@ export default function SettingsManagement() {
   const [settings, setSettings] = useState({
     profile: {
       name: 'Admin User',
-              email: 'admin@techonigx.com',
-        bio: 'TechOnigx Administrator'
+              email: 'admin@techxak.com',
+        bio: 'TechXak Administrator'
     },
     security: {
       twoFactorEnabled: false,
@@ -313,7 +313,7 @@ export default function SettingsManagement() {
                     <InputField
                       label="Site Title"
                       type="text"
-                      placeholder="TechOnigx"
+                      placeholder="TechXak"
                     />
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -327,7 +327,7 @@ export default function SettingsManagement() {
                     <InputField
                       label="Contact Email"
                       type="email"
-                      placeholder="contact@techonigx.com"
+                      placeholder="contact@techxak.com"
                     />
                   </div>
                 </motion.div>

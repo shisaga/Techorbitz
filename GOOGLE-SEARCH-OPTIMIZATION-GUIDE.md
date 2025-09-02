@@ -60,9 +60,9 @@ This guide will help you implement comprehensive Google search optimization to m
 ### 1. Google Search Console Setup
 ```bash
 # 1. Go to Google Search Console
-# 2. Add your property: https://techonigx.com
+# 2. Add your property: https://techxak.com
 # 3. Verify ownership (HTML tag method)
-# 4. Submit your sitemap: https://techonigx.com/sitemap.xml
+# 4. Submit your sitemap: https://techxak.com/sitemap.xml
 # 5. Request indexing for important pages
 ```
 
@@ -116,7 +116,7 @@ verification: {
   },
   "publisher": {
     "@type": "Organization",
-    "name": "TechOnigx"
+    "name": "TechXak"
   }
 }
 ```
@@ -189,7 +189,7 @@ const sitemap = [
 
 ### Rich Snippet Example
 ```
-🔍 Search: "TechOnigx AI consulting"
+🔍 Search: "TechXak AI consulting"
 📱 Result: Rich snippet with company logo, rating, and description
 📍 Knowledge Panel: Company information, services, contact details
 📊 Expandable: Services, team, case studies, testimonials

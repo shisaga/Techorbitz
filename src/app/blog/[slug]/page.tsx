@@ -114,7 +114,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     if (!post) {
       return {
-        title: 'Post Not Found | TechOnigx',
+        title: 'Post Not Found | TechXak',
         description: 'The blog post you are looking for could not be found.',
       };
     }
@@ -137,7 +137,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         'cloud computing',
         'IoT',
         'Fortune 500',
-        'TechOnigx'
+        'TechXak'
       ].join(', '),
       authors: [
         { name: post.author.name || siteConfig.team.founder.name },

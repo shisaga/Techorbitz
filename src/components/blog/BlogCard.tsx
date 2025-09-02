@@ -118,11 +118,11 @@ export default function BlogCard({ post, index, variant = 'default' }: BlogCardP
         <div className="flex items-center gap-3 text-sm text-gray-500 mb-3">
           <div className="flex items-center gap-1">
             <img 
-              src={`https://ui-avatars.com/api/?name=${encodeURIComponent(post.author.name || 'TechOnigx')}&background=ff6b47&color=fff&size=24`}
-              alt={post.author.name || 'TechOnigx'}
+              src={`https://ui-avatars.com/api/?name=${encodeURIComponent(post.author.name || 'TechXak')}&background=ff6b47&color=fff&size=24`}
+              alt={post.author.name || 'TechXak'}
               className="w-6 h-6 rounded-full"
             />
-            <span>{post.author.name || 'TechOnigx'}</span>
+            <span>{post.author.name || 'TechXak'}</span>
           </div>
           <span>•</span>
           <span>{post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : 'Draft'}</span>

@@ -70,7 +70,7 @@ export default function Home() {
                 whileHover={{ scale: 1.05 }}
                 className="text-2xl font-bold text-gray-900"
               >
-                <span className="text-coral-primary">Tech</span>Onigx
+                <span className="text-coral-primary">Tech</span>Xak
               </motion.div>
             </div>
             <nav className="hidden md:flex space-x-8">
@@ -1113,7 +1113,7 @@ export default function Home() {
               variants={fadeInUp}
               className="text-xl text-white/90 mb-8 max-w-3xl mx-auto"
             >
-              Join the ranks of successful companies that have chosen TechOnigx for their technology solutions.
+              Join the ranks of successful companies that have chosen TechXak for their technology solutions.
             </motion.p>
             <motion.div
               variants={fadeInUp}
@@ -1150,7 +1150,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <div className="text-2xl font-bold mb-4">
-                <span className="text-coral-primary">Tech</span>Onigx
+                <span className="text-coral-primary">Tech</span>Xak
               </div>
               <p className="text-gray-400 mb-4">
                 Transforming ideas into digital excellence through innovative technology solutions.
@@ -1190,14 +1190,14 @@ export default function Home() {
             <div>
               <h3 className="font-semibold text-lg mb-4">Contact</h3>
               <ul className="space-y-2 text-gray-400">
-                <li>📧 hello@techonigx.com</li>
+                <li>📧 hello@techxak.com</li>
                 <li>📱 +1 (555) 123-4567</li>
                 <li>📍 San Francisco, CA</li>
               </ul>
             </div>
           </div>
           <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-                          <p>&copy; 2024 TechOnigx. All rights reserved.</p>
+                          <p>&copy; 2024 TechXak. All rights reserved.</p>
           </div>
         </div>
       </footer>

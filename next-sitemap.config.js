@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: process.env.SITE_URL || 'https://techonigx.com',
+  siteUrl: process.env.SITE_URL || 'https://techxak.com',
   generateRobotsTxt: true,
   generateIndexSitemap: false,
   exclude: ['/admin/*', '/api/*'],
@@ -28,8 +28,8 @@ module.exports = {
       }
     ],
     additionalSitemaps: [
-      'https://techonigx.com/sitemap.xml',
-      'https://techonigx.com/rss.xml'
+      'https://techxak.com/sitemap.xml',
+      'https://techxak.com/rss.xml'
     ]
   },
 

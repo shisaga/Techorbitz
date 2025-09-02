@@ -62,7 +62,7 @@ export default function AdminSidebar({ collapsed, onToggle }: AdminSidebarProps)
               <div className="w-8 h-8 bg-coral-primary rounded-lg flex items-center justify-center flex-shrink-0">
                 <span className="text-white font-bold text-sm">T</span>
               </div>
-              <span className="font-semibold text-gray-900">TechOnigx</span>
+              <span className="font-semibold text-gray-900">TechXak</span>
             </motion.div>
           )}
           {collapsed && (
@@ -130,7 +130,7 @@ export default function AdminSidebar({ collapsed, onToggle }: AdminSidebarProps)
             
               <div className="flex-1">
                 <p className="text-sm font-medium text-gray-900">Admin User</p>
-                <p className="text-xs text-gray-500">admin@techonigx.com</p>
+                <p className="text-xs text-gray-500">admin@techxak.com</p>
               </div></>
             )}
             {!collapsed ? (

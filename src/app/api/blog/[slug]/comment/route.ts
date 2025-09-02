@@ -35,13 +35,13 @@ export async function POST(request: NextRequest, context: RouteParams) {
 
     // Get or create a default user for comments
     let defaultUser = await prisma.user.findFirst({
-              where: { email: 'anonymous@techonigx.com' }
+              where: { email: 'anonymous@techxak.com' }
     });
 
     if (!defaultUser) {
       defaultUser = await prisma.user.create({
         data: {
-          email: 'anonymous@techonigx.com',
+          email: 'anonymous@techxak.com',
           name: 'Anonymous User',
           role: 'USER'
         }
