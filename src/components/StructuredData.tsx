@@ -3,36 +3,63 @@ export default function StructuredData() {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "TechXak",
+    "alternateName": "TechXak Technologies",
     "url": "https://techxak.com",
-    "logo": "https://techxak.com/chatgpt-logo.png",
-    "description": "Leading technology solutions provider specializing in web development, mobile apps, AI/ML, AWS cloud services, IoT solutions, and database expertise.",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://techxak.com/chatgpt-logo.png",
+      "width": 200,
+      "height": 200
+    },
+    "description": "Leading technology solutions provider specializing in web development, mobile apps, AI/ML, AWS cloud services, IoT solutions, and database expertise. Trusted by Fortune 500 companies including Google, Apple, and McDonald's.",
     "address": {
       "@type": "PostalAddress",
+      "streetAddress": "TechXak Office",
       "addressLocality": "Ahmedabad",
       "addressRegion": "Gujarat",
-      "addressCountry": "India"
+      "postalCode": "380001",
+      "addressCountry": "IN"
     },
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "telephone": "+91-8494090499",
-      "contactType": "customer service",
-      "email": "hello@techxak.com"
-    },
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "telephone": "+91-8494090499",
+        "contactType": "customer service",
+        "email": "hello@techxak.com",
+        "availableLanguage": ["English", "Hindi", "Gujarati"]
+      },
+      {
+        "@type": "ContactPoint",
+        "telephone": "+1-555-0123",
+        "contactType": "sales",
+        "email": "sales@techxak.com",
+        "availableLanguage": "English"
+      }
+    ],
     "sameAs": [
-      "https://linkedin.com/company/techXak",
-      "https://twitter.com/techXak",
-      "https://github.com/techXak"
+      "https://linkedin.com/company/techxak",
+      "https://twitter.com/techxak",
+      "https://github.com/techxak",
+      "https://facebook.com/techxak",
+      "https://instagram.com/techxak"
     ],
     "foundingDate": "2014",
     "numberOfEmployees": {
       "@type": "QuantitativeValue",
-      "value": "50-100"
+      "value": "50-100",
+      "unitText": "employees"
     },
-    "keywords": "web development, mobile apps, AI development, AWS cloud services, IoT solutions, Oracle database, medical software, hiring partner, developer recruitment",
+    "keywords": "web development, mobile apps, AI development, AWS cloud services, IoT solutions, Oracle database, medical software, hiring partner, developer recruitment, Fortune 500, technology consulting",
     "serviceArea": {
       "@type": "Place",
-      "name": "Worldwide"
+      "name": "Worldwide",
+      "description": "Serving clients globally with remote development teams"
     },
+    "award": [
+      "Fortune 500 Technology Partner",
+      "AWS Advanced Consulting Partner",
+      "Google Cloud Partner"
+    ],
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
       "name": "Technology Services",
@@ -93,11 +120,13 @@ export default function StructuredData() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "TechXak",
+    "alternateName": "TechXak Technologies",
     "url": "https://techxak.com",
-    "description": "Leading technology solutions provider for Fortune 500 companies",
+    "description": "Leading technology solutions provider for Fortune 500 companies. Expert in web development, mobile apps, AI/ML, AWS cloud services, and IoT solutions.",
     "publisher": {
       "@type": "Organization",
-      "name": "TechXak"
+      "name": "TechXak",
+      "url": "https://techxak.com"
     },
     "potentialAction": {
       "@type": "SearchAction",
@@ -106,7 +135,66 @@ export default function StructuredData() {
         "urlTemplate": "https://techxak.com/search?q={search_term_string}"
       },
       "query-input": "required name=search_term_string"
-    }
+    },
+    "inLanguage": "en-US",
+    "copyrightYear": "2024",
+    "dateModified": new Date().toISOString()
+  };
+
+  const breadcrumbData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://techxak.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Services",
+        "item": "https://techxak.com/services"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Blog",
+        "item": "https://techxak.com/blog"
+      }
+    ]
+  };
+
+  const faqData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What services does TechXak provide?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "TechXak provides comprehensive technology solutions including web development, mobile app development, AI/ML solutions, AWS cloud services, IoT development, and database expertise. We work with Fortune 500 companies and provide expert hiring services."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does TechXak work with Fortune 500 companies?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, TechXak is a trusted technology partner for Fortune 500 companies including Google, Apple, McDonald's, and many others. We provide expert development teams and technology solutions."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What technologies does TechXak specialize in?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "TechXak specializes in React, Node.js, Python, AWS, Oracle Database, AI/ML, IoT, mobile development, and modern web technologies. We stay current with the latest technology trends."
+        }
+      }
+    ]
   };
 
   return (
@@ -121,6 +209,18 @@ export default function StructuredData() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(websiteData)
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbData)
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqData)
         }}
       />
     </>

@@ -344,3 +344,54 @@ enum SubscriptionPlan {
   PRO
   ENTERPRISE
 }
+
+// Meeting Scheduling Models
+model Meeting {
+  id        String        @id @default(auto()) @map("_id") @db.ObjectId
+  meetingId String        @unique // UUID for external reference
+  
+  // Meeting Details
+  title       String
+  description String?
+  meetingType String // 'consultation', 'demo', 'support', etc.
+  
+  // Schedule Information
+  scheduledDate DateTime
+  scheduledTime String // Time in HH:MM format
+  duration      Int    @default(60) // Duration in minutes
+  
+  // Contact Information
+  contactName  String
+  contactEmail String
+  contactPhone String?
+  message      String?
+  
+  // Google Meet Integration
+  googleMeetLink String?
+  meetingCode    String?
+  googleMeetId   String? // Google Meet meeting ID
+  
+  // Status and Tracking
+  status     MeetingStatus @default(SCHEDULED)
+  isCompleted Boolean      @default(false)
+  notes      String? // Admin notes
+  
+  // Email Tracking
+  emailSentToClient Boolean @default(false)
+  emailSentToAdmin  Boolean @default(false)
+  
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("meetings")
+}
+
+enum MeetingStatus {
+  SCHEDULED
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}

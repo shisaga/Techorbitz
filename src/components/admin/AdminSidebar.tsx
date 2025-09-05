@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard, FileText, Users, Image,
   Settings, BarChart3, Calendar, MessageSquare,
-  ChevronLeft, ChevronRight, User, Home, LogOut
+  ChevronLeft, ChevronRight, User, Home, LogOut, Video
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -33,6 +33,7 @@ const navItems: NavItem[] = [
   { id: 'media', label: 'Media', icon: Image, href: '/admin/media' },
   { id: 'analytics', label: 'Analytics', icon: BarChart3, href: '/admin/analytics' },
   { id: 'comments', label: 'Comments', icon: MessageSquare, href: '/admin/comments' },
+  { id: 'meetings', label: 'Meetings', icon: Video, href: '/admin/meetings' },
   { id: 'calendar', label: 'Calendar', icon: Calendar, href: '/admin/calendar' },
   { id: 'settings', label: 'Settings', icon: Settings, href: '/admin/settings' }
 ];

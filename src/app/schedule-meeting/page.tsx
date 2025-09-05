@@ -95,11 +95,34 @@ export default function ScheduleMeetingPage() {
 
     setIsSubmitting(true);
 
-    // TODO: Implement API call to schedule meeting and send emails
-    setTimeout(() => {
+    try {
+      const response = await fetch('/api/meeting/schedule', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          date: selectedDate.toISOString(),
+          time: selectedTime,
+          contactInfo,
+          meetingType
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setIsScheduled(true);
+        console.log('Meeting scheduled successfully:', data);
+      } else {
+        throw new Error(data.error || 'Failed to schedule meeting');
+      }
+    } catch (error) {
+      console.error('Error scheduling meeting:', error);
+      alert('Failed to schedule meeting. Please try again or contact us directly.');
+    } finally {
       setIsSubmitting(false);
-      setIsScheduled(true);
-    }, 2000);
+    }
   };
 
   if (isScheduled) {
@@ -270,7 +293,7 @@ export default function ScheduleMeetingPage() {
                     onChange={(e) => setContactInfo(prev => ({ ...prev, message: e.target.value }))}
                     placeholder="Tell us what you'd like to discuss..."
                     rows={8}
-                    className="w-full px-6 py-4 border border-gray-200 rounded-2xl focus:border-coral-primary focus:ring-2 focus:ring-coral-primary/20 outline-none resize-none"
+                    className="w-full text-black px-6 py-4 border border-gray-200 rounded-2xl focus:border-coral-primary focus:ring-2 focus:ring-coral-primary/20 outline-none resize-none"
                   />
                 </div>
 
