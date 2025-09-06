@@ -15,13 +15,22 @@ async function authorize() {
     return client;
   }
 
-  throw new Error("❌ No refresh token found. Run get-refresh-token.ts first.");
+  // Return null instead of throwing error - we'll handle this gracefully
+  console.log("⚠️  No Google refresh token found. Using fallback Google Meet links.");
+  console.log("   To enable real Google Meet integration, run: node get-refresh-token.js");
+  return null;
 }
 
 export class GoogleMeetService {
   async createSpace(): Promise<{ success: boolean; meetingLink?: string; meetingId?: string; error?: string }> {
     try {
       const authClient = await authorize();
+      
+      // If no auth client (no refresh token), use fallback
+      if (!authClient) {
+        return this.generateMockMeetLink("No refresh token configured");
+      }
+      
       const meetClient = new SpacesServiceClient({ auth: authClient });
 
       const [space] = await meetClient.createSpace({});

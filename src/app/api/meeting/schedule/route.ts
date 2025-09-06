@@ -62,8 +62,18 @@ export async function POST(request: NextRequest) {
       googleMeetData: meetResult
     };
     
+    console.log('🔍 Meeting object created for email service:', {
+      id: meeting.id,
+      date: meeting.date,
+      time: meeting.time,
+      contactInfo: meeting.contactInfo,
+      googleMeetLink: meeting.googleMeetLink
+    });
+    
     // Send email notifications
     try {
+      console.log('🔍 Attempting to send meeting emails...');
+      console.log('Meeting data:', JSON.stringify(meeting, null, 2));
       await emailService.sendMeetingEmails(meeting);
       console.log('✅ Meeting emails sent successfully');
       
