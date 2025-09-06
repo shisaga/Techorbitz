@@ -78,17 +78,19 @@ export default function BlogCard({ post, index, variant = 'default' }: BlogCardP
       }`}
     >
       {/* Cover Image */}
-      <div className={`relative ${
+      <div className={`relative overflow-hidden ${
         variant === 'featured' ? 'h-64' : 'h-48'
       }`}>
         {(post.showcaseImage || post.coverImage) ? (
-          <OptimizedImage
-            src={post.showcaseImage || post.coverImage || ''}
-            alt={post.title}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
+          <div className="relative w-full h-full">
+            <OptimizedImage
+              src={post.showcaseImage || post.coverImage || ''}
+              alt={post.title}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          </div>
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-coral-light to-coral-primary/20 flex items-center justify-center">
             <div className="text-coral-primary text-4xl">📝</div>
