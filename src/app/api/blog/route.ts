@@ -25,6 +25,7 @@ export async function GET(request: NextRequest) {
     const category = searchParams.get('category');
     const tag = searchParams.get('tag');
     const search = searchParams.get('search');
+    const techOnly = searchParams.get('techOnly') === 'true';
 
     const skip = (page - 1) * limit;
 
@@ -60,6 +61,38 @@ export async function GET(request: NextRequest) {
         { excerpt: { contains: search, mode: 'insensitive' } },
         { content: { contains: search, mode: 'insensitive' } }
       ];
+    }
+
+    // Tech-only filter for main front page
+    if (techOnly) {
+      // Get tech-related category IDs
+      const techCategories = await prisma.category.findMany({
+        where: {
+          slug: {
+            in: [
+              'innovation-insights',
+              'digital-transformation', 
+              'software-engineering',
+              'web-development',
+              'artificial-intelligence',
+              'emerging-technologies',
+              'business-strategy',
+              'startup-ecosystem',
+              'research-analysis',
+              'case-studies',
+              'tools-resources',
+              'tutorials-guides'
+            ]
+          }
+        },
+        select: { id: true }
+      });
+
+      const techCategoryIds = techCategories.map(cat => cat.id);
+      
+      if (techCategoryIds.length > 0) {
+        where.categoryIds = { hasSome: techCategoryIds };
+      }
     }
 
     const [posts, totalCount] = await Promise.all([

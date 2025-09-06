@@ -6,6 +6,7 @@ interface BlogPost {
   slug: string;
   content: string;
   metaDescription: string;
+  description?: string;
   excerpt?: string;
   seoDescription?: string;
   seoTitle?: string;
@@ -934,17 +935,39 @@ npm run setup</code></pre>
       
       // DUAL SOURCE STRATEGY: Ensure we get both GitHub and NewsAPI content
       const allTopics = await this.getTrendingTopics();
-      console.log(`Got ${allTopics.length} topics from both sources`);
-      
-      if (allTopics.length === 0) {
-        console.error('No trending topics found - using fallback topics');
-        const fallbackTopics = this.getFallbackTopics();
-        allTopics.push(...fallbackTopics.slice(0, count));
-      }
-      
-      // Separate GitHub and NewsAPI topics
-      const githubTopics = allTopics.filter(topic => topic.source === 'GitHub Trending');
-      const newsTopics = allTopics.filter(topic => topic.source !== 'GitHub Trending');
+        console.log(`Got ${allTopics.length} topics from both sources`);
+        
+        // Filter to only tech-related topics
+        const techTopics = allTopics.filter(topic => {
+          const title = topic.title.toLowerCase();
+          const description = topic.description.toLowerCase();
+          const techKeywords = [
+            'technology', 'tech', 'ai', 'artificial intelligence', 'machine learning',
+            'software', 'programming', 'development', 'startup', 'innovation',
+            'blockchain', 'cryptocurrency', 'web3', 'cloud', 'cybersecurity',
+            'mobile', 'app', 'digital', 'data', 'analytics', 'automation',
+            'iot', 'internet of things', 'vr', 'ar', 'metaverse', 'api',
+            'javascript', 'python', 'react', 'node', 'database', 'server',
+            'business', 'entrepreneurship', 'funding', 'investment', 'market',
+            'research', 'analysis', 'case study', 'tutorial', 'guide'
+          ];
+          
+          return techKeywords.some(keyword => 
+            title.includes(keyword) || description.includes(keyword)
+          );
+        });
+        
+        console.log(`Filtered to ${techTopics.length} tech-related topics`);
+        
+        if (techTopics.length === 0) {
+          console.error('No tech-related topics found - using fallback topics');
+          const fallbackTopics = this.getFallbackTopics();
+          techTopics.push(...fallbackTopics.slice(0, count));
+        }
+        
+        // Separate GitHub and NewsAPI topics
+        const githubTopics = techTopics.filter(topic => topic.source === 'GitHub Trending');
+        const newsTopics = techTopics.filter(topic => topic.source !== 'GitHub Trending');
       
       console.log(`GitHub topics: ${githubTopics.length}, News topics: ${newsTopics.length}`);
       
@@ -1004,7 +1027,11 @@ npm run setup</code></pre>
 
   async generateBlogPost(topic: TrendingTopic): Promise<BlogPost> {
     const contentImage = await this.getPexelsImage(topic.title);
-    const systemPrompt = `You are an expert SEO content writer and editor. Generate comprehensive, SEO-optimized HTML content following the exact structure below. Return a JSON object with the following structure:
+    const systemPrompt = `You are an expert SEO content writer and editor specializing in TECHNOLOGY, INNOVATION, and BUSINESS topics. Generate comprehensive, SEO-optimized HTML content following the exact structure below. 
+
+IMPORTANT: Only write about technology, innovation, business, startups, software development, AI, emerging technologies, digital transformation, and related topics. Do NOT write about entertainment, celebrities, fashion, lifestyle, or non-tech topics.
+
+Return a JSON object with the following structure:
 
 {
   "title": "Catchy, keyword-rich title with numbers or timely references (e.g., 'Top 10 AI Tools for Small Businesses in 2025')",
@@ -1128,7 +1155,9 @@ Include 2 external links to reputable sources and one internal link to our homep
 Description: ${topic.description}
 Keywords to emphasize: ${topic.keywords.join(', ')}
 
-Write the blog using the system instructions. Focus on providing in-depth technical analysis, practical implementation guidance, and industry insights. Create comprehensive content that demonstrates expertise in the subject matter.`;
+Write the blog using the system instructions. Focus on providing in-depth technical analysis, practical implementation guidance, and industry insights. Create comprehensive content that demonstrates expertise in the subject matter.
+
+CRITICAL: Only write about technology, innovation, business, startups, software development, AI, emerging technologies, digital transformation, and related topics. If the topic is not tech-related, transform it into a technology angle or skip it entirely.`;
 
     try {
       const completion = await this.openai.chat.completions.create({
@@ -1941,36 +1970,93 @@ Return only the description text.`;
     }
     
     // Default fallback
-    console.log('No specific category matched, using web-development as default');
-    return ['web-development'];
+    console.log('No specific category matched, using innovation-insights as default');
+    return ['innovation-insights'];
   }
 
   private getCategoryConfig(): Record<string, string[]> {
     return {
-      'ai-technology': [
-        'ai', 'artificial intelligence', 'machine learning', 'neural network',
-        'deep learning', 'chatgpt', 'openai', 'gpt', 'ai dev tools', 'ai integration'
+      // Core Innovation Categories
+      'innovation-insights': [
+        'innovation', 'breakthrough', 'cutting-edge', 'revolutionary', 'groundbreaking',
+        'pioneering', 'advanced', 'next-generation', 'state-of-the-art', 'disruptive'
+      ],
+      'digital-transformation': [
+        'digital transformation', 'digitalization', 'digitization', 'industry 4.0',
+        'business transformation', 'digital strategy', 'automation', 'process optimization'
+      ],
+      
+      // News & Current Affairs
+      'breaking-news': [
+        'breaking news', 'urgent', 'latest', 'recent', 'announcement', 'update',
+        'developments', 'reports', 'news', 'current events', 'happening now'
+      ],
+      'industry-updates': [
+        'industry news', 'sector updates', 'market news', 'business news',
+        'corporate news', 'industry trends', 'market developments', 'sector analysis'
+      ],
+      
+      // Development & Engineering
+      'software-engineering': [
+        'software engineering', 'software development', 'programming', 'coding',
+        'software architecture', 'engineering practices', 'code quality', 'software design'
       ],
       'web-development': [
         'react', 'javascript', 'typescript', 'next.js', 'vue', 'angular',
         'web development', 'frontend', 'backend', 'full-stack', 'node.js',
         'html', 'css', 'jamstack', 'pwa', 'webassembly'
       ],
-      'database': [
-        'database', 'mongodb', 'postgresql', 'mysql', 'redis', 'prisma',
-        'sql', 'nosql', 'data engineering', 'big data', 'analytics'
+      
+      // AI & Emerging Tech
+      'artificial-intelligence': [
+        'ai', 'artificial intelligence', 'machine learning', 'neural network',
+        'deep learning', 'chatgpt', 'openai', 'gpt', 'ai dev tools', 'ai integration',
+        'ml', 'neural networks', 'computer vision', 'natural language processing'
       ],
-      'cloud-infrastructure': [
-        'cloud', 'aws', 'azure', 'docker', 'kubernetes', 'serverless',
-        'devops', 'ci/cd', 'deployment', 'infrastructure', 'microservices'
+      'emerging-technologies': [
+        'blockchain', 'cryptocurrency', 'iot', 'internet of things', 'ar', 'vr',
+        'augmented reality', 'virtual reality', 'quantum computing', '5g',
+        'edge computing', 'robotics', 'autonomous vehicles', 'biotechnology'
       ],
-      'healthcare-iot': [
-        'iot', 'internet of things', 'predictive analytics', 'healthcare tech',
-        'medical ai', 'health monitoring', 'wearable technology'
+      
+      // Business & Strategy
+      'business-strategy': [
+        'business strategy', 'market strategy', 'competitive analysis', 'business model',
+        'strategic planning', 'market research', 'business intelligence', 'corporate strategy'
       ],
-      'video-marketing': [
-        'tech news', 'industry insights', 'technology trends', 'innovation',
-        'startup', 'funding', 'investment', 'market analysis'
+      'startup-ecosystem': [
+        'startup', 'entrepreneurship', 'venture capital', 'funding', 'investment',
+        'unicorn', 'scale-up', 'incubator', 'accelerator', 'pitch', 'seed funding'
+      ],
+      
+      // Research & Analysis
+      'research-analysis': [
+        'research', 'analysis', 'study', 'survey', 'data analysis', 'market research',
+        'statistical analysis', 'trend analysis', 'forecasting', 'predictive analytics'
+      ],
+      'case-studies': [
+        'case study', 'success story', 'implementation', 'real-world', 'practical',
+        'example', 'use case', 'scenario', 'application', 'deployment'
+      ],
+      
+      // Global & Social Impact
+      'global-impact': [
+        'global impact', 'social impact', 'societal change', 'worldwide', 'international',
+        'globalization', 'cross-border', 'universal', 'worldwide impact', 'global reach'
+      ],
+      'sustainability': [
+        'sustainability', 'green technology', 'environmental', 'carbon neutral',
+        'renewable energy', 'eco-friendly', 'climate change', 'green tech', 'clean energy'
+      ],
+      
+      // Tools & Resources
+      'tools-resources': [
+        'tools', 'resources', 'productivity', 'software tools', 'development tools',
+        'productivity apps', 'utilities', 'platforms', 'solutions', 'services'
+      ],
+      'tutorials-guides': [
+        'tutorial', 'guide', 'how-to', 'step-by-step', 'walkthrough', 'instructions',
+        'learning', 'education', 'training', 'course', 'lesson'
       ]
     };
   }
@@ -2043,7 +2129,7 @@ Return only the description text.`;
           title: blogPost.title,
           slug: blogPost.slug,
           content: blogPost.content,
-          excerpt: blogPost.excerpt || blogPost.metaDescription,
+            excerpt: blogPost.excerpt || blogPost.metaDescription || blogPost.description,
           status: 'PUBLISHED',
           authorId: author.id,
           publishedAt: new Date(blogPost.publishedAt),

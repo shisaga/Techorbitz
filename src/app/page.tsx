@@ -39,7 +39,7 @@ export default function Home() {
   useEffect(() => {
     const fetchBlogPosts = async () => {
       try {
-        const response = await fetch('/api/blog?page=1&limit=3');
+        const response = await fetch('/api/blog?page=1&limit=3&techOnly=true');
         const data = await response.json();
         if (data.posts) {
           setBlogPosts(data.posts);

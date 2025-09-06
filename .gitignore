@@ -42,4 +42,6 @@ next-env.d.ts
 
 /src/generated/prisma
 # credentials.json
+temp-credentials.json
+token.json
 GOOGLE-MEET-SIMPLE-SETUP.md

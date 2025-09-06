@@ -90,13 +90,13 @@ export async function generateTags(title: string, content: string) {
                - 5-8 relevant tags (single words or short phrases)
                - 1 main category
                
-               Focus on: Technology, Web Development, AI, Cloud, IoT, Database, Medical, Design`,
+               Focus on: Innovation Insights, Breaking News, Artificial Intelligence, Emerging Technologies, Business Strategy, Startup Ecosystem, Research & Analysis, Global Impact, Sustainability, Tools & Resources`,
     });
     
     return object;
   } catch (error) {
     console.error('Error generating tags:', error);
-    return { tags: [], category: 'Technology' };
+    return { tags: [], category: 'Innovation Insights' };
   }
 }
 
