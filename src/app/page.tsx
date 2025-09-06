@@ -187,14 +187,14 @@ export default function Home() {
               variants={fadeInUp}
               className="text-4xl md:text-6xl font-bold text-gray-900 mb-6"
             >
-              <span className="text-coral-primary">Driving the Future</span> with 
-              <span className="text-coral-primary"> AI & Software Excellence</span>
+             Transforming Ideas Into
+              <span className="text-coral-primary"> Digital Excellence</span>
             </motion.h1>
             <motion.p
               variants={fadeInUp}
               className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto"
             >
-              TechXak is driving the future with AI & software excellence. We work with industry leaders like Google, Apple, and McDonald's to deliver 
+              We work with industry leaders like Google, Apple, and McDonald's to deliver 
               cutting-edge technology solutions including AI/ML, AWS cloud services, IoT, Oracle database, 
               and medical domain expertise that drive business growth and innovation.
             </motion.p>
