@@ -1,15 +1,19 @@
 const { google } = require('googleapis');
 const readline = require('readline');
+require('dotenv').config();
 
 // OAuth2 configuration
 const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_CLIENT_ID,
   process.env.GOOGLE_CLIENT_SECRET,
-  process.env.GOOGLE_REDIRECT_URI_PROD || 'https://techxak.com'
+  "http://localhost:3000"  // Use existing authorized URI
 );
 
-// Scopes for Google Meet API
-const SCOPES = ['https://www.googleapis.com/auth/meetings.space.created'];
+// Scopes for Google Calendar API (which includes Google Meet)
+const SCOPES = [
+  'https://www.googleapis.com/auth/calendar',
+  'https://www.googleapis.com/auth/calendar.events'
+];
 
 async function getRefreshToken() {
   try {

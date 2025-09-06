@@ -1,13 +1,12 @@
 // google-meet-service.ts
 import { google } from "googleapis";
-import { SpacesServiceClient } from "@google-apps/meet";
 
 // --- Authorize with refresh token ---
 async function authorize() {
   const client = new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
-    process.env.GOOGLE_REDIRECT_URI_PROD || "https://techxak.com"
+    "http://localhost:3000"
   );
 
   if (process.env.GOOGLE_REFRESH_TOKEN) {
@@ -31,14 +30,49 @@ export class GoogleMeetService {
         return this.generateMockMeetLink("No refresh token configured");
       }
       
-      const meetClient = new SpacesServiceClient({ auth: authClient });
+      // Use Google Calendar API to create a meeting event with Google Meet
+      const calendar = google.calendar({ version: 'v3', auth: authClient });
+      
+      const event = {
+        summary: 'TechXak Meeting',
+        description: 'Meeting created via TechXak scheduling system',
+        start: {
+          dateTime: new Date().toISOString(),
+          timeZone: 'UTC',
+        },
+        end: {
+          dateTime: new Date(Date.now() + 60 * 60 * 1000).toISOString(), // 1 hour later
+          timeZone: 'UTC',
+        },
+        conferenceData: {
+          createRequest: {
+            requestId: `meet-${Date.now()}`,
+            conferenceSolutionKey: {
+              type: 'hangoutsMeet'
+            }
+          }
+        },
+        attendees: [
+          { email: 'hello@techxak.com' }
+        ]
+      };
 
-      const [space] = await meetClient.createSpace({});
-      const meetingUri = space.meetingUri;
-      const meetingId = space.name;
+      const response = await calendar.events.insert({
+        calendarId: 'primary',
+        resource: event,
+        conferenceDataVersion: 1,
+        sendUpdates: 'none'
+      });
 
-      console.log(`✅ Google Meet URL created: ${meetingUri}`);
-      return { success: true, meetingLink: meetingUri, meetingId };
+      const meetingLink = response.data.conferenceData?.entryPoints?.[0]?.uri;
+      const meetingId = response.data.id;
+
+      if (meetingLink) {
+        console.log(`✅ Google Meet URL created: ${meetingLink}`);
+        return { success: true, meetingLink, meetingId };
+      } else {
+        throw new Error('No meeting link generated');
+      }
     } catch (error: any) {
       console.error("❌ Error creating Google Meet space:", error);
       return this.generateMockMeetLink(error.message);
@@ -46,17 +80,17 @@ export class GoogleMeetService {
   }
 
   private generateMockMeetLink(error?: string) {
-    // Create a proper Google Meet link using the "new" endpoint
-    // This creates a real, working Google Meet link
+    // Create a working Google Meet link using the "new" endpoint
+    // This creates a real, functional Google Meet room when clicked
     const meetingId = `meet-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`;
     
     return {
       success: false,
       meetingLink: `https://meet.google.com/new`,
       meetingId: meetingId,
-      error: error || "Using Google Meet 'new' link - configure OAuth for automatic meeting creation",
+      error: error || "Using Google Meet 'new' link - enable Calendar API for automatic meeting creation",
       fallback: true,
-      instructions: "Click the link to create a new Google Meet room"
+      instructions: "Click the link to create a new Google Meet room instantly"
     };
   }
 
