@@ -3,16 +3,81 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import React from 'react';
+import Image from 'next/image';
 
 interface BlogContentProps {
   content: string;
 }
 
+// Custom Image component for blog content
+const BlogImage = ({ src, alt, ...props }: { src: string; alt: string; [key: string]: any }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+
+  return (
+    <div className="relative my-6 overflow-hidden rounded-lg">
+      {isLoading && (
+        <div className="absolute inset-0 bg-gradient-to-br from-coral-light to-coral-primary/20 animate-pulse rounded-lg" />
+      )}
+      <Image
+        src={hasError ? '/images/blog-placeholder.jpg' : src}
+        alt={alt}
+        width={800}
+        height={400}
+        className={`transition-opacity duration-300 rounded-lg shadow-lg ${
+          isLoading ? 'opacity-0' : 'opacity-100'
+        }`}
+        onLoad={() => setIsLoading(false)}
+        onError={() => {
+          setHasError(true);
+          setIsLoading(false);
+        }}
+        quality={85}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
+        style={{
+          objectFit: 'cover',
+          objectPosition: 'center'
+        }}
+      />
+    </div>
+  );
+};
+
 export default function BlogContent({ content }: BlogContentProps) {
-  // Memoize content parsing to avoid re-renders
+  // Parse content and replace img tags with React components
   const parsedContent = useMemo(() => {
-    // Optimize content rendering
-    return content.replace(/<img/g, '<img loading="lazy"');
+    // Create a function to replace img tags with React components
+    const processContent = (html: string) => {
+      const imgRegex = /<img([^>]*?)src="([^"]*?)"([^>]*?)alt="([^"]*?)"([^>]*?)>/g;
+      const parts = [];
+      let lastIndex = 0;
+      let match;
+
+      while ((match = imgRegex.exec(html)) !== null) {
+        // Add text before the image
+        if (match.index > lastIndex) {
+          parts.push(html.slice(lastIndex, match.index));
+        }
+        
+        // Add the image component
+        const src = match[2];
+        const alt = match[4];
+        parts.push(
+          <BlogImage key={match.index} src={src} alt={alt} />
+        );
+        
+        lastIndex = match.index + match[0].length;
+      }
+      
+      // Add remaining text
+      if (lastIndex < html.length) {
+        parts.push(html.slice(lastIndex));
+      }
+      
+      return parts;
+    };
+
+    return processContent(content);
   }, [content]);
 
   // Optimize animations
@@ -146,15 +211,25 @@ export default function BlogContent({ content }: BlogContentProps) {
           margin: 1.5rem 0;
           max-width: 100%;
           height: auto;
-          will-change: transform;
         }
       `}</style>
       <motion.div 
         initial="initial"
         animate="animate"
         variants={fadeInUp}
-        dangerouslySetInnerHTML={{ __html: parsedContent }}
-      />
+      >
+        {parsedContent.map((part, index) => {
+          if (typeof part === 'string') {
+            return (
+              <div 
+                key={index}
+                dangerouslySetInnerHTML={{ __html: part }}
+              />
+            );
+          }
+          return part;
+        })}
+      </motion.div>
       
       {/* Reading Time Indicator */}
       <motion.div

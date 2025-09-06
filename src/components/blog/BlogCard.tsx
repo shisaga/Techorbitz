@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Clock, Eye, Heart, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
+import OptimizedImage from '../ui/OptimizedImage';
 
 interface BlogPost {
   id: string;
@@ -81,11 +82,12 @@ export default function BlogCard({ post, index, variant = 'default' }: BlogCardP
         variant === 'featured' ? 'h-64' : 'h-48'
       }`}>
         {(post.showcaseImage || post.coverImage) ? (
-          <img
+          <OptimizedImage
             src={post.showcaseImage || post.coverImage || ''}
             alt={post.title}
-            className="w-full h-full object-cover"
-            loading="lazy"
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-coral-light to-coral-primary/20 flex items-center justify-center">
