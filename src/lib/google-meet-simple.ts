@@ -46,16 +46,17 @@ export class GoogleMeetService {
   }
 
   private generateMockMeetLink(error?: string) {
-    const chars = "abcdefghijklmnopqrstuvwxyz";
-    const randomPart = (len: number) =>
-      Array.from({ length: len }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
-
-    const code = `${randomPart(3)}-${randomPart(4)}-${randomPart(3)}`;
+    // Create a proper Google Meet link using the "new" endpoint
+    // This creates a real, working Google Meet link
+    const meetingId = `meet-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`;
+    
     return {
       success: false,
-      meetingLink: `https://meet.google.com/${code}`,
-      meetingId: `meet-${code}`,
-      error: error || "Using mock link",
+      meetingLink: `https://meet.google.com/new`,
+      meetingId: meetingId,
+      error: error || "Using Google Meet 'new' link - configure OAuth for automatic meeting creation",
+      fallback: true,
+      instructions: "Click the link to create a new Google Meet room"
     };
   }
 

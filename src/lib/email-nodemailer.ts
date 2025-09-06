@@ -157,11 +157,16 @@ export const emailTemplates = {
                 <span class="icon">🌐</span>
                 <strong>Platform:</strong> Google Meet
               </div>
+              
+              <div class="meeting-detail">
+                <span class="icon">💡</span>
+                <strong>Note:</strong> Click the link below to create your meeting room
+              </div>
             </div>
             
             <div style="text-align: center; margin: 32px 0;">
               <a href="${meetingData.googleMeetLink}" class="cta-button">
-                🚀 Join Meeting
+                🚀 Create & Join Meeting
               </a>
             </div>
             
