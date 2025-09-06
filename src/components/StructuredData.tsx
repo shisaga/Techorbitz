@@ -7,11 +7,11 @@ export default function StructuredData() {
     "url": "https://techxak.com",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://techxak.com/chatgpt-logo.png",
+      "url": "https://techxak.com/favicon.ico",
       "width": 200,
       "height": 200
     },
-    "description": "Leading technology solutions provider specializing in web development, mobile apps, AI/ML, AWS cloud services, IoT solutions, and database expertise. Trusted by Fortune 500 companies including Google, Apple, and McDonald's.",
+    "description": "Driving the future with AI & software excellence. Leading technology solutions provider specializing in web development, mobile apps, AI/ML, AWS cloud services, IoT solutions, and database expertise. Trusted by Fortune 500 companies including Google, Apple, and McDonald's.",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "TechXak Office",
@@ -119,10 +119,10 @@ export default function StructuredData() {
   const websiteData = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "TechXak",
-    "alternateName": "TechXak Technologies",
+    "name": "TechXak - Leading Technology Solutions & Development Partner",
+    "alternateName": "TechXak",
     "url": "https://techxak.com",
-    "description": "Leading technology solutions provider for Fortune 500 companies. Expert in web development, mobile apps, AI/ML, AWS cloud services, and IoT solutions.",
+    "description": "TechXak is driving the future with AI & software excellence. We provide cutting-edge technology solutions including web development, mobile apps, AI/ML, AWS cloud services, IoT solutions, and database expertise.",
     "publisher": {
       "@type": "Organization",
       "name": "TechXak",

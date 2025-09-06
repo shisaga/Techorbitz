@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     default: "TechXak - Leading Technology Solutions & Development Partner",
     template: "%s | TechXak - Technology Solutions"
   },
-  description: "TechXak provides cutting-edge technology solutions including web development, mobile apps, AI/ML, AWS cloud services, IoT solutions, and database expertise. We work with Google, Apple, McDonald's and other Fortune 500 companies. Expert hiring partner for affordable developer talent.",
+  description: "TechXak is driving the future with AI & software excellence. We provide cutting-edge technology solutions including web development, mobile apps, AI/ML, AWS cloud services, IoT solutions, and database expertise. We work with Google, Apple, McDonald's and other Fortune 500 companies.",
   keywords: [
     "web development", "mobile app development", "AI development", "machine learning", 
     "AWS cloud services", "IoT solutions", "Oracle database", "medical software", 
@@ -59,11 +59,11 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
-      { url: '/chatgpt-logo.png', type: 'image/png', sizes: '32x32' },
-      { url: '/chatgpt-logo.png', type: 'image/png', sizes: '16x16' }
+      { url: '/favicon.ico', type: 'image/x-icon', sizes: '32x32' },
+      { url: '/favicon.ico', type: 'image/x-icon', sizes: '16x16' }
     ],
     apple: [
-      { url: '/chatgpt-logo.png', sizes: '180x180', type: 'image/png' }
+      { url: '/favicon.ico', sizes: '180x180', type: 'image/x-icon' }
     ],
     shortcut: '/favicon.ico'
   },
@@ -72,16 +72,16 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://techxak.com",
     title: "TechXak - Leading Technology Solutions & Development Partner",
-    description: "Expert technology solutions for Fortune 500 companies. Specializing in web development, mobile apps, AI/ML, AWS cloud, IoT, and database solutions.",
+    description: "Driving the future with AI & software excellence. Expert technology solutions for Fortune 500 companies. Specializing in web development, mobile apps, AI/ML, AWS cloud, IoT, and database solutions.",
     siteName: "TechXak",
     countryName: "United States",
     images: [
       {
-        url: "/chatgpt-logo.png",
+        url: "/favicon.ico",
         width: 1200,
         height: 630,
         alt: "TechXak - Technology Solutions with AI",
-        type: "image/png"
+        type: "image/x-icon"
       }
     ]
   },
@@ -90,8 +90,8 @@ export const metadata: Metadata = {
     site: "@techxak",
     creator: "@techxak",
     title: "TechXak - Leading Technology Solutions",
-    description: "Expert technology solutions for Fortune 500 companies. Web development, mobile apps, AI/ML, AWS cloud services.",
-    images: ["/chatgpt-logo.png"]
+    description: "Driving the future with AI & software excellence. Expert technology solutions for Fortune 500 companies. Web development, mobile apps, AI/ML, AWS cloud services.",
+    images: ["/favicon.ico"]
   },
   verification: {
     google: "your-google-verification-code",
@@ -112,9 +112,9 @@ export default function RootLayout({
       <head>
         <StructuredData />
         <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/chatgpt-logo.png" type="image/png" sizes="32x32" />
-        <link rel="icon" href="/chatgpt-logo.png" type="image/png" sizes="16x16" />
-        <link rel="apple-touch-icon" href="/chatgpt-logo.png" />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="32x32" />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16" />
+        <link rel="apple-touch-icon" href="/favicon.ico" />
         <link rel="shortcut icon" href="/favicon.ico" />
       </head>
       <body

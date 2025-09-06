@@ -4,8 +4,8 @@ export const siteConfig = {
   company: {
     name: "TechXak",
     fullName: "TechXak: Fortune 500 Technology Consulting & AI Solutions",
-    description: "TechXak is a trusted technology consulting company that is deeply dedicated to the long-term growth and success of Fortune 500 clients. We specialize in AI/ML development, cloud architecture, and digital transformation solutions.",
-    tagline: "Empowering Fortune 500 Companies with Cutting-Edge Technology Solutions",
+    description: "TechXak is driving the future with AI & software excellence. We are a trusted technology consulting company dedicated to the long-term growth and success of Fortune 500 clients through AI/ML development, cloud architecture, and digital transformation solutions.",
+    tagline: "Driving the Future with AI & Software Excellence",
     
     // Company Details
     founded: "2024",
