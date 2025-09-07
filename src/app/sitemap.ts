@@ -21,17 +21,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       orderBy: { publishedAt: 'desc' }
     });
 
-    // Get all categories
-    const categories = await prisma.category.findMany({
-      select: { slug: true, updatedAt: true },
-      orderBy: { name: 'asc' }
-    });
-
-    // Get all tags
-    const tags = await prisma.tag.findMany({
-      select: { slug: true, updatedAt: true },
-      orderBy: { name: 'asc' }
-    });
+    // Note: Categories and tags are not included in sitemap as they don't have dedicated pages
 
     // Static pages
     const staticPages = [
@@ -47,24 +37,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: 'daily' as const,
         priority: 0.9,
       },
-      {
-        url: `${baseUrl}/about`,
-        lastModified: currentDate,
-        changeFrequency: 'monthly' as const,
-        priority: 0.8,
-      },
-      {
-        url: `${baseUrl}/services`,
-        lastModified: currentDate,
-        changeFrequency: 'monthly' as const,
-        priority: 0.8,
-      },
-      {
-        url: `${baseUrl}/contact`,
-        lastModified: currentDate,
-        changeFrequency: 'monthly' as const,
-        priority: 0.7,
-      },
+      // Note: about, services, contact pages don't exist yet
       {
         url: `${baseUrl}/careers`,
         lastModified: currentDate,
@@ -81,118 +54,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     }));
 
-    // Category pages
-    const categoryPages = categories.map((category) => ({
-      url: `${baseUrl}/blog/category/${category.slug}`,
-      lastModified: category.updatedAt.toISOString(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.7,
-    }));
+    // Category and tag pages removed - they don't exist as actual routes
 
-    // Tag pages
-    const tagPages = tags.map((tag) => ({
-      url: `${baseUrl}/blog/tag/${tag.slug}`,
-      lastModified: tag.updatedAt.toISOString(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.6,
-    }));
-
-    // Service pages
-    const servicePages = siteConfig.company.services.map((service) => ({
-      url: `${baseUrl}/services/${service.toLowerCase().replace(/\s+/g, '-')}`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly' as const,
-      priority: 0.8,
-    }));
-
-    // Technology pages
-    const technologyPages = siteConfig.company.technologies.map((tech) => ({
-      url: `${baseUrl}/technologies/${tech.toLowerCase().replace(/\s+/g, '-')}`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    }));
-
-    // Industry pages
-    const industryPages = siteConfig.company.industries.map((industry) => ({
-      url: `${baseUrl}/industries/${industry.toLowerCase().replace(/\s+/g, '-')}`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    }));
-
-    // Team member pages
-    const teamPages = [
-      {
-        url: `${baseUrl}/team/${siteConfig.team.founder.name.toLowerCase().replace(/\s+/g, '-')}`,
-        lastModified: currentDate,
-        changeFrequency: 'monthly' as const,
-        priority: 0.7,
-      },
-      {
-        url: `${baseUrl}/team/${siteConfig.team.coFounder.name.toLowerCase().replace(/\s+/g, '-')}`,
-        lastModified: currentDate,
-        changeFrequency: 'monthly' as const,
-        priority: 0.7,
-      },
-    ];
-
-    // Case study pages
-    const caseStudyPages = [
-      {
-        url: `${baseUrl}/case-studies/fortune-500-digital-transformation`,
-        lastModified: currentDate,
-        changeFrequency: 'monthly' as const,
-        priority: 0.8,
-      },
-      {
-        url: `${baseUrl}/case-studies/ai-ml-healthcare-solutions`,
-        lastModified: currentDate,
-        changeFrequency: 'monthly' as const,
-        priority: 0.8,
-      },
-      {
-        url: `${baseUrl}/case-studies/cloud-architecture-enterprise`,
-        lastModified: currentDate,
-        changeFrequency: 'monthly' as const,
-        priority: 0.8,
-      },
-    ];
-
-    // Resource pages
-    const resourcePages = [
-      {
-        url: `${baseUrl}/resources/whitepapers`,
-        lastModified: currentDate,
-        changeFrequency: 'monthly' as const,
-        priority: 0.6,
-      },
-      {
-        url: `${baseUrl}/resources/webinars`,
-        lastModified: currentDate,
-        changeFrequency: 'weekly' as const,
-        priority: 0.6,
-      },
-      {
-        url: `${baseUrl}/resources/guides`,
-        lastModified: currentDate,
-        changeFrequency: 'monthly' as const,
-        priority: 0.6,
-      },
-    ];
+    // Note: Service, technology, industry, team, case study, and resource pages don't exist yet
 
     // Combine all sitemap entries
     const sitemap = [
       ...staticPages,
       ...blogPages,
-      ...categoryPages,
-      ...tagPages,
-      ...servicePages,
-      ...technologyPages,
-      ...industryPages,
-      ...teamPages,
-      ...caseStudyPages,
-      ...resourcePages,
     ];
 
     console.log(`Generated sitemap with ${sitemap.length} URLs`);
