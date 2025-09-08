@@ -4,6 +4,10 @@ Allow: /
 Disallow: /admin
 Disallow: /api
 Disallow: /_next
+Disallow: /blog/tag/
+Disallow: /blog/category/
+Disallow: /contact
+Disallow: /services
 
 # GPTBot
 User-agent: GPTBot

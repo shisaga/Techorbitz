@@ -22,6 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
 
     // Note: Categories and tags are not included in sitemap as they don't have dedicated pages
+    // These routes (/blog/tag/* and /blog/category/*) are handled by middleware redirects
 
     // Static pages
     const staticPages = [
@@ -37,7 +38,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: 'daily' as const,
         priority: 0.9,
       },
-      // Note: about, services, contact pages don't exist yet
+      // Note: about, services, contact pages don't exist yet - these are handled by middleware redirects
       {
         url: `${baseUrl}/careers`,
         lastModified: currentDate,
@@ -55,6 +56,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
 
     // Category and tag pages removed - they don't exist as actual routes
+    // These are handled by middleware redirects to prevent 404 errors
 
     // Note: Service, technology, industry, team, case study, and resource pages don't exist yet
 
