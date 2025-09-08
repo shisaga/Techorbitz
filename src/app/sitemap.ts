@@ -38,12 +38,59 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: 'daily' as const,
         priority: 0.9,
       },
-      // Note: about, services, contact pages don't exist yet - these are handled by middleware redirects
+      {
+        url: `${baseUrl}/schedule-meeting`,
+        lastModified: currentDate,
+        changeFrequency: 'weekly' as const,
+        priority: 0.8,
+      },
       {
         url: `${baseUrl}/careers`,
         lastModified: currentDate,
         changeFrequency: 'weekly' as const,
         priority: 0.7,
+      },
+      {
+        url: `${baseUrl}/career`,
+        lastModified: currentDate,
+        changeFrequency: 'weekly' as const,
+        priority: 0.7,
+      },
+      {
+        url: `${baseUrl}/join-our-team`,
+        lastModified: currentDate,
+        changeFrequency: 'weekly' as const,
+        priority: 0.7,
+      },
+      {
+        url: `${baseUrl}/project-estimation`,
+        lastModified: currentDate,
+        changeFrequency: 'weekly' as const,
+        priority: 0.8,
+      },
+      {
+        url: `${baseUrl}/start-project`,
+        lastModified: currentDate,
+        changeFrequency: 'weekly' as const,
+        priority: 0.8,
+      },
+      {
+        url: `${baseUrl}/website-builder`,
+        lastModified: currentDate,
+        changeFrequency: 'weekly' as const,
+        priority: 0.8,
+      },
+      {
+        url: `${baseUrl}/try-our-product`,
+        lastModified: currentDate,
+        changeFrequency: 'weekly' as const,
+        priority: 0.7,
+      },
+      {
+        url: `${baseUrl}/projects`,
+        lastModified: currentDate,
+        changeFrequency: 'weekly' as const,
+        priority: 0.6,
       },
     ];
 
@@ -58,7 +105,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Category and tag pages removed - they don't exist as actual routes
     // These are handled by middleware redirects to prevent 404 errors
 
-    // Note: Service, technology, industry, team, case study, and resource pages don't exist yet
+    // Note: All main public pages are now included in the sitemap
 
     // Combine all sitemap entries
     const sitemap = [
