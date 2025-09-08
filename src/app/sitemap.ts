@@ -24,73 +24,109 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Note: Categories and tags are not included in sitemap as they don't have dedicated pages
     // These routes (/blog/tag/* and /blog/category/*) are handled by middleware redirects
 
-    // Static pages
+    // Static pages - matching the static sitemap.xml structure
     const staticPages = [
       {
-        url: baseUrl,
+        url: `${baseUrl}/robots.txt`,
         lastModified: currentDate,
         changeFrequency: 'daily' as const,
-        priority: 1.0,
+        priority: 0.7,
       },
       {
-        url: `${baseUrl}/blog`,
+        url: `${baseUrl}/sitemap.xml`,
         lastModified: currentDate,
         changeFrequency: 'daily' as const,
-        priority: 0.9,
-      },
-      {
-        url: `${baseUrl}/schedule-meeting`,
-        lastModified: currentDate,
-        changeFrequency: 'weekly' as const,
-        priority: 0.8,
+        priority: 0.7,
       },
       {
         url: `${baseUrl}/careers`,
         lastModified: currentDate,
-        changeFrequency: 'weekly' as const,
+        changeFrequency: 'daily' as const,
         priority: 0.7,
       },
       {
         url: `${baseUrl}/career`,
         lastModified: currentDate,
-        changeFrequency: 'weekly' as const,
+        changeFrequency: 'daily' as const,
         priority: 0.7,
       },
       {
-        url: `${baseUrl}/join-our-team`,
+        url: `${baseUrl}/contact`,
         lastModified: currentDate,
-        changeFrequency: 'weekly' as const,
+        changeFrequency: 'daily' as const,
         priority: 0.7,
       },
       {
         url: `${baseUrl}/project-estimation`,
         lastModified: currentDate,
-        changeFrequency: 'weekly' as const,
-        priority: 0.8,
+        changeFrequency: 'daily' as const,
+        priority: 0.7,
       },
       {
-        url: `${baseUrl}/start-project`,
+        url: `${baseUrl}/join-our-team`,
         lastModified: currentDate,
-        changeFrequency: 'weekly' as const,
-        priority: 0.8,
-      },
-      {
-        url: `${baseUrl}/website-builder`,
-        lastModified: currentDate,
-        changeFrequency: 'weekly' as const,
-        priority: 0.8,
-      },
-      {
-        url: `${baseUrl}/try-our-product`,
-        lastModified: currentDate,
-        changeFrequency: 'weekly' as const,
+        changeFrequency: 'daily' as const,
         priority: 0.7,
       },
       {
         url: `${baseUrl}/components-demo`,
         lastModified: currentDate,
-        changeFrequency: 'monthly' as const,
-        priority: 0.5,
+        changeFrequency: 'daily' as const,
+        priority: 0.7,
+      },
+      {
+        url: `${baseUrl}/try-our-product`,
+        lastModified: currentDate,
+        changeFrequency: 'daily' as const,
+        priority: 0.7,
+      },
+      {
+        url: `${baseUrl}/start-project`,
+        lastModified: currentDate,
+        changeFrequency: 'daily' as const,
+        priority: 0.7,
+      },
+      {
+        url: `${baseUrl}/schedule-meeting`,
+        lastModified: currentDate,
+        changeFrequency: 'daily' as const,
+        priority: 0.7,
+      },
+      {
+        url: `${baseUrl}/website-builder`,
+        lastModified: currentDate,
+        changeFrequency: 'daily' as const,
+        priority: 0.7,
+      },
+      {
+        url: `${baseUrl}/services`,
+        lastModified: currentDate,
+        changeFrequency: 'daily' as const,
+        priority: 0.7,
+      },
+      {
+        url: `${baseUrl}/admin`,
+        lastModified: currentDate,
+        changeFrequency: 'daily' as const,
+        priority: 0.7,
+      },
+      {
+        url: `${baseUrl}/projects`,
+        lastModified: currentDate,
+        changeFrequency: 'daily' as const,
+        priority: 0.7,
+      },
+      {
+        url: `${baseUrl}/blog`,
+        lastModified: currentDate,
+        changeFrequency: 'daily' as const,
+        priority: 0.7,
+      },
+      {
+        url: baseUrl,
+        lastModified: currentDate,
+        changeFrequency: 'daily' as const,
+        priority: 1.0,
       },
     ];
 
