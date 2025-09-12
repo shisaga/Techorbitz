@@ -284,7 +284,7 @@ export default async function BlogPostPage({ params }: Props) {
 }
 
 // Enhanced ISR configuration
-export const revalidate = 3600; // Revalidate every hour for fresh content
+export const revalidate = 0; // Force revalidation on every request for fresh content
 
-// Force static generation for better performance
-export const dynamic = 'force-static';
+// Allow dynamic rendering for fresh content
+export const dynamic = 'force-dynamic';
