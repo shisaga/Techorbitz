@@ -41,7 +41,31 @@ export default function StructuredData() {
       "https://twitter.com/techxak",
       "https://github.com/techxak",
       "https://facebook.com/techxak",
-      "https://instagram.com/techxak"
+      "https://instagram.com/techxak",
+      "https://medium.com/@techxak",
+      "https://youtube.com/@techxak",
+      "https://dev.to/techxak",
+      "https://hashnode.com/@techxak"
+    ],
+    "socialMedia": [
+      {
+        "@type": "SocialMediaPosting",
+        "url": "https://linkedin.com/company/techxak",
+        "name": "LinkedIn",
+        "description": "Follow TechXak on LinkedIn for technology insights and company updates"
+      },
+      {
+        "@type": "SocialMediaPosting", 
+        "url": "https://twitter.com/techxak",
+        "name": "Twitter",
+        "description": "Follow @techxak on Twitter for technology news and updates"
+      },
+      {
+        "@type": "SocialMediaPosting",
+        "url": "https://github.com/techxak", 
+        "name": "GitHub",
+        "description": "Explore TechXak's open source projects and contributions on GitHub"
+      }
     ],
     "foundingDate": "2014",
     "numberOfEmployees": {
