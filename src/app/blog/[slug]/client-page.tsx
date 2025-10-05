@@ -234,6 +234,11 @@ export default function BlogPostClient({
     setIsBookmarked(!isBookmarked);
   }, [isBookmarked]);
 
+
+
+
+
+  
   const handleShare = useCallback((platform?: string) => {
     const url = window.location.href;
     const text = `Check out this article: ${post.title}`;
