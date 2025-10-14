@@ -5,7 +5,6 @@ import { useEditor, EditorContent, Editor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
 import Image from '@tiptap/extension-image';
-import CodeBlock from '@tiptap/extension-code-block';
 import Placeholder from '@tiptap/extension-placeholder';
 import TextAlign from '@tiptap/extension-text-align';
 import Underline from '@tiptap/extension-underline';
@@ -554,7 +553,12 @@ export default function RichTextEditor({
           style: 'background-color: #f1f5f9 !important; color: #e11d48 !important;',
         },
       },
-      codeBlock: false, // Disable StarterKit's codeBlock since we're using our own
+      codeBlock: {
+        HTMLAttributes: {
+          class: 'bg-gray-900 text-white p-4 rounded-lg font-mono text-sm border border-gray-700',
+          style: 'background-color: #0d1117 !important; color: #e6edf3 !important;',
+        },
+      },
     }),
     Link.configure({
       openOnClick: false,
@@ -565,12 +569,6 @@ export default function RichTextEditor({
     Image.configure({
       HTMLAttributes: {
         class: 'max-w-full h-auto rounded-lg shadow-md',
-      },
-    }),
-    CodeBlock.configure({
-      HTMLAttributes: {
-        class: 'bg-gray-900 text-white p-4 rounded-lg font-mono text-sm border border-gray-700',
-        style: 'background-color: #0d1117 !important; color: #e6edf3 !important;',
       },
     }),
     TextAlign.configure({
