@@ -562,7 +562,7 @@ export default function RichTextEditor({
     }),
     CodeBlock.configure({
       HTMLAttributes: {
-        class: 'bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm border border-gray-700',
+        class: 'bg-gray-900  p-4 rounded-lg font-mono text-sm border border-gray-700',
       },
     }),
     TextAlign.configure({
