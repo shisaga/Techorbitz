@@ -279,18 +279,18 @@ export default function BlogContent({ content }: BlogContentProps) {
           border: 1px solid #e2e8f0;
         }
         .rich-text-content pre {
-          background: #0d1117;
-          color: #e6edf3;
-          padding: 1.5rem;
-          border-radius: 0.75rem;
-          overflow-x: auto;
-          margin: 1.5rem 0;
-          border: 1px solid #30363d;
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-          position: relative;
-          font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
-          font-size: 0.875rem;
-          line-height: 1.6;
+          background: #0d1117 !important;
+          color: #e6edf3 !important;
+          padding: 1.5rem !important;
+          border-radius: 0.75rem !important;
+          overflow-x: auto !important;
+          margin: 1.5rem 0 !important;
+          border: 1px solid #30363d !important;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+          position: relative !important;
+          font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace !important;
+          font-size: 0.875rem !important;
+          line-height: 1.6 !important;
         }
         .rich-text-content pre::before {
           content: '';
@@ -303,23 +303,32 @@ export default function BlogContent({ content }: BlogContentProps) {
           border-radius: 0.75rem 0.75rem 0 0;
         }
         .rich-text-content pre code {
-          background: none;
-          color: inherit;
-          padding: 0;
-          border: none;
-          font-size: inherit;
-          font-weight: inherit;
+          background: none !important;
+          color: inherit !important;
+          padding: 0 !important;
+          border: none !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
         }
+        /* Override any inline styles */
+        .rich-text-content pre[style*="color"],
+        .rich-text-content pre[style*="background"],
+        .rich-text-content pre code[style*="color"],
+        .rich-text-content pre code[style*="background"] {
+          background: #0d1117 !important;
+          color: #e6edf3 !important;
+        }
+        
         /* Syntax highlighting for common languages */
         .rich-text-content pre .token.comment,
         .rich-text-content pre .token.prolog,
         .rich-text-content pre .token.doctype,
         .rich-text-content pre .token.cdata {
-          color: #7c3aed;
-          font-style: italic;
+          color: #7c3aed !important;
+          font-style: italic !important;
         }
         .rich-text-content pre .token.punctuation {
-          color: #e6edf3;
+          color: #e6edf3 !important;
         }
         .rich-text-content pre .token.property,
         .rich-text-content pre .token.tag,
@@ -328,7 +337,7 @@ export default function BlogContent({ content }: BlogContentProps) {
         .rich-text-content pre .token.constant,
         .rich-text-content pre .token.symbol,
         .rich-text-content pre .token.deleted {
-          color: #f85149;
+          color: #f85149 !important;
         }
         .rich-text-content pre .token.selector,
         .rich-text-content pre .token.attr-name,
@@ -336,29 +345,29 @@ export default function BlogContent({ content }: BlogContentProps) {
         .rich-text-content pre .token.char,
         .rich-text-content pre .token.builtin,
         .rich-text-content pre .token.inserted {
-          color: #a5d6ff;
+          color: #a5d6ff !important;
         }
         .rich-text-content pre .token.operator,
         .rich-text-content pre .token.entity,
         .rich-text-content pre .token.url,
         .rich-text-content pre .language-css .token.string,
         .rich-text-content pre .style .token.string {
-          color: #ffa657;
+          color: #ffa657 !important;
         }
         .rich-text-content pre .token.atrule,
         .rich-text-content pre .token.attr-value,
         .rich-text-content pre .token.keyword {
-          color: #ff7b72;
-          font-weight: 600;
+          color: #ff7b72 !important;
+          font-weight: 600 !important;
         }
         .rich-text-content pre .token.function,
         .rich-text-content pre .token.class-name {
-          color: #d2a8ff;
+          color: #d2a8ff !important;
         }
         .rich-text-content pre .token.regex,
         .rich-text-content pre .token.important,
         .rich-text-content pre .token.variable {
-          color: #ffd700;
+          color: #ffd700 !important;
         }
         /* Line numbers for better readability */
         .rich-text-content pre[data-line-numbers] {
