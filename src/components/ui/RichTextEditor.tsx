@@ -548,6 +548,13 @@ export default function RichTextEditor({
       heading: {
         levels: [1, 2, 3],
       },
+      code: {
+        HTMLAttributes: {
+          class: 'bg-gray-100 text-red-600 px-1 py-0.5 rounded text-sm font-mono',
+          style: 'background-color: #f1f5f9 !important; color: #e11d48 !important;',
+        },
+      },
+      codeBlock: false, // Disable StarterKit's codeBlock since we're using our own
     }),
     Link.configure({
       openOnClick: false,
@@ -562,7 +569,8 @@ export default function RichTextEditor({
     }),
     CodeBlock.configure({
       HTMLAttributes: {
-        class: 'bg-gray-900  p-4 rounded-lg font-mono text-sm border border-gray-700',
+        class: 'bg-gray-900 text-white p-4 rounded-lg font-mono text-sm border border-gray-700',
+        style: 'background-color: #0d1117 !important; color: #e6edf3 !important;',
       },
     }),
     TextAlign.configure({
