@@ -22,5 +22,12 @@ export default function BlogLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+    <>
+      <head>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9803515858146134" crossOrigin="anonymous"></script>
+      </head>
+      {children}
+    </>
+  );
 }

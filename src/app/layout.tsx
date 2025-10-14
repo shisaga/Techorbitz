@@ -77,13 +77,20 @@ export const metadata: Metadata = {
     countryName: "United States",
     images: [
       {
-        url: "/favicon.ico",
+        url: "https://techxak.com/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "TechXak - Technology Solutions with AI",
-        type: "image/x-icon"
+        type: "image/jpeg"
       }
-    ]
+    ],
+    emails: ["contact@techxak.com"],
+    phoneNumbers: ["+91-9876543210"],
+    streetAddress: "Ahmedabad, Gujarat, India",
+    locality: "Ahmedabad",
+    region: "Gujarat",
+    postalCode: "380001",
+    countryName: "India"
   },
   twitter: {
     card: "summary_large_image",

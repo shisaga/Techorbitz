@@ -38,22 +38,35 @@ module.exports = {
     const result = [];
     
     try {
-      // In a real implementation, you would fetch from your database
-      // For now, we'll use static paths
-      const blogSlugs = [
-        'the-future-of-ai-in-web-development-transforming-code-creation',
-        'aws-cloud-architecture-building-scalable-enterprise-solutions',
-        'iot-in-healthcare-revolutionary-patient-monitoring-systems'
-      ];
+      // Import Prisma client to fetch blog posts from database
+      const { PrismaClient } = require('@prisma/client');
+      const prisma = new PrismaClient();
+      
+      // Fetch all published blog posts
+      const posts = await prisma.post.findMany({
+        where: {
+          status: 'PUBLISHED',
+          publishedAt: { lte: new Date() }
+        },
+        select: {
+          slug: true,
+          updatedAt: true,
+          publishedAt: true
+        },
+        orderBy: { publishedAt: 'desc' }
+      });
 
-      for (const slug of blogSlugs) {
+      // Add all blog posts to sitemap
+      for (const post of posts) {
         result.push({
-          loc: `/blog/${slug}`,
+          loc: `/blog/${post.slug}`,
           changefreq: 'weekly',
           priority: 0.8,
-          lastmod: new Date().toISOString()
+          lastmod: post.updatedAt.toISOString()
         });
       }
+      
+      await prisma.$disconnect();
     } catch (error) {
       console.error('Error generating additional paths:', error);
     }

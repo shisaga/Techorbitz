@@ -32,16 +32,24 @@ export async function GET() {
     `).join('');
 
     const rssXml = `<?xml version="1.0" encoding="UTF-8"?>
-    <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:sy="http://purl.org/rss/1.0/modules/syndication/">
       <channel>
-            <title>TechXak Tech Blog</title>
-    <description>Latest insights on technology, development, AI, cloud computing, and innovation from TechXak experts.</description>
+        <title>TechXak - Leading Technology Solutions & Development Partner</title>
+        <description>Latest insights on technology, development, AI, cloud computing, and innovation from TechXak experts. We work with Fortune 500 companies including Google, Apple, and McDonald's.</description>
         <link>${baseUrl}/blog</link>
         <language>en-us</language>
         <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
         <atom:link href="${baseUrl}/rss.xml" rel="self" type="application/rss+xml"/>
-            <managingEditor>hello@techxak.com (TechXak Team)</managingEditor>
-    <webMaster>hello@techxak.com (TechXak Team)</webMaster>
+        <managingEditor>hello@techxak.com (TechXak Team)</managingEditor>
+        <webMaster>hello@techxak.com (TechXak Team)</webMaster>
+        <copyright>Copyright ${new Date().getFullYear()} TechXak. All rights reserved.</copyright>
+        <image>
+          <url>${baseUrl}/favicon.ico</url>
+          <title>TechXak</title>
+          <link>${baseUrl}</link>
+          <width>144</width>
+          <height>144</height>
+        </image>
         <category>Technology</category>
         <category>Web Development</category>
         <category>AI & Machine Learning</category>
@@ -49,8 +57,10 @@ export async function GET() {
         <category>IoT</category>
         <category>Database</category>
         <category>Healthcare Technology</category>
-        <category>Video Production</category>
-        <category>Graphic Design</category>
+        <category>Fortune 500</category>
+        <category>Enterprise Solutions</category>
+        <sy:updatePeriod>hourly</sy:updatePeriod>
+        <sy:updateFrequency>1</sy:updateFrequency>
         ${rssItems}
       </channel>
     </rss>`;
