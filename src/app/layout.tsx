@@ -101,9 +101,9 @@ export const metadata: Metadata = {
     images: ["/favicon.ico"]
   },
   verification: {
-    google: "your-google-verification-code",
-    yandex: "your-yandex-verification-code",
-    yahoo: "your-yahoo-verification-code",
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "your-google-verification-code",
+    yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION || "your-yandex-verification-code",
+    yahoo: process.env.NEXT_PUBLIC_YAHOO_VERIFICATION || "your-yahoo-verification-code",
   },
   viewport: "width=device-width, initial-scale=1",
   themeColor: "#ff6b47"

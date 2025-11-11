@@ -2,9 +2,12 @@ import { MetadataRoute } from 'next';
 import { prisma } from '@/lib/prisma';
 import { siteConfig } from '@/lib/site-config';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // Revalidate every hour
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = siteConfig.company.url;
-  const currentDate = new Date().toISOString();
+  const currentDate = new Date();
 
   try {
     // Get all published blog posts
